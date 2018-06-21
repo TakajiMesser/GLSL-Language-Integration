@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GLSLLanguageIntegration")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Takaji Messer")]
 [assembly: AssemblyProduct("GLSLLanguageIntegration")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
