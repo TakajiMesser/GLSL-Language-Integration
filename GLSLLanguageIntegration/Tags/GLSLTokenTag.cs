@@ -10,13 +10,15 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace GLSLLanguageIntegration
+namespace GLSLLanguageIntegration.Tags
 {
-    [Export(typeof(ITaggerProvider))]
-    [ContentType("glsl")]
-    [TagType(typeof(GLSLTokenTag))]
-    internal sealed class GLSLTokenTagProvider : ITaggerProvider
+    public class GLSLTokenTag : ITag
     {
-        public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag => new GLSLTokenTagger(buffer) as ITagger<T>;
+        public GLSLTokenTypes TokenType { get; private set; }
+
+        public GLSLTokenTag(GLSLTokenTypes type)
+        {
+            TokenType = type;
+        }
     }
 }

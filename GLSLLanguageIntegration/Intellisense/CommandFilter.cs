@@ -15,29 +15,6 @@ using System.Runtime.InteropServices;
 
 namespace GLSLLanguageIntegration.Intellisense
 {
-    [Export(typeof(IVsTextViewCreationListener))]
-    [ContentType("glsl")]
-    [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
-    {
-        [Import]
-        IVsEditorAdaptersFactoryService AdaptersFactory = null;
-
-        [Import]
-        ICompletionBroker CompletionBroker = null;
-
-        public void VsTextViewCreated(IVsTextView textViewAdapter)
-        {
-            IWpfTextView view = AdaptersFactory.GetWpfTextView(textViewAdapter);
-            Debug.Assert(view != null);
-
-            var filter = new CommandFilter(view, CompletionBroker);
-
-            textViewAdapter.AddCommandFilter(filter, out IOleCommandTarget next);
-            filter.Next = next;
-        }
-    }
-
     internal sealed class CommandFilter : IOleCommandTarget
     {
         private ICompletionSession _currentSession;

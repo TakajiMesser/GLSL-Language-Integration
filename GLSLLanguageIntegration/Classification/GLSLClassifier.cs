@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Text;
+﻿using GLSLLanguageIntegration.Tags;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
@@ -12,15 +13,10 @@ using System.Windows.Media;
 
 namespace GLSLLanguageIntegration.Classification
 {
-    /*Preprocessor,
-    Comment,
-    Keyword,
-    Identifier,
-    IntegerConstant,
+    /*IntegerConstant,
     FloatingConstant,
     Operator,
-    Semicolon,
-    Bracket*/
+    Semicolon*/
     internal sealed class GLSLClassifier : ITagger<ClassificationTag>
     {
         private ITextBuffer _buffer;
@@ -32,8 +28,14 @@ namespace GLSLLanguageIntegration.Classification
             _buffer = buffer;
             _aggregator = glslTagAggregator;
 
-            _glslTypes = new Dictionary<GLSLTokenTypes, IClassificationType>();
-            _glslTypes[GLSLTokenTypes.Preprocessor] = typeService.GetClassificationType("preprocessor");
+            _glslTypes = new Dictionary<GLSLTokenTypes, IClassificationType>
+            {
+                [GLSLTokenTypes.Preprocessor] = typeService.GetClassificationType("preprocessor"),
+                [GLSLTokenTypes.Comment] = typeService.GetClassificationType("comment"),
+                [GLSLTokenTypes.Keyword] = typeService.GetClassificationType("keyword"),
+                [GLSLTokenTypes.Identifier] = typeService.GetClassificationType("identifier"),
+                [GLSLTokenTypes.Bracket] = typeService.GetClassificationType("bracket")
+            };
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;

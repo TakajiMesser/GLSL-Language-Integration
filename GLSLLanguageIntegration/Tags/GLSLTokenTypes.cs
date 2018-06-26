@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GLSLLanguageIntegration
+namespace GLSLLanguageIntegration.Tags
 {
     public enum GLSLTokenTypes
     {
         Preprocessor,
         Comment,
         Keyword,
+        Types,
         Identifier,
         IntegerConstant,
         FloatingConstant,

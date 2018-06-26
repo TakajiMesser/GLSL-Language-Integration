@@ -10,16 +10,6 @@ using System.Windows.Media;
 
 namespace GLSLLanguageIntegration.Classification
 {
-    /*Preprocessor,
-    Comment,
-    Keyword,
-    Identifier,
-    IntegerConstant,
-    FloatingConstant,
-    Operator,
-    Semicolon,
-    Bracket*/
-
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = "preprocessor")]
     [Name("preprocessor")]
@@ -33,4 +23,65 @@ namespace GLSLLanguageIntegration.Classification
             ForegroundColor = Colors.BlueViolet;
         }
     }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "comment")]
+    [Name("comment")]
+    [UserVisible(false)]
+    [Order(Before = Priority.Default)]
+    internal sealed class GLSLComment : ClassificationFormatDefinition
+    {
+        public GLSLComment()
+        {
+            DisplayName = "comment";
+            ForegroundColor = Colors.DarkGreen;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "keyword")]
+    [Name("keyword")]
+    [UserVisible(false)]
+    [Order(Before = Priority.Default)]
+    internal sealed class GLSLKeyword : ClassificationFormatDefinition
+    {
+        public GLSLKeyword()
+        {
+            DisplayName = "keyword";
+            ForegroundColor = Colors.Blue;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "identifier")]
+    [Name("identifier")]
+    [UserVisible(false)]
+    [Order(Before = Priority.Default)]
+    internal sealed class GLSLIdentifier : ClassificationFormatDefinition
+    {
+        public GLSLIdentifier()
+        {
+            DisplayName = "identifier";
+            ForegroundColor = Colors.White;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "bracket")]
+    [Name("bracket")]
+    [UserVisible(false)]
+    [Order(Before = Priority.Default)]
+    internal sealed class GLSLBracket : ClassificationFormatDefinition
+    {
+        public GLSLBracket()
+        {
+            DisplayName = "bracket";
+            ForegroundColor = Colors.Gray;
+        }
+    }
+
+    /*IntegerConstant,
+    FloatingConstant,
+    Operator,
+    Semicolon*/
 }
