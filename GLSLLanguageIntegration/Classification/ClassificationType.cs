@@ -30,6 +30,10 @@ namespace GLSLLanguageIntegration.Classification
         internal static ClassificationTypeDefinition glslKeyword = null;
 
         [Export(typeof(ClassificationTypeDefinition))]
+        [Name("type")]
+        internal static ClassificationTypeDefinition glslType = null;
+
+        [Export(typeof(ClassificationTypeDefinition))]
         [Name("identifier")]
         internal static ClassificationTypeDefinition glslIdentifier = null;
 

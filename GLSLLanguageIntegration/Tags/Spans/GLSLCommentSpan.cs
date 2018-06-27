@@ -18,16 +18,16 @@ namespace GLSLLanguageIntegration.Tags.Spans
     {
         public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Comment;
 
-        public static GLSLSpanMatch Match(SnapshotSpan span, string token, IEnumerable<string> remainingTokens, int spanIndex)
+        public static GLSLSpanMatch Match(SnapshotSpan span, IEnumerable<SnapshotSpan> remainingSpans, string token, IEnumerable<string> remainingTokens, int position)
         {
             if (token.Contains("//"))
             {
                 int tokenIndex = token.IndexOf("//");
 
-                int spanStart = spanIndex + tokenIndex;
-                int spanLength = span.Length - spanStart;
+                int start = position + tokenIndex;
+                int length = span.End.Position - start;
 
-                return GLSLSpanMatch.Matched(TOKEN_TAG, span.Start.Position + spanStart, spanLength, remainingTokens.Count(), span);
+                return GLSLSpanMatch.Matched(span, TOKEN_TAG, start, length, 1, 0);
             }
             else
             {

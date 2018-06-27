@@ -11,7 +11,7 @@ namespace GLSLLanguageIntegration.Tags
         Preprocessor,
         Comment,
         Keyword,
-        Types,
+        Type,
         Identifier,
         IntegerConstant,
         FloatingConstant,

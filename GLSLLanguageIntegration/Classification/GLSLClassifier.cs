@@ -33,6 +33,7 @@ namespace GLSLLanguageIntegration.Classification
                 [GLSLTokenTypes.Preprocessor] = typeService.GetClassificationType("preprocessor"),
                 [GLSLTokenTypes.Comment] = typeService.GetClassificationType("comment"),
                 [GLSLTokenTypes.Keyword] = typeService.GetClassificationType("keyword"),
+                [GLSLTokenTypes.Type] = typeService.GetClassificationType("type"),
                 [GLSLTokenTypes.Identifier] = typeService.GetClassificationType("identifier"),
                 [GLSLTokenTypes.Bracket] = typeService.GetClassificationType("bracket")
             };

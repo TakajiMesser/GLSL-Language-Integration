@@ -17,7 +17,7 @@ namespace GLSLLanguageIntegration.Tags.Spans
     public class TokenSet
     {
         //private HashSet<string> _tokens = new HashSet<string>();
-        private Dictionary<string, string> _tokens = new Dictionary<string, string>();
+        private Dictionary<string, string> _descriptionByToken = new Dictionary<string, string>();
 
         public TokenSet(string contents)
         {
@@ -41,7 +41,7 @@ namespace GLSLLanguageIntegration.Tags.Spans
 
                         foreach (var token in lines)
                         {
-                            _tokens.Add(token, description);
+                            _descriptionByToken.Add(token, description);
                         }
 
                         lines.Clear();
@@ -59,7 +59,8 @@ namespace GLSLLanguageIntegration.Tags.Spans
             }*/
         }
 
-        public bool Contains(string token) => _tokens.ContainsKey(token);
+        public bool Contains(string token) => _descriptionByToken.ContainsKey(token);
+        public string GetDescription(string token) => _descriptionByToken[token];
 
         //public bool Contains(string token) => _tokens.Contains(token);
     }

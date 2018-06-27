@@ -22,12 +22,17 @@ namespace GLSLLanguageIntegration.Tags.Spans
         /// <summary>
         /// Index of the first token that the GLSL Span starts at
         /// </summary>
-        public int SpanStart { get; private set; }
+        public int Start { get; private set; }
 
-        public int SpanLength { get; private set; }
+        public int Length { get; private set; }
 
         /// <summary>
-        /// Number of tokens the GLSL Span consumes
+        /// Number of spans the snapshot consumed
+        /// </summary>
+        public int SpanCount { get; private set; }
+
+        /// <summary>
+        /// Number of tokens (into the last span) this snapshot consumed
         /// </summary>
         public int TokenCount { get; private set; }
 
@@ -38,16 +43,17 @@ namespace GLSLLanguageIntegration.Tags.Spans
         /// </summary>
         public GLSLSpanMatch() { }
 
-        public static GLSLSpanMatch Matched(GLSLTokenTypes tokenType, int spanStart, int spanLength, int tokenCount, SnapshotSpan span)
+        public static GLSLSpanMatch Matched(SnapshotSpan span, GLSLTokenTypes tokenType, int start, int length, int spanCount, int tokenCount)
         {
-            var tokenSpan = new SnapshotSpan(span.Snapshot, new Span(spanStart, spanLength));
+            var tokenSpan = new SnapshotSpan(span.Snapshot, start, length);
 
             return new GLSLSpanMatch()
             {
                 IsMatch = true,
                 TokenType = tokenType,
-                SpanStart = spanStart,
-                SpanLength = spanLength,
+                Start = start,
+                Length = length,
+                SpanCount = spanCount,
                 TokenCount = tokenCount,
                 TagSpan = tokenSpan.IntersectsWith(span) ? new TagSpan<GLSLTokenTag>(tokenSpan, new GLSLTokenTag(tokenType)) : null
             };

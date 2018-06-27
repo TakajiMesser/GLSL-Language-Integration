@@ -34,7 +34,7 @@ namespace GLSLLanguageIntegration.Classification
         public GLSLComment()
         {
             DisplayName = "comment";
-            ForegroundColor = Colors.DarkGreen;
+            ForegroundColor = Colors.Green;
         }
     }
 
@@ -48,7 +48,21 @@ namespace GLSLLanguageIntegration.Classification
         public GLSLKeyword()
         {
             DisplayName = "keyword";
-            ForegroundColor = Colors.Blue;
+            ForegroundColor = Colors.MediumBlue;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "type")]
+    [Name("type")]
+    [UserVisible(false)]
+    [Order(Before = Priority.Default)]
+    internal sealed class GLSLType : ClassificationFormatDefinition
+    {
+        public GLSLType()
+        {
+            DisplayName = "type";
+            ForegroundColor = Colors.LightGreen;
         }
     }
 

@@ -14,30 +14,20 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace GLSLLanguageIntegration.Tags.Spans
 {
-    public static class GLSLPreprocessorSpan
+    public static class GLSLBracketSpan
     {
-        public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Preprocessor;
+        public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Bracket;
 
-        /*private static SpanSet _spans = new SpanSet(Resources.Directives);
-
-        public static bool IsPreprocessor(string span)
+        public static GLSLSpanMatch Match(SnapshotSpan span, IEnumerable<SnapshotSpan> remainingSpans, string token, IEnumerable<string> remainingTokens, int position)
         {
-            if (_spans.Contains(span))
+            if (token.Contains("//"))
             {
-                return true;
-            }
+                int tokenIndex = token.IndexOf("//");
 
-            return false;
-        }*/
-
-        public static GLSLSpanMatch Match(SnapshotSpan span, string token, IEnumerable<string> remainingTokens, int position)
-        {
-            if (token.StartsWith("#"))
-            {
-                int start = position;
+                int start = position + tokenIndex;
                 int length = span.End.Position - start;
 
-                return GLSLSpanMatch.Matched(span, TOKEN_TAG, start, length, 1, 0);
+                return GLSLSpanMatch.Matched(span, TOKEN_TAG, start, length, 1, remainingTokens.Count() + 1);
             }
             else
             {

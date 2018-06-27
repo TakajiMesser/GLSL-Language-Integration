@@ -14,11 +14,11 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace GLSLLanguageIntegration.Tags.Spans
 {
-    public static class GLSLKeywordSpan
+    public static class GLSLTypeSpan
     {
-        public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Keyword;
+        public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Type;
 
-        private static TokenSet _tokens = new TokenSet(Resources.Keywords);
+        private static TokenSet _tokens = new TokenSet(Resources.Types);
 
         public static GLSLSpanMatch Match(SnapshotSpan span, string token, int position)
         {

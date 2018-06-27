@@ -22,6 +22,31 @@ namespace GLSLLanguageIntegration.Classification
         [ContentType("glsl")]
         internal static FileExtensionToContentTypeDefinition GLSLFileType = null;
 
+        [Export]
+        [FileExtension(".vert")]
+        [ContentType("glsl")]
+        internal static FileExtensionToContentTypeDefinition VertFileType = null;
+
+        [Export]
+        [FileExtension(".tesc")]
+        [ContentType("glsl")]
+        internal static FileExtensionToContentTypeDefinition TescFileType = null;
+
+        [Export]
+        [FileExtension(".tese")]
+        [ContentType("glsl")]
+        internal static FileExtensionToContentTypeDefinition TeseFileType = null;
+
+        [Export]
+        [FileExtension(".geom")]
+        [ContentType("glsl")]
+        internal static FileExtensionToContentTypeDefinition GeomFileType = null;
+
+        [Export]
+        [FileExtension(".frag")]
+        [ContentType("glsl")]
+        internal static FileExtensionToContentTypeDefinition FragFileType = null;
+
         [Import]
         internal IClassificationTypeRegistryService ClassificationTypeRegistry = null;
 
