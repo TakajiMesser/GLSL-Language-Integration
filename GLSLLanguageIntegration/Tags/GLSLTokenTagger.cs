@@ -5,12 +5,14 @@ using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace GLSLLanguageIntegration.Tags
 {
     internal sealed class GLSLTokenTagger : ITagger<GLSLTokenTag>
     {
         private ITextBuffer _buffer;
+        private TokenBuilder _tokenBuffer = new TokenBuilder();
         //private Dictionary<string, GLSLTokenTypes> _tokenTypes = new Dictionary<string, GLSLTokenTypes>();
 
         internal GLSLTokenTagger(ITextBuffer buffer)
@@ -23,110 +25,98 @@ namespace GLSLLanguageIntegration.Tags
 
         public IEnumerable<ITagSpan<GLSLTokenTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
-            if (spans.Count > 0)
+            _tokenBuffer.Clear();
+
+            foreach (var span in spans)
             {
-                var position = spans.First().Start.Position;
-                var endPosition = spans.Last().End.Position;
-                
-                var spanIndex = 0;
-                var tokenIndex = 0;
+                // Associate the buffer with this span
+                _tokenBuffer.Snapshot = span.Snapshot;
 
-                while (spanIndex < spans.Count && position < endPosition)
+                var position = span.Start.Position;
+                var endPosition = span.End.Position;
+                var text = span.GetText();
+
+                for (var i = 0; i < text.Length && span.Start.Position + i <= endPosition; i++)
                 {
-                    var span = spans[spanIndex];
+                    var match = ProcessCharacter(text[i], span.Start.Position + i, span);
 
-                    // Get the containing span line, and split it up into each token (delimited by space)
-                    ITextSnapshotLine containingLine = span.Start.GetContainingLine();
-                    string line = containingLine.GetText();
-                    string[] tokens = line.Split(' ');
-
-                    // Keep track of whether or not we get a match that consumes multiple spans
-                    bool multiSpan = false;
-
-                    // Go through each token and check it against each GLSL Span type
-                    while (tokenIndex < tokens.Length && position < span.End.Position && !multiSpan)
+                    if (match != null)
                     {
-                        var token = tokens[tokenIndex];
-
-                        var match = FindMatch(span, spans.Subset(spanIndex + 1), token, tokens.Subset(tokenIndex + 1), position);
-
-                        if (match.IsMatch)
-                        {
-                            yield return match.TagSpan;
-
-                            // If the GLSL Span did not consume the entire first token, then we must recursively check each remaining sub-token
-                            var subToken = token.Substring(0, match.Start - position);
-                            foreach (var tag in GetTagsForToken(span, subToken, position))
-                            {
-                                yield return tag;
-                            }
-
-                            position += subToken.Length + match.Length + 1;
-
-                            // If the match consumed past this span, increment forward to start checking the correct token
-                            if (match.SpanCount > 0)
-                            {
-                                multiSpan = true;
-                                spanIndex += match.SpanCount;
-                                tokenIndex = match.TokenCount;
-                            }
-                            else
-                            {
-                                tokenIndex += match.TokenCount;
-                            }
-                        }
-                        else
-                        {
-                            // If nothing matches, increment forward for the next token
-                            tokenIndex++;
-                            position += token.Length + 1;
-                        }
-                    }
-
-                    // If nothing matches, increment forward for the next span (and reset the token index)
-                    if (!multiSpan)
-                    {
-                        position = span.End.Position;
-                        spanIndex++;
-                        tokenIndex = 0;
+                        yield return match.TagSpan;
+                        i += match.Length - match.Token.Length;
                     }
                 }
             }
         }
 
-        private GLSLSpanMatch FindMatch(SnapshotSpan span, IEnumerable<SnapshotSpan> spans, string token, IEnumerable<string> remainingTokens, int position)
+        private GLSLSpanMatch ProcessCharacter(char character, int position, SnapshotSpan span)
+        {
+            switch (character)
+            {
+                case var value when char.IsWhiteSpace(character):
+                    if (_tokenBuffer.Length > 0)
+                    {
+                        string token = _tokenBuffer.ToString();
+                        var tagSpan = Tokenize(token, position, span);
+                        _tokenBuffer.Clear();
+
+                        return tagSpan;
+                    }
+                    break;
+                case '.':
+                    // Need to confirm that what came before is a valid variable/identifier
+                    _tokenBuffer.Clear();
+                    break;
+                case ';':
+                    // End of statement
+                    _tokenBuffer.Clear();
+                    break;
+                case '{':
+                case '}':
+                    // Keep track of brackets and see if this created a new bracket span
+                    _tokenBuffer.Clear();
+                    break;
+                default:
+                    _tokenBuffer.Append(character, position);
+                    break;
+            }
+
+            return null;
+        }
+
+        private GLSLSpanMatch Tokenize(string token, int position, SnapshotSpan span)
         {
             if (!string.IsNullOrWhiteSpace(token))
             {
-                var match = GLSLCommentSpan.Match(span, spans, token, remainingTokens, position);
+                var match = GLSLCommentSpan.Match(token, position, span);
                 if (match.IsMatch)
                 {
                     return match;
                 }
 
-                match = GLSLPreprocessorSpan.Match(span, token, remainingTokens, position);
+                match = GLSLPreprocessorSpan.Match(token, position, span);
                 if (match.IsMatch)
                 {
                     return match;
                 }
 
-                match = GLSLKeywordSpan.Match(span, token, position);
+                match = GLSLKeywordSpan.Match(token, position, span);
                 if (match.IsMatch)
                 {
                     return match;
                 }
-                
-                match = GLSLTypeSpan.Match(span, token, position);
+
+                match = GLSLTypeSpan.Match(token, position, span);
                 if (match.IsMatch)
                 {
                     return match;
                 }
             }
 
-            return GLSLSpanMatch.Unmatched();
+            return null;
         }
 
-        private IEnumerable<ITagSpan<GLSLTokenTag>> GetTagsForToken(SnapshotSpan span, string token, int position)
+        /*private IEnumerable<ITagSpan<GLSLTokenTag>> GetTagsForToken(SnapshotSpan span, string token, int position)
         {
             if (token.Length > 0)
             {
@@ -145,6 +135,6 @@ namespace GLSLLanguageIntegration.Tags
                     }
                 }
             }
-        }
+        }*/
     }
 }

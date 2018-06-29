@@ -18,7 +18,7 @@ namespace GLSLLanguageIntegration.Tags.Spans
     {
         public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Bracket;
 
-        public static GLSLSpanMatch Match(SnapshotSpan span, IEnumerable<SnapshotSpan> remainingSpans, string token, IEnumerable<string> remainingTokens, int position)
+        public static GLSLSpanMatch Match(string token, int position, SnapshotSpan span)
         {
             if (token.Contains("//"))
             {
@@ -27,7 +27,14 @@ namespace GLSLLanguageIntegration.Tags.Spans
                 int start = position + tokenIndex;
                 int length = span.End.Position - start;
 
-                return GLSLSpanMatch.Matched(span, TOKEN_TAG, start, length, 1, remainingTokens.Count() + 1);
+                var builder = new SpanBuilder()
+                {
+                    Snapshot = span.Snapshot,
+                    Start = position,
+                    End = position + token.Length
+                };
+
+                return GLSLSpanMatch.Matched(span, token, builder.ToSpan(), TOKEN_TAG);
             }
             else
             {

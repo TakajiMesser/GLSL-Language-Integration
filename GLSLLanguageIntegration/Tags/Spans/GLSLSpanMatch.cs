@@ -17,24 +17,10 @@ namespace GLSLLanguageIntegration.Tags.Spans
     public class GLSLSpanMatch
     {
         public bool IsMatch { get; private set; }
+        public string Token { get; private set; }
         public GLSLTokenTypes TokenType { get; private set; }
-
-        /// <summary>
-        /// Index of the first token that the GLSL Span starts at
-        /// </summary>
         public int Start { get; private set; }
-
         public int Length { get; private set; }
-
-        /// <summary>
-        /// Number of spans the snapshot consumed
-        /// </summary>
-        public int SpanCount { get; private set; }
-
-        /// <summary>
-        /// Number of tokens (into the last span) this snapshot consumed
-        /// </summary>
-        public int TokenCount { get; private set; }
 
         public TagSpan<GLSLTokenTag> TagSpan { get; private set; }
 
@@ -43,19 +29,16 @@ namespace GLSLLanguageIntegration.Tags.Spans
         /// </summary>
         public GLSLSpanMatch() { }
 
-        public static GLSLSpanMatch Matched(SnapshotSpan span, GLSLTokenTypes tokenType, int start, int length, int spanCount, int tokenCount)
+        public static GLSLSpanMatch Matched(SnapshotSpan span, string token, SnapshotSpan glslSpan, GLSLTokenTypes tokenType)
         {
-            var tokenSpan = new SnapshotSpan(span.Snapshot, start, length);
-
             return new GLSLSpanMatch()
             {
                 IsMatch = true,
+                Token = token,
                 TokenType = tokenType,
-                Start = start,
-                Length = length,
-                SpanCount = spanCount,
-                TokenCount = tokenCount,
-                TagSpan = tokenSpan.IntersectsWith(span) ? new TagSpan<GLSLTokenTag>(tokenSpan, new GLSLTokenTag(tokenType)) : null
+                Start = glslSpan.Start.Position,
+                Length = glslSpan.Length,
+                TagSpan = glslSpan.IntersectsWith(span) ? new TagSpan<GLSLTokenTag>(glslSpan, new GLSLTokenTag(tokenType)) : null
             };
         }
 

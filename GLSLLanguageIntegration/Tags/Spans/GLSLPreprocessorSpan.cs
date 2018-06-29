@@ -18,31 +18,44 @@ namespace GLSLLanguageIntegration.Tags.Spans
     {
         public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Preprocessor;
 
-        /*private static SpanSet _spans = new SpanSet(Resources.Directives);
+        //private static SpanSet _spans = new SpanSet(Resources.Directives);
 
-        public static bool IsPreprocessor(string span)
+        private static List<SnapshotSpan> _spans = new List<SnapshotSpan>();
+        private static SpanBuilder _builder = new SpanBuilder();
+
+        public static GLSLSpanMatch Match(string token, int position, SnapshotSpan span)
         {
-            if (_spans.Contains(span))
-            {
-                return true;
-            }
+            _builder.Snapshot = span.Snapshot;
 
-            return false;
-        }*/
-
-        public static GLSLSpanMatch Match(SnapshotSpan span, string token, IEnumerable<string> remainingTokens, int position)
-        {
             if (token.StartsWith("#"))
             {
-                int start = position;
-                int length = span.End.Position - start;
+                int start = position - token.Length;
 
-                return GLSLSpanMatch.Matched(span, TOKEN_TAG, start, length, 1, 0);
+                if (!_builder.Start.HasValue)
+                {
+                    _builder.Start = start;
+                    string text = span.GetText();
+
+                    for (var i = start - span.Start.Position; i < text.Length; i++)
+                    {
+                        char character = text[i];
+
+                        // Keep consuming characters until we find a line end
+                        if (character == '\r' || character == '\n')
+                        {
+                            _builder.End = start + i;
+                            var preprocessorSpan = _builder.ToSpan();
+
+                            _builder.Clear();
+                            _spans.Add(preprocessorSpan);
+
+                            return GLSLSpanMatch.Matched(span, token, preprocessorSpan, TOKEN_TAG);
+                        }
+                    }
+                }
             }
-            else
-            {
-                return GLSLSpanMatch.Unmatched();
-            }
+
+            return GLSLSpanMatch.Unmatched();
         }
     }
 }

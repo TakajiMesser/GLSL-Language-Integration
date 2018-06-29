@@ -13,4 +13,9 @@ void main(){
 
     // Output color = color of the texture at the specified UV
     color = texture( myTextureSampler, UV ).rgb; // Test comment
+
+    int a = 4;
+    float b = 4.4f; /*
+
+    int c = 5;*/
 }

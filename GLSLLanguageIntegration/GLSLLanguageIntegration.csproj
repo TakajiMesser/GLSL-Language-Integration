@@ -79,6 +79,8 @@
     <Compile Include="Tags\Spans\GLSLVariableSpan.cs" />
     <Compile Include="Tags\Spans\GLSLKeywordSpan.cs" />
     <Compile Include="Tags\Spans\GLSLFunctionSpan.cs" />
+    <Compile Include="Tags\Spans\SpanBuilder.cs" />
+    <Compile Include="Tags\Spans\TokenBuilder.cs" />
     <Compile Include="Tags\Spans\TokenSet.cs" />
     <Compile Include="Tags\Spans\GLSLPreprocessorSpan.cs" />
     <Compile Include="Tags\GLSLTokenTagger.cs" />

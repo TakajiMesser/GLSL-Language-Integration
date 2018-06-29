@@ -48,7 +48,7 @@ namespace GLSLLanguageIntegration.Classification
         public GLSLKeyword()
         {
             DisplayName = "keyword";
-            ForegroundColor = Colors.MediumBlue;
+            ForegroundColor = Colors.AliceBlue;
         }
     }
 

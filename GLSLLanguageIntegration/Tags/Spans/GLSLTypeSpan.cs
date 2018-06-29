@@ -20,14 +20,20 @@ namespace GLSLLanguageIntegration.Tags.Spans
 
         private static TokenSet _tokens = new TokenSet(Resources.Types);
 
-        public static GLSLSpanMatch Match(SnapshotSpan span, string token, int position)
+        public static bool IsType(string token) => _tokens.Contains(token);
+
+        public static GLSLSpanMatch Match(string token, int position, SnapshotSpan span)
         {
             if (_tokens.Contains(token))
             {
-                int start = position;
-                int length = token.Length;
+                var builder = new SpanBuilder()
+                {
+                    Snapshot = span.Snapshot,
+                    Start = position - token.Length,
+                    End = position
+                };
 
-                return GLSLSpanMatch.Matched(span, TOKEN_TAG, start, length, 0, 1);
+                return GLSLSpanMatch.Matched(span, token, builder.ToSpan(), TOKEN_TAG);
             }
             else
             {
