@@ -12,18 +12,14 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace GLSLLanguageIntegration.Tags.Spans
+namespace GLSLLanguageIntegration.Tokens
 {
     public class TokenSet
     {
-        //private HashSet<string> _tokens = new HashSet<string>();
         private Dictionary<string, string> _descriptionByToken = new Dictionary<string, string>();
 
         public TokenSet(string contents)
         {
-            /*sampler2D
-            image2D
-            a handle for accessing a 2D texture*/
             var lines = new List<string>();
 
             foreach (var line in Regex.Split(contents, Environment.NewLine))
@@ -52,16 +48,9 @@ namespace GLSLLanguageIntegration.Tags.Spans
                     lines.Add(line);
                 }
             }
-
-            /*foreach (var line in contents.Split('\r', ' '))
-            {
-                _tokens.Add(line.TrimStart());
-            }*/
         }
 
         public bool Contains(string token) => _descriptionByToken.ContainsKey(token);
         public string GetDescription(string token) => _descriptionByToken[token];
-
-        //public bool Contains(string token) => _tokens.Contains(token);
     }
 }

@@ -20,13 +20,29 @@ namespace GLSLLanguageIntegration.Classification
     internal sealed class GLSLClassifier : ITagger<ClassificationTag>
     {
         private ITextBuffer _buffer;
-        private ITagAggregator<GLSLTokenTag> _aggregator;
+        private ITagAggregator<IGLSLTag> _aggregator;
         private Dictionary<GLSLTokenTypes, IClassificationType> _glslTypes;
 
-        internal GLSLClassifier(ITextBuffer buffer, ITagAggregator<GLSLTokenTag> glslTagAggregator, IClassificationTypeRegistryService typeService)
+        internal GLSLClassifier(ITextBuffer buffer, ITagAggregator<IGLSLTag> glslTagAggregator, IClassificationTypeRegistryService typeService)
         {
             _buffer = buffer;
+            /*_buffer.Changed += (s, args) =>
+            {
+                if (args.After == buffer.CurrentSnapshot)
+                {
+                    _aggregator
+                }
+            };*/
+
             _aggregator = glslTagAggregator;
+            _aggregator.TagsChanged += (s, args) =>
+            {
+                /*var spans = args.Span.GetSpans(_buffer);
+                foreach (var span in spans)
+                {
+                    TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
+                }*/
+            };
 
             _glslTypes = new Dictionary<GLSLTokenTypes, IClassificationType>
             {
@@ -43,10 +59,25 @@ namespace GLSLLanguageIntegration.Classification
 
         public IEnumerable<ITagSpan<ClassificationTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
+            var textSnapshot = spans.First().Snapshot;
+
             foreach (var tag in _aggregator.GetTags(spans))
             {
-                var tagSpans = tag.Span.GetSpans(spans[0].Snapshot);
-                yield return new TagSpan<ClassificationTag>(tagSpans[0], new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
+                foreach (var span in tag.Span.GetSpans(textSnapshot))
+                {
+                    // Ensure that we translate our span to the expected snapshot
+                    var currentSpan = span;
+
+                    if (currentSpan.Snapshot != textSnapshot)
+                    {
+                        currentSpan = span.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive);
+                    }
+
+                    yield return new TagSpan<ClassificationTag>(currentSpan, new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
+                }
+
+                //var snapshots = tag.Span.GetSpans(spans.First().Snapshot);
+                //yield return new TagSpan<ClassificationTag>(snapshots.First(), new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
             }
         }
     }

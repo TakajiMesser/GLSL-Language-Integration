@@ -8,6 +8,20 @@ namespace GLSLLanguageIntegration.Utilities
 {
     public static class LINQExtensions
     {
+        public static IEnumerable<T> Yield<T>(this T source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            yield return source;
+        }
+
+        public static IEnumerable<T> YieldOrDefault<T>(this T source)
+        {
+            if (source != null)
+            {
+                yield return source;
+            }
+        }
+
         public static IEnumerable<T> Subset<T>(this IEnumerable<T> source, int startIndex)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));

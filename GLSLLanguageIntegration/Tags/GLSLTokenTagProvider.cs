@@ -13,10 +13,17 @@ using Microsoft.VisualStudio.Utilities;
 namespace GLSLLanguageIntegration.Tags
 {
     [Export(typeof(ITaggerProvider))]
+    [TagType(typeof(IGLSLTag))]
     [ContentType("glsl")]
-    [TagType(typeof(GLSLTokenTag))]
     internal sealed class GLSLTokenTagProvider : ITaggerProvider
     {
-        public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag => new GLSLTokenTagger(buffer) as ITagger<T>;
+        public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
+        {
+            //return new GLSLTokenTagger(buffer) as ITagger<T>;
+            return buffer.Properties.GetOrCreateSingletonProperty(() =>
+            {
+                return new GLSLTokenTagger(buffer) as ITagger<T>;
+            });
+        }
     }
 }

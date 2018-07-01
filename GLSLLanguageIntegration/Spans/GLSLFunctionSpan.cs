@@ -6,21 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GLSLLanguageIntegration.Properties;
+using GLSLLanguageIntegration.Tags;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace GLSLLanguageIntegration.Tags.Spans
+namespace GLSLLanguageIntegration.Spans
 {
-    public static class GLSLVariableSpan
+    public static class GLSLFunctionSpan
     {
-        public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Identifier;
+        public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Keyword;
 
-        /*private static SpanSet _spans = new SpanSet(Resources.Variables);
+        /*private static SpanSet _spans = new SpanSet(Resources.Functions);
 
-        /*public static bool IsVariable(string span)
+        public static bool IsFunction(string span)
         {
             if (_spans.Contains(span))
             {

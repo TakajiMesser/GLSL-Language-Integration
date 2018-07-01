@@ -24,6 +24,8 @@ namespace GLSLLanguageIntegration.Tags.Spans
         public ITextSnapshot Snapshot { get; set; }
 
         public bool IsReady => Start.HasValue && End.HasValue && Snapshot != null;
+        public bool IsPartial => Start.HasValue && !End.HasValue && Snapshot != null;
+        public bool IsEmpty => !Start.HasValue && !End.HasValue;
 
         public void Clear()
         {

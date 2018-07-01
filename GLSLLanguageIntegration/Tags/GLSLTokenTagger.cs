@@ -1,4 +1,6 @@
-﻿using GLSLLanguageIntegration.Tags.Spans;
+﻿using GLSLLanguageIntegration.Spans;
+using GLSLLanguageIntegration.Tags.Spans;
+using GLSLLanguageIntegration.Tokens;
 using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -9,111 +11,173 @@ using System.Text;
 
 namespace GLSLLanguageIntegration.Tags
 {
-    internal sealed class GLSLTokenTagger : ITagger<GLSLTokenTag>
+    internal sealed class GLSLTokenTagger : ITagger<IGLSLTag>
     {
         private ITextBuffer _buffer;
         private TokenBuilder _tokenBuffer = new TokenBuilder();
+        private List<TagSpan<IGLSLTag>> _tags = new List<TagSpan<IGLSLTag>>();
         //private Dictionary<string, GLSLTokenTypes> _tokenTypes = new Dictionary<string, GLSLTokenTypes>();
+
+        private GLSLCommentTagger _commentTagger = new GLSLCommentTagger();
+        private GLSLPreprocessorTagger _preprocessorTagger = new GLSLPreprocessorTagger();
+        private GLSLKeywordTagger _keywordTagger = new GLSLKeywordTagger();
+        private GLSLTypeTagger _typeTagger = new GLSLTypeTagger();
 
         internal GLSLTokenTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
+            _buffer.Changed += (s, args) =>
+            {
+                if (args.After == buffer.CurrentSnapshot)
+                {
+                    //ParseBuffer();
+                }
+            };
+
             //_tokenTypes[""] = GLSLTokenTypes.;
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
-        public IEnumerable<ITagSpan<GLSLTokenTag>> GetTags(NormalizedSnapshotSpanCollection spans)
+        public void ParseBuffer()
+        {
+            var newSnapshot = _buffer.CurrentSnapshot;
+
+            _tokenBuffer.Clear();
+            _tokenBuffer.Snapshot = newSnapshot;
+
+            var text = newSnapshot.GetText();
+
+            var newTagSpans = new List<TagSpan<IGLSLTag>>();
+
+            for (var i = 0; i < text.Length; i++)
+            {
+                foreach (var result in ProcessCharacter(text[i], i, new SnapshotSpan(newSnapshot, i, text.Length - i)))
+                {
+                    newTagSpans.AddRange(result.TagSpans);
+                    i += result.Consumed;
+                }
+            }
+
+            var oldSpans = _tags.Select(t => t.Span.TranslateTo(newSnapshot, SpanTrackingMode.EdgeExclusive).Span);
+            var newSpans = newTagSpans.Select(t => t.Span.Span);
+            var removedSpans = NormalizedSpanCollection.Difference(new NormalizedSpanCollection(oldSpans), new NormalizedSpanCollection(newSpans));
+
+            int changeStart = int.MaxValue;
+            int changeEnd = -1;
+
+            if (removedSpans.Count > 0)
+            {
+                changeStart = removedSpans.First().Start;
+                changeEnd = removedSpans.Last().End;
+            }
+
+            if (newSpans.Count() > 0)
+            {
+                changeStart = Math.Min(changeStart, newSpans.First().Start);
+                changeEnd = Math.Max(changeEnd, newSpans.Last().End);
+            }
+
+            _tags = newTagSpans.ToList();
+
+            if (changeStart <= changeEnd)
+            {
+                TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(new SnapshotSpan(newSnapshot, Span.FromBounds(changeStart, changeEnd))));
+            }
+        }
+
+        public IEnumerable<ITagSpan<IGLSLTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
             _tokenBuffer.Clear();
+            _tokenBuffer.Snapshot = _buffer.CurrentSnapshot;
 
             foreach (var span in spans)
             {
                 // Associate the buffer with this span
-                _tokenBuffer.Snapshot = span.Snapshot;
+                //_tokenBuffer.Snapshot = span.Snapshot;
 
-                var position = span.Start.Position;
-                var endPosition = span.End.Position;
                 var text = span.GetText();
 
-                for (var i = 0; i < text.Length && span.Start.Position + i <= endPosition; i++)
+                for (var i = 0; i < text.Length && span.Start.Position + i <= span.End.Position; i++)
                 {
-                    var match = ProcessCharacter(text[i], span.Start.Position + i, span);
-
-                    if (match != null)
+                    foreach (var result in ProcessCharacter(text[i], span.Start.Position + i, span))
                     {
-                        yield return match.TagSpan;
-                        i += match.Length - match.Token.Length;
+                        foreach (var tagSpan in result.TagSpans)
+                        {
+                            yield return tagSpan;
+                        }
+
+                        i += result.Consumed;
                     }
                 }
             }
         }
 
-        private GLSLSpanMatch ProcessCharacter(char character, int position, SnapshotSpan span)
+        private IEnumerable<GLSLSpanResult> ProcessCharacter(char character, int position, SnapshotSpan span)
         {
             switch (character)
             {
                 case var value when char.IsWhiteSpace(character):
-                    if (_tokenBuffer.Length > 0)
-                    {
-                        string token = _tokenBuffer.ToString();
-                        var tagSpan = Tokenize(token, position, span);
-                        _tokenBuffer.Clear();
-
-                        return tagSpan;
-                    }
+                    yield return ProcessBuffer(position, span);
                     break;
                 case '.':
                     // Need to confirm that what came before is a valid variable/identifier
-                    _tokenBuffer.Clear();
+                    yield return ProcessBuffer(position, span);
                     break;
                 case ';':
-                    // End of statement
-                    _tokenBuffer.Clear();
+                    // End of statement -> Need to check statement for errors
+                    yield return ProcessBuffer(position, span);
                     break;
                 case '{':
                 case '}':
-                    // Keep track of brackets and see if this created a new bracket span
-                    _tokenBuffer.Clear();
+                    yield return ProcessBuffer(position, span);
+                    yield return GLSLBracketSpan.Match(character, position, span);
                     break;
                 default:
                     _tokenBuffer.Append(character, position);
                     break;
             }
-
-            return null;
         }
 
-        private GLSLSpanMatch Tokenize(string token, int position, SnapshotSpan span)
+        private GLSLSpanResult ProcessBuffer(int position, SnapshotSpan span)
         {
+            var result = new GLSLSpanResult();
+
+            if (_tokenBuffer.Length > 0)
+            {
+                string token = _tokenBuffer.ToString();
+                result = Tokenize(token, position, span);
+                _tokenBuffer.Clear();
+            }
+
+            return result;
+        }
+
+        private GLSLSpanResult Tokenize(string token, int position, SnapshotSpan span)
+        {
+            var result = new GLSLSpanResult();
+
             if (!string.IsNullOrWhiteSpace(token))
             {
-                var match = GLSLCommentSpan.Match(token, position, span);
-                if (match.IsMatch)
+                result = _commentTagger.Match(token, position, span);
+
+                if (!result.IsMatch)
                 {
-                    return match;
+                    result = _preprocessorTagger.Match(token, position, span);
                 }
 
-                match = GLSLPreprocessorSpan.Match(token, position, span);
-                if (match.IsMatch)
+                if (!result.IsMatch)
                 {
-                    return match;
+                    result = _keywordTagger.Match(token, position, span);
                 }
 
-                match = GLSLKeywordSpan.Match(token, position, span);
-                if (match.IsMatch)
+                if (!result.IsMatch)
                 {
-                    return match;
-                }
-
-                match = GLSLTypeSpan.Match(token, position, span);
-                if (match.IsMatch)
-                {
-                    return match;
+                    result = _typeTagger.Match(token, position, span);
                 }
             }
 
-            return null;
+            return result;
         }
 
         /*private IEnumerable<ITagSpan<GLSLTokenTag>> GetTagsForToken(SnapshotSpan span, string token, int position)

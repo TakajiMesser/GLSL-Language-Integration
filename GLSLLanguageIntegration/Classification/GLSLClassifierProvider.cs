@@ -8,8 +8,8 @@ using System.ComponentModel.Composition;
 namespace GLSLLanguageIntegration.Classification
 {
     [Export(typeof(ITaggerProvider))]
-    [ContentType("glsl")]
     [TagType(typeof(ClassificationTag))]
+    [ContentType("glsl")]
     internal sealed class GLSLClassifierProvider : ITaggerProvider
     {
         [Export]
@@ -48,15 +48,21 @@ namespace GLSLLanguageIntegration.Classification
         internal static FileExtensionToContentTypeDefinition FragFileType = null;
 
         [Import]
-        internal IClassificationTypeRegistryService ClassificationTypeRegistry = null;
+        internal IClassificationTypeRegistryService ClassificationTypeRegistry { get; set; }
 
         [Import]
         internal IBufferTagAggregatorFactoryService aggregatorFactory = null;
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            var aggregator = aggregatorFactory.CreateTagAggregator<GLSLTokenTag>(buffer);
-            return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
+            return buffer.Properties.GetOrCreateSingletonProperty(() =>
+            {
+                var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
+                return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
+            }); 
+
+            //var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
+            //return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
         }
     }
 }

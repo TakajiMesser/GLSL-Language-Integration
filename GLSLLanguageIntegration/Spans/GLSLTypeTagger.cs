@@ -6,24 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GLSLLanguageIntegration.Properties;
+using GLSLLanguageIntegration.Tags;
+using GLSLLanguageIntegration.Tags.Spans;
+using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace GLSLLanguageIntegration.Tags.Spans
+namespace GLSLLanguageIntegration.Spans
 {
-    public static class GLSLKeywordSpan
+    public class GLSLTypeTagger : IGLSLTagger
     {
-        public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Keyword;
+        public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Type;
 
-        private static TokenSet _tokens = new TokenSet(Resources.Keywords);
+        private TokenSet _tokens = new TokenSet(Resources.Types);
 
-        public static bool IsKeyword(string token) => _tokens.Contains(token);
-
-        public static GLSLSpanMatch Match(string token, int position, SnapshotSpan span)
+        public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {
+            var result = new GLSLSpanResult(TOKEN_TYPE, span);
+
             if (_tokens.Contains(token))
             {
                 var builder = new SpanBuilder()
@@ -33,12 +36,11 @@ namespace GLSLLanguageIntegration.Tags.Spans
                     End = position
                 };
 
-                return GLSLSpanMatch.Matched(span, token, builder.ToSpan(), TOKEN_TAG);
+                result.Consumed = token.Length;
+                result.AddSpan(builder.ToSpan());
             }
-            else
-            {
-                return GLSLSpanMatch.Unmatched();
-            }
+
+            return result;
         }
     }
 }

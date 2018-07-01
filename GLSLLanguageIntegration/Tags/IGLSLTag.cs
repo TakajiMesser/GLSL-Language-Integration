@@ -12,10 +12,8 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace GLSLLanguageIntegration.Tags
 {
-    public class GLSLTokenTag : IGLSLTag
+    public interface IGLSLTag : ITag
     {
-        public GLSLTokenTypes TokenType { get; private set; }
-
-        public GLSLTokenTag(GLSLTokenTypes type) => TokenType = type;
+        GLSLTokenTypes TokenType { get; }
     }
 }

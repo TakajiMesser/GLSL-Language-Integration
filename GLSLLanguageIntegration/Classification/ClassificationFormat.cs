@@ -13,8 +13,8 @@ namespace GLSLLanguageIntegration.Classification
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = "preprocessor")]
     [Name("preprocessor")]
-    [UserVisible(false)]
-    [Order(Before = Priority.Default)]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
     internal sealed class GLSLPreprocessor : ClassificationFormatDefinition
     {
         public GLSLPreprocessor()
@@ -27,8 +27,8 @@ namespace GLSLLanguageIntegration.Classification
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = "comment")]
     [Name("comment")]
-    [UserVisible(false)]
-    [Order(Before = Priority.Default)]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
     internal sealed class GLSLComment : ClassificationFormatDefinition
     {
         public GLSLComment()
@@ -41,22 +41,22 @@ namespace GLSLLanguageIntegration.Classification
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = "keyword")]
     [Name("keyword")]
-    [UserVisible(false)]
-    [Order(Before = Priority.Default)]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
     internal sealed class GLSLKeyword : ClassificationFormatDefinition
     {
         public GLSLKeyword()
         {
             DisplayName = "keyword";
-            ForegroundColor = Colors.AliceBlue;
+            ForegroundColor = Colors.MediumBlue;
         }
     }
 
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = "type")]
     [Name("type")]
-    [UserVisible(false)]
-    [Order(Before = Priority.Default)]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
     internal sealed class GLSLType : ClassificationFormatDefinition
     {
         public GLSLType()
@@ -69,8 +69,8 @@ namespace GLSLLanguageIntegration.Classification
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = "identifier")]
     [Name("identifier")]
-    [UserVisible(false)]
-    [Order(Before = Priority.Default)]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
     internal sealed class GLSLIdentifier : ClassificationFormatDefinition
     {
         public GLSLIdentifier()
@@ -83,8 +83,8 @@ namespace GLSLLanguageIntegration.Classification
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = "bracket")]
     [Name("bracket")]
-    [UserVisible(false)]
-    [Order(Before = Priority.Default)]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
     internal sealed class GLSLBracket : ClassificationFormatDefinition
     {
         public GLSLBracket()
