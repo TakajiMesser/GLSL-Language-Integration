@@ -45,12 +45,11 @@ namespace GLSLLanguageIntegration.Intellisense
         {
             SnapshotPoint? point = GetMousePosition(new SnapshotPoint(_textView.TextSnapshot, e.Position));
 
-            if (point != null)
+            if (point.HasValue)
             {
                 ITrackingPoint triggerPoint = point.Value.Snapshot.CreateTrackingPoint(point.Value.Position, PointTrackingMode.Positive);
 
                 // Find the broker for this buffer
-
                 if (!_componentContext.QuickInfoBroker.IsQuickInfoActive(_textView))
                 {
                     _session = _componentContext.QuickInfoBroker.CreateQuickInfoSession(_textView, triggerPoint, true);

@@ -72,9 +72,13 @@ namespace GLSLLanguageIntegration.Intellisense
                         case VSConstants.VSStd2KCmdID.TYPECHAR:
                             char ch = GetTypeChar(pvaIn);
                             if (ch == ' ')
+                            {
                                 StartSession();
+                            }
                             else if (_currentSession != null)
+                            {
                                 Filter();
+                            } 
                             break;
                         case VSConstants.VSStd2KCmdID.BACKSPACE:
                             Filter();
@@ -91,11 +95,11 @@ namespace GLSLLanguageIntegration.Intellisense
         /// </summary>
         private void Filter()
         {
-            if (_currentSession == null)
-                return;
-
-            _currentSession.SelectedCompletionSet.SelectBestMatch();
-            _currentSession.SelectedCompletionSet.Recalculate();
+            if (_currentSession != null)
+            {
+                _currentSession.SelectedCompletionSet.SelectBestMatch();
+                _currentSession.SelectedCompletionSet.Recalculate();
+            }
         }
 
         /// <summary>

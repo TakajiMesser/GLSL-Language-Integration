@@ -33,21 +33,54 @@ namespace GLSLLanguageIntegration.Spans
             Span = span;
         }
 
-        public void AddSpan(SnapshotSpan span)
+        public void AddSpan(TagSpan<IGLSLTag> tagSpan)
         {
-            if (Span.OverlapsWith(span))
+            if (Span.OverlapsWith(tagSpan.Span))
             {
-                TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLTokenTag(TokenType)));
+                TagSpans.Add(tagSpan);
             }
         }
 
-        public void AddSpans(IEnumerable<SnapshotSpan> spans)
+        public void AddSpan<T>(SnapshotSpan span) where T : IGLSLTag
+        {
+            if (Span.OverlapsWith(span))
+            {
+                if (typeof(T) == typeof(GLSLTokenTag))
+                {
+                    TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLTokenTag(TokenType)));
+                }
+                else if (typeof(T) == typeof(GLSLOutlineTag))
+                {
+                    TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLOutlineTag(TokenType)));
+                }
+            }
+        }
+
+        public void AddSpans(IEnumerable<TagSpan<IGLSLTag>> tagSpans)
+        {
+            foreach (var tagSpan in tagSpans)
+            {
+                if (Span.OverlapsWith(tagSpan.Span))
+                {
+                    TagSpans.Add(tagSpan);
+                }
+            }
+        }
+
+        public void AddSpans<T>(IEnumerable<SnapshotSpan> spans) where T : IGLSLTag
         {
             foreach (var span in spans)
             {
                 if (Span.OverlapsWith(span))
                 {
-                    TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLTokenTag(TokenType)));
+                    if (typeof(T) == typeof(GLSLTokenTag))
+                    {
+                        TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLTokenTag(TokenType)));
+                    }
+                    else if (typeof(T) == typeof(GLSLOutlineTag))
+                    {
+                        TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLOutlineTag(TokenType)));
+                    }
                 }
             }
         }

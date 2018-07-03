@@ -5,12 +5,12 @@ using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 
-namespace GLSLLanguageIntegration.Classification
+namespace GLSLLanguageIntegration.Outlining
 {
     [Export(typeof(ITaggerProvider))]
-    [TagType(typeof(ClassificationTag))]
+    [TagType(typeof(IOutliningRegionTag))]
     [ContentType("glsl")]
-    internal sealed class GLSLClassifierProvider : ITaggerProvider
+    internal sealed class GLSLOutlinerProvider : ITaggerProvider
     {
         [Export]
         [Name("glsl")]
@@ -48,18 +48,15 @@ namespace GLSLLanguageIntegration.Classification
         internal static FileExtensionToContentTypeDefinition FragFileType = null;
 
         [Import]
-        internal IClassificationTypeRegistryService ClassificationTypeRegistry { get; set; }
-
-        [Import]
-        internal IBufferTagAggregatorFactoryService _aggregatorFactory = null;
+        internal IBufferTagAggregatorFactoryService aggregatorFactory = null;
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
             return buffer.Properties.GetOrCreateSingletonProperty(() =>
             {
-                var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
-                return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
-            }); 
+                var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
+                return new GLSLOutliner(buffer, aggregator) as ITagger<T>;
+            });
 
             //var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
             //return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;

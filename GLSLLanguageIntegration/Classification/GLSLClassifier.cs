@@ -46,12 +46,12 @@ namespace GLSLLanguageIntegration.Classification
 
             _glslTypes = new Dictionary<GLSLTokenTypes, IClassificationType>
             {
-                [GLSLTokenTypes.Preprocessor] = typeService.GetClassificationType("preprocessor"),
-                [GLSLTokenTypes.Comment] = typeService.GetClassificationType("comment"),
-                [GLSLTokenTypes.Keyword] = typeService.GetClassificationType("keyword"),
-                [GLSLTokenTypes.Type] = typeService.GetClassificationType("type"),
-                [GLSLTokenTypes.Identifier] = typeService.GetClassificationType("identifier"),
-                [GLSLTokenTypes.Bracket] = typeService.GetClassificationType("bracket")
+                [GLSLTokenTypes.Preprocessor] = typeService.GetClassificationType(nameof(GLSLPreprocessor)),
+                [GLSLTokenTypes.Comment] = typeService.GetClassificationType(nameof(GLSLComment)),
+                [GLSLTokenTypes.Keyword] = typeService.GetClassificationType(nameof(GLSLKeyword)),
+                [GLSLTokenTypes.Type] = typeService.GetClassificationType(nameof(GLSLType)),
+                [GLSLTokenTypes.Identifier] = typeService.GetClassificationType(nameof(GLSLIdentifier)),
+                [GLSLTokenTypes.Bracket] = typeService.GetClassificationType(nameof(GLSLBracket))
             };
         }
 
@@ -63,17 +63,20 @@ namespace GLSLLanguageIntegration.Classification
 
             foreach (var tag in _aggregator.GetTags(spans))
             {
-                foreach (var span in tag.Span.GetSpans(textSnapshot))
+                if (tag.Tag is GLSLTokenTag)
                 {
-                    // Ensure that we translate our span to the expected snapshot
-                    var currentSpan = span;
-
-                    if (currentSpan.Snapshot != textSnapshot)
+                    foreach (var span in tag.Span.GetSpans(textSnapshot))
                     {
-                        currentSpan = span.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive);
-                    }
+                        // Ensure that we translate our span to the expected snapshot
+                        var currentSpan = span;
 
-                    yield return new TagSpan<ClassificationTag>(currentSpan, new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
+                        if (currentSpan.Snapshot != textSnapshot)
+                        {
+                            currentSpan = span.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive);
+                        }
+
+                        yield return new TagSpan<ClassificationTag>(currentSpan, new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
+                    }
                 }
 
                 //var snapshots = tag.Span.GetSpans(spans.First().Snapshot);

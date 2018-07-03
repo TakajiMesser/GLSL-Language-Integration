@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Language.Intellisense;
+﻿using GLSLLanguageIntegration.Classification;
+using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Utilities;
 using System;
@@ -26,7 +27,9 @@ namespace GLSLLanguageIntegration.Intellisense
 
             var completions = new List<Completion>()
             {
-                new Completion("preprocessor")
+                new Completion(nameof(GLSLPreprocessor)),
+                new Completion(nameof(GLSLComment)),
+                new Completion(nameof(GLSLKeyword))
             };
 
             ITextSnapshot snapshot = _buffer.CurrentSnapshot;

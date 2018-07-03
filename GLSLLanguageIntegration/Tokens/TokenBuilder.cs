@@ -21,12 +21,13 @@ namespace GLSLLanguageIntegration.Tokens
         public int EndPosition => StartPosition + _builder.Length;
         public int Length => _builder.Length;
         public ITextSnapshot Snapshot { get; set; }
+        public SnapshotSpan Span => new SnapshotSpan(Snapshot, StartPosition, Length);
 
         private StringBuilder _builder = new StringBuilder();
 
         public TagSpan<GLSLTokenTag> GetTag(SnapshotSpan span, GLSLTokenTypes type)
         {
-            var tokenSpan = new SnapshotSpan(Snapshot, StartPosition, Length);
+            var tokenSpan = Span;
 
             if (tokenSpan.IntersectsWith(span))
             {

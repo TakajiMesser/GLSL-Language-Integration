@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GLSLLanguageIntegration.Properties;
+﻿using GLSLLanguageIntegration.Properties;
+using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tags;
-using GLSLLanguageIntegration.Tags.Spans;
 using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 
-namespace GLSLLanguageIntegration.Spans
+namespace GLSLLanguageIntegration.Taggers
 {
     public class GLSLKeywordTagger : IGLSLTagger
     {
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Keyword;
 
         private static TokenSet _tokens = new TokenSet(Resources.Keywords);
+
+        public string GetQuickInfo(string token)
+        {
+            if (_tokens.Contains(token))
+            {
+                return _tokens.GetDescription(token);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {
@@ -36,8 +37,8 @@ namespace GLSLLanguageIntegration.Spans
                     End = position
                 };
 
-                result.Consumed = token.Length;
-                result.AddSpan(builder.ToSpan());
+                result.Consumed = 0;
+                result.AddSpan<GLSLTokenTag>(builder.ToSpan());
             }
 
             return result;

@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace GLSLLanguageIntegration.Tags
 {
-    public class GLSLOutlineTag : IGLSLTag, IOutliningRegionTag
+    public class GLSLOutlineTag : IGLSLTag
     {
         public const string COLLAPSE_TEXT = "...";
         public const string COLLAPSE_HINT = "Hover Text";
@@ -20,18 +20,10 @@ namespace GLSLLanguageIntegration.Tags
         public GLSLTokenTypes TokenType { get; private set; }
         public OutliningRegionTag RegionTag { get; private set; }
 
-        public bool IsDefaultCollapsed => throw new NotImplementedException();
-
-        public bool IsImplementation => throw new NotImplementedException();
-
-        public object CollapsedForm => throw new NotImplementedException();
-
-        public object CollapsedHintForm => throw new NotImplementedException();
-
-        public GLSLOutlineTag(GLSLTokenTypes type)
+        public GLSLOutlineTag(GLSLTokenTypes type, string collapseText = COLLAPSE_TEXT)
         {
             TokenType = type;
-            RegionTag = new OutliningRegionTag(false, false, COLLAPSE_TEXT, COLLAPSE_HINT);
+            RegionTag = new OutliningRegionTag(false, false, collapseText, COLLAPSE_HINT);
         }
     }
 }

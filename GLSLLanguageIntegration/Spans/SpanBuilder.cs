@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace GLSLLanguageIntegration.Tags.Spans
+namespace GLSLLanguageIntegration.Spans
 {
     public class SpanBuilder
     {
@@ -33,9 +33,33 @@ namespace GLSLLanguageIntegration.Tags.Spans
             End = null;
         }
 
-        public SnapshotSpan ToSpan()
+        /// <summary>
+        /// Consume characters from the provided string until any one of the terminating strings are found.
+        /// </summary>
+        /// <returns>The earliest position of a terminator, or -1 if no terminators were found.</returns>
+        public int ConsumeUntil(string text, int start, params string[] terminators)
         {
-            return new SnapshotSpan(Snapshot, Start.Value, Length);
+            for (var i = start; i < text.Length; i++)
+            {
+                char character = text[i];
+
+                foreach (var terminator in terminators)
+                {
+                    if (character == terminator.Last() && i > start + terminator.Length - 1)
+                    {
+                        if (text.Substring(i - terminator.Length + 1, terminator.Length) == terminator)
+                        {
+                            return i;
+                        }
+                    }
+                }
+            }
+
+            return -1;
         }
+
+        public SnapshotSpan ToSpan() => new SnapshotSpan(Snapshot, Start.Value, Length);
+
+        public SnapshotSpan ToSpan(int leftOffset, int rightOffset) => new SnapshotSpan(Snapshot, Start.Value + leftOffset, Length - leftOffset - rightOffset);
     }
 }

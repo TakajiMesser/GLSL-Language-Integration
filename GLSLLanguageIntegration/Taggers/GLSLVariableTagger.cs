@@ -13,9 +13,9 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace GLSLLanguageIntegration.Spans
+namespace GLSLLanguageIntegration.Taggers
 {
-    public static class GLSLVariableSpan
+    public static class GLSLVariableTagger
     {
         public const GLSLTokenTypes TOKEN_TAG = GLSLTokenTypes.Identifier;
 

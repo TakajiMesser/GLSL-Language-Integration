@@ -67,28 +67,31 @@
     <Compile Include="Classification\GLSLClassifier.cs" />
     <Compile Include="Classification\ClassificationType.cs" />
     <Compile Include="Classification\ClassificationFormat.cs" />
+    <Compile Include="Outlining\GLSLOutlinerProvider.cs" />
+    <Compile Include="Outlining\GLSLOutliner.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Spans\IGLSLTagger.cs" />
+    <Compile Include="Taggers\IGLSLTagger.cs" />
     <Compile Include="Tags\GLSLOutlineTag.cs" />
+    <Compile Include="Spans\GLSLTagSpanCollection.cs" />
     <Compile Include="Tags\IGLSLTag.cs" />
-    <Compile Include="Spans\GLSLBracketSpan.cs" />
-    <Compile Include="Spans\GLSLCommentTagger.cs" />
-    <Compile Include="Spans\GLSLTypeTagger.cs" />
+    <Compile Include="Taggers\GLSLBracketTagger.cs" />
+    <Compile Include="Taggers\GLSLCommentTagger.cs" />
+    <Compile Include="Taggers\GLSLTypeTagger.cs" />
     <Compile Include="Spans\GLSLSpanResult.cs" />
-    <Compile Include="Spans\GLSLVariableSpan.cs" />
-    <Compile Include="Spans\GLSLKeywordTagger.cs" />
-    <Compile Include="Spans\GLSLFunctionSpan.cs" />
+    <Compile Include="Taggers\GLSLVariableTagger.cs" />
+    <Compile Include="Taggers\GLSLKeywordTagger.cs" />
+    <Compile Include="Taggers\GLSLFunctionTagger.cs" />
     <Compile Include="Spans\SpanBuilder.cs" />
     <Compile Include="Tokens\TokenBuilder.cs" />
     <Compile Include="Tokens\TokenSet.cs" />
-    <Compile Include="Spans\GLSLPreprocessorTagger.cs" />
-    <Compile Include="Tags\GLSLTokenTagger.cs" />
-    <Compile Include="Tags\GLSLTokenTagProvider.cs" />
-    <Compile Include="Tags\GLSLTokenTypes.cs" />
+    <Compile Include="Taggers\GLSLPreprocessorTagger.cs" />
+    <Compile Include="Tokens\GLSLTokenTagger.cs" />
+    <Compile Include="Tokens\GLSLTokenTagProvider.cs" />
+    <Compile Include="Tokens\GLSLTokenTypes.cs" />
     <Compile Include="Tags\GLSLTokenTag.cs" />
     <Compile Include="Intellisense\VsTextViewCreationListener.cs" />
     <Compile Include="Intellisense\GLSLCompletionSourceProvider.cs" />
@@ -324,9 +327,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Outlining\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="..\packages\Microsoft.VisualStudio.Threading.Analyzers.15.7.17\build\Microsoft.VisualStudio.Threading.Analyzers.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Threading.Analyzers.15.7.17\build\Microsoft.VisualStudio.Threading.Analyzers.targets')" />
