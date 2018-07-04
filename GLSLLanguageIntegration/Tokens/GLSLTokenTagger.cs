@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GLSLLanguageIntegration.Tags
 {
@@ -14,12 +13,15 @@ namespace GLSLLanguageIntegration.Tags
         private ITextBuffer _buffer;
         private TokenBuilder _tokenBuffer = new TokenBuilder();
         private GLSLTagSpanCollection _tagSpans = new GLSLTagSpanCollection();
-        //private List<TagSpan<IGLSLTag>> _tagSpans = new List<TagSpan<IGLSLTag>>();
 
+        private GLSLBracketTagger _bracketTagger = new GLSLBracketTagger();
         private GLSLCommentTagger _commentTagger = new GLSLCommentTagger();
         private GLSLPreprocessorTagger _preprocessorTagger = new GLSLPreprocessorTagger();
         private GLSLKeywordTagger _keywordTagger = new GLSLKeywordTagger();
         private GLSLTypeTagger _typeTagger = new GLSLTypeTagger();
+        private GLSLIdentifierTagger _identifierTagger = new GLSLIdentifierTagger();
+
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
         internal GLSLTokenTagger(ITextBuffer buffer)
         {
@@ -37,9 +39,7 @@ namespace GLSLLanguageIntegration.Tags
             ParseBuffer();
         }
 
-        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
-
-        public string GetQuickInfo(string token, GLSLTokenTypes tokenType)
+        public object GetQuickInfo(string token, GLSLTokenTypes tokenType)
         {
             switch (tokenType)
             {
@@ -47,6 +47,8 @@ namespace GLSLLanguageIntegration.Tags
                     return _keywordTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.Type:
                     return _typeTagger.GetQuickInfo(token);
+                case GLSLTokenTypes.Identifier:
+                    return _identifierTagger.GetQuickInfo(token);
             }
 
             return null;
@@ -65,7 +67,7 @@ namespace GLSLLanguageIntegration.Tags
 
             for (var i = 0; i < text.Length; i++)
             {
-                foreach (var result in ProcessCharacter(text[i], i))//new SnapshotSpan(newSnapshot, i, text.Length - i)))
+                foreach (var result in ProcessCharacter(text[i], i))
                 {
                     newTagSpans.AddRange(result.TagSpans);
                     i += result.Consumed;
@@ -87,29 +89,6 @@ namespace GLSLLanguageIntegration.Tags
                     yield return tagSpan;
                 }
             }
-
-            yield break;
-
-            foreach (var span in spans)
-            {
-                // Associate the buffer with this span
-                //_tokenBuffer.Snapshot = span.Snapshot;
-
-                var text = span.GetText();
-
-                for (var i = 0; i < text.Length && span.Start.Position + i <= span.End.Position; i++)
-                {
-                    foreach (var result in ProcessCharacter(text[i], span.Start.Position + i/*, span*/))
-                    {
-                        foreach (var tagSpan in result.TagSpans)
-                        {
-                            yield return tagSpan;
-                        }
-
-                        i += result.Consumed;
-                    }
-                }
-            }
         }
 
         private IEnumerable<GLSLSpanResult> ProcessCharacter(char character, int position)
@@ -123,14 +102,17 @@ namespace GLSLLanguageIntegration.Tags
                     // Need to confirm that what came before is a valid variable/identifier
                     yield return ProcessBuffer(position);
                     break;
+                case '(':
+                    // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
+                    yield return ProcessBuffer(position);
+                    break;
                 case ';':
                     // End of statement -> Need to check statement for errors
                     yield return ProcessBuffer(position);
                     break;
                 case '{':
-                case '}':
                     yield return ProcessBuffer(position);
-                    //yield return GLSLBracketSpan.Match(character, position, span);
+                    yield return _bracketTagger.Match(character.ToString(), position + 1, new SnapshotSpan(_tokenBuffer.Snapshot, position, 1));
                     break;
                 default:
                     _tokenBuffer.Append(character, position);
@@ -173,6 +155,11 @@ namespace GLSLLanguageIntegration.Tags
                 if (!result.IsMatch)
                 {
                     result = _typeTagger.Match(token, position, span);
+                }
+
+                if (!result.IsMatch)
+                {
+                    result = _identifierTagger.Match(token, position, span);
                 }
             }
 

@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GLSLLanguageIntegration.Properties;
-using GLSLLanguageIntegration.Tags;
-using GLSLLanguageIntegration.Utilities;
+﻿using GLSLLanguageIntegration.Tags;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
+using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Spans
 {

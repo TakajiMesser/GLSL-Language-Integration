@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Tags;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
+using System;
+using System.Text;
 
 namespace GLSLLanguageIntegration.Tokens
 {
@@ -51,14 +42,8 @@ namespace GLSLLanguageIntegration.Tokens
             _builder.Append(value);
         }
 
-        public void Clear()
-        {
-            _builder.Clear();
-        }
+        public void Clear() => _builder.Clear();
 
-        public override string ToString()
-        {
-            return _builder.ToString();
-        }
+        public override string ToString() => _builder.ToString();
     }
 }

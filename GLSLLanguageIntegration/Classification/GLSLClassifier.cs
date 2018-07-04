@@ -2,21 +2,12 @@
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace GLSLLanguageIntegration.Classification
 {
-    /*IntegerConstant,
-    FloatingConstant,
-    Operator,
-    Semicolon*/
     internal sealed class GLSLClassifier : ITagger<ClassificationTag>
     {
         private ITextBuffer _buffer;
@@ -78,9 +69,6 @@ namespace GLSLLanguageIntegration.Classification
                         yield return new TagSpan<ClassificationTag>(currentSpan, new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
                     }
                 }
-
-                //var snapshots = tag.Span.GetSpans(spans.First().Snapshot);
-                //yield return new TagSpan<ClassificationTag>(snapshots.First(), new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
             }
         }
     }

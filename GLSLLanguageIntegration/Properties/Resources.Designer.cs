@@ -62,21 +62,37 @@ namespace GLSLLanguageIntegration.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to #
+        ///
         ///#define
+        ///
         ///#undef
+        ///
         ///#if
+        ///
         ///#ifdef
+        ///
         ///#ifndef
+        ///
         ///#else
+        ///
         ///#elif
+        ///
         ///#endif
+        ///
         ///#error
+        ///
         ///#pragma
+        ///
         ///#extension
+        ///
         ///#version
+        ///
         ///#line
+        ///
         ///defined
-        ///##.
+        ///
+        ///##
+        ///.
         /// </summary>
         internal static string Directives {
             get {
@@ -85,26 +101,86 @@ namespace GLSLLanguageIntegration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to radians degrees 
-        ///sin cos tan 
-        ///asin acos atan
-        ///sinh cosh tanh 
-        ///asinh acosh atanh 
-        ///pow exp log exp2 log2 
-        ///sqrt inversesqrt
-        ///abs sign floor trunc round roundEven ceil fract mod modf
-        ///min max clamp mix step smoothstep
+        ///   Looks up a localized string similar to radians
+        ///
+        ///degrees
+        ///
+        ///sin
+        ///
+        ///cos
+        ///
+        ///tan
+        ///
+        ///asin
+        ///
+        ///acos
+        ///
+        ///atan
+        ///
+        ///sinh
+        ///
+        ///cosh
+        ///
+        ///tanh
+        ///
+        ///asinh
+        ///
+        ///acosh
+        ///
+        ///atanh
+        ///
+        ///pow
+        ///
+        ///exp
+        ///
+        ///log
+        ///
+        ///exp2
+        ///
+        ///log2
+        ///
+        ///sqrt
+        ///
+        ///inversesqrt
+        ///
+        ///abs
+        ///
+        ///sign
+        ///
+        ///floor
+        ///
+        ///trunc
+        ///
+        ///round
+        ///
+        ///roundEven
+        ///
+        ///ceil
+        ///
+        ///fract
+        ///
+        ///mod
+        ///
+        ///modf
+        ///
+        ///min
+        ///
+        ///max
+        ///
+        ///clamp
+        ///
+        ///mix
+        ///
+        ///step
+        ///
+        ///smoothstep
+        ///
         ///isnan isinf
         ///floatBitsToInt floatBitsToUint 
         ///intBitsToFloat uintBitsToFloat
         ///fma frexp ldexp
         ///packUnorm2x16 packSnorm2x16 packUnorm4x8 packSnorm4x8 
-        ///unpackUnorm2x16 unpackSnorm2x16 unpackUnorm4x8 unpackSnorm4x8 
-        ///packDouble2x32
-        ///unpackDouble2x32
-        ///packHalf2x16
-        ///unpackHalf2x16
-        ///length distan [rest of string was truncated]&quot;;.
+        ///unpackUnorm2x16 unpackSnorm2x16 unpackUnorm4 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Functions {
             get {
@@ -113,30 +189,83 @@ namespace GLSLLanguageIntegration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute const uniform varying buffer shared
-        ///coherent volatile restrict readonly writeonly
-        ///atomic_uint
-        ///layout
-        ///centroid flat smooth noperspective
-        ///patch sample
-        ///break continue do for while switch case default
-        ///if else
-        ///subroutine
-        ///in out inout
-        ///float double int void bool true false
-        ///invariant precise
-        ///discard return
-        ///struct
+        ///   Looks up a localized string similar to gl_NumWorkGroups
         ///
-        ///common partition active
-        ///asm
-        ///class union enum typedef template this
-        ///resource
-        ///20
-        ///3 Basics
-        ///goto
-        ///inline noinline public static extern external interface
-        ///long short half fixed  [rest of string was truncated]&quot;;.
+        ///gl_WorkGroupSize
+        ///
+        ///gl_WorkGroupID
+        ///
+        ///gl_LocalInvocationID
+        ///
+        ///gl_GlobalInvocationID
+        ///
+        ///gl_LocalInvocationIndex
+        ///
+        ///gl_VertexID
+        ///
+        ///gl_VertexIndex
+        ///
+        ///gl_InstanceID
+        ///
+        ///gl_InstanceIndex
+        ///
+        ///gl_PerVertex
+        ///
+        ///gl_Position
+        ///
+        ///gl_PointSize
+        ///
+        ///gl_ClipDistance
+        ///
+        ///gl_CullDistance
+        ///
+        ///gl_in
+        ///
+        ///gl_PrimitiveIDIn
+        ///
+        ///gl_InvocationID
+        ///
+        ///gl_PrimitiveID
+        ///
+        ///gl_Layer
+        ///
+        ///gl_ViewportIndex
+        ///
+        ///gl_PatchVerticesIn
+        ///
+        ///gl_PrimitiveID
+        ///
+        ///gl_InvocationID
+        ///
+        ///gl_TessLevelOuter
+        ///
+        ///gl_TessLevelInner
+        ///
+        ///gl_PatchVerticesIn
+        ///
+        ///gl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Identifiers {
+            get {
+                return ResourceManager.GetString("Identifiers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to attribute
+        ///compatibility profile only and vertex language only; same as in when in a vertex shader
+        ///
+        ///const
+        ///a variable whose value cannot be changed
+        ///
+        ///uniform
+        ///value does not change across the primitive being processed, uniforms form the linkage between a shader, OpenGL, and the application
+        ///
+        ///varying
+        ///compatibility profile only and vertex and fragment languages only; same as out when in a vertex shader and same as in when in a fragment shader
+        ///
+        ///buffer
+        ///value is stored in a buffer object, and can be read [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Keywords {
             get {
@@ -178,51 +307,6 @@ namespace GLSLLanguageIntegration.Properties {
         internal static string Types {
             get {
                 return ResourceManager.GetString("Types", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to gl_NumWorkGroups
-        ///gl_WorkGroupSize
-        ///gl_WorkGroupID
-        ///gl_LocalInvocationID
-        ///gl_GlobalInvocationID
-        ///gl_LocalInvocationIndex
-        ///
-        ///gl_VertexID
-        ///gl_VertexIndex
-        ///gl_InstanceID
-        ///gl_InstanceIndex
-        ///gl_PerVertex
-        ///gl_Position
-        ///gl_PointSize
-        ///gl_ClipDistance
-        ///gl_CullDistance
-        ///gl_in
-        ///
-        ///gl_PrimitiveIDIn
-        ///gl_InvocationID
-        ///
-        ///gl_PrimitiveID
-        ///gl_Layer
-        ///gl_ViewportIndex
-        ///
-        ///gl_PatchVerticesIn
-        ///gl_PrimitiveID
-        ///gl_InvocationID
-        ///
-        ///gl_TessLevelOuter
-        ///gl_TessLevelInner
-        ///
-        ///gl_PatchVerticesIn
-        ///gl_PrimitiveID
-        ///gl_TessCoord
-        ///
-        ///gl_FragColor [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Variables {
-            get {
-                return ResourceManager.GetString("Variables", resourceCulture);
             }
         }
     }

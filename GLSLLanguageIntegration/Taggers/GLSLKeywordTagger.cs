@@ -12,17 +12,7 @@ namespace GLSLLanguageIntegration.Taggers
 
         private static TokenSet _tokens = new TokenSet(Resources.Keywords);
 
-        public string GetQuickInfo(string token)
-        {
-            if (_tokens.Contains(token))
-            {
-                return _tokens.GetDescription(token);
-            }
-            else
-            {
-                return null;
-            }
-        }
+        public object GetQuickInfo(string token) => _tokens.Contains(token) ? _tokens.GetInfo(token).ToQuickInfo() : null;
 
         public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {

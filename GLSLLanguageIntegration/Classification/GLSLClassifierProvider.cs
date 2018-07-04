@@ -60,9 +60,6 @@ namespace GLSLLanguageIntegration.Classification
                 var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
                 return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
             }); 
-
-            //var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
-            //return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
         }
     }
 }

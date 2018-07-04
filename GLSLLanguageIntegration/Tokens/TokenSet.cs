@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 
 namespace GLSLLanguageIntegration.Tokens
 {
     public class TokenSet
     {
-        private Dictionary<string, string> _descriptionByToken = new Dictionary<string, string>();
+        private Dictionary<string, TokenInfo> _infoByToken = new Dictionary<string, TokenInfo>();
 
         public TokenSet(string contents)
         {
@@ -37,7 +28,12 @@ namespace GLSLLanguageIntegration.Tokens
 
                         foreach (var token in lines)
                         {
-                            _descriptionByToken.Add(token, description);
+                            var tokenInfo = new TokenInfo(token)
+                            {
+                                Definition = description
+                            };
+
+                            _infoByToken.Add(token, tokenInfo);
                         }
 
                         lines.Clear();
@@ -50,7 +46,7 @@ namespace GLSLLanguageIntegration.Tokens
             }
         }
 
-        public bool Contains(string token) => _descriptionByToken.ContainsKey(token);
-        public string GetDescription(string token) => _descriptionByToken[token];
+        public bool Contains(string token) => _infoByToken.ContainsKey(token);
+        public TokenInfo GetInfo(string token) => _infoByToken[token];
     }
 }

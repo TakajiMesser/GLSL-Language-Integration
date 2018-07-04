@@ -1,11 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace GLSLLanguageIntegration.Classification
@@ -76,7 +71,7 @@ namespace GLSLLanguageIntegration.Classification
         public GLSLIdentifier()
         {
             DisplayName = nameof(GLSLIdentifier);
-            ForegroundColor = Colors.White;
+            ForegroundColor = Colors.YellowGreen;
         }
     }
 

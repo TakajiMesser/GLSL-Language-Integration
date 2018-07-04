@@ -2,13 +2,9 @@
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GLSLLanguageIntegration.Intellisense
 {
@@ -54,14 +50,8 @@ namespace GLSLLanguageIntegration.Intellisense
 
                             var keywordTagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
                             var keywordQuickInfo = keywordTagger.GetQuickInfo(keywordtagSpan.GetText(), tag.Tag.TokenType);
-                            if (!string.IsNullOrEmpty(keywordQuickInfo))
-                            {
-                                quickInfoContent.Add(keywordQuickInfo);
-                            }
-                            else
-                            {
-                                quickInfoContent.Add("Keyword");
-                            }
+
+                            quickInfoContent.Add(keywordQuickInfo ?? "Keyword");
                             break;
                         case GLSLTokenTypes.Type:
                             var typeTagSpan = tag.Span.GetSpans(_buffer).First();
@@ -69,14 +59,8 @@ namespace GLSLLanguageIntegration.Intellisense
 
                             var typeTagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
                             var typeQuickInfo = typeTagger.GetQuickInfo(typeTagSpan.GetText(), tag.Tag.TokenType);
-                            if (!string.IsNullOrEmpty(typeQuickInfo))
-                            {
-                                quickInfoContent.Add(typeQuickInfo);
-                            }
-                            else
-                            {
-                                quickInfoContent.Add("Type");
-                            }
+
+                            quickInfoContent.Add(typeQuickInfo ?? "Type");
                             break;
                     }
                 }

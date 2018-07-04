@@ -1,14 +1,20 @@
 ﻿attribute
+compatibility profile only and vertex language only; same as in when in a vertex shader
 
 const
+a variable whose value cannot be changed
 
 uniform
+value does not change across the primitive being processed, uniforms form the linkage between a shader, OpenGL, and the application
 
 varying
+compatibility profile only and vertex and fragment languages only; same as out when in a vertex shader and same as in when in a fragment shader
 
 buffer
+value is stored in a buffer object, and can be read or written both by shader invocations and the OpenGL API
 
 shared
+compute shader only; variable storage is shared across all work items in a local work group
 
 coherent
 
@@ -25,6 +31,7 @@ atomic_uint
 layout
 
 centroid
+centroid-based interpolation
 
 flat
 
@@ -33,8 +40,10 @@ smooth
 noperspective
 
 patch
+per-tessellation-patch attributes
 
 sample
+per-sample interpolation
 
 break
 
@@ -59,20 +68,15 @@ else
 subroutine
 
 in
+linkage into a shader from a previous stage, variable is copied in
 
 out
+linkage out of a shader to a subsequent stage, variable is copied out
 
 inout
 
-float
-
-double
-
-int
-
 void
-
-bool
+for functions that do not return a value
 
 true
 
@@ -125,6 +129,7 @@ extern
 external
 
 interface
+
 long
 
 short

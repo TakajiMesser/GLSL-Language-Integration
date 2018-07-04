@@ -1,6 +1,5 @@
 ﻿using GLSLLanguageIntegration.Tags;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
@@ -57,9 +56,6 @@ namespace GLSLLanguageIntegration.Outlining
                 var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
                 return new GLSLOutliner(buffer, aggregator) as ITagger<T>;
             });
-
-            //var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
-            //return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
         }
     }
 }

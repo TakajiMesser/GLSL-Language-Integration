@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GLSLLanguageIntegration.Tags
+﻿namespace GLSLLanguageIntegration.Tags
 {
     public enum GLSLTokenTypes
     {
@@ -12,6 +6,13 @@ namespace GLSLLanguageIntegration.Tags
         Comment,
         Keyword,
         Type,
+        InputVariable,
+        OutputVariable,
+        UniformVariable,
+        BufferVariable,
+        SharedVariable,
+        Function,
+        Struct,
         Identifier,
         IntegerConstant,
         FloatingConstant,

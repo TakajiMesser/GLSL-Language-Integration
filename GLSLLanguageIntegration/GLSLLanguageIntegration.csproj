@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Taggers\GLSLConstantTagger.cs" />
     <Compile Include="Taggers\IGLSLTagger.cs" />
     <Compile Include="Tags\GLSLOutlineTag.cs" />
     <Compile Include="Spans\GLSLTagSpanCollection.cs" />
@@ -82,11 +83,12 @@
     <Compile Include="Taggers\GLSLCommentTagger.cs" />
     <Compile Include="Taggers\GLSLTypeTagger.cs" />
     <Compile Include="Spans\GLSLSpanResult.cs" />
-    <Compile Include="Taggers\GLSLVariableTagger.cs" />
+    <Compile Include="Taggers\GLSLIdentifierTagger.cs" />
     <Compile Include="Taggers\GLSLKeywordTagger.cs" />
     <Compile Include="Taggers\GLSLFunctionTagger.cs" />
     <Compile Include="Spans\SpanBuilder.cs" />
     <Compile Include="Tokens\TokenBuilder.cs" />
+    <Compile Include="Tokens\TokenInfo.cs" />
     <Compile Include="Tokens\TokenSet.cs" />
     <Compile Include="Taggers\GLSLPreprocessorTagger.cs" />
     <Compile Include="Tokens\GLSLTokenTagger.cs" />
@@ -121,7 +123,7 @@
     <Content Include="index.html" />
     <Content Include="Resources\Directives.txt" />
     <Content Include="Resources\Types.txt" />
-    <Content Include="Resources\Variables.txt" />
+    <Content Include="Resources\Identifiers.txt" />
     <Content Include="Resources\Keywords.txt" />
     <Content Include="Resources\Functions.txt" />
     <Content Include="stylesheet.css" />
