@@ -62,16 +62,198 @@ namespace GLSLLanguageIntegration.Classification
     }
 
     [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = nameof(GLSLIdentifier))]
-    [Name(nameof(GLSLIdentifier))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLInputVariable))]
+    [Name(nameof(GLSLInputVariable))]
     [UserVisible(true)]
     [Order(Before = Priority.High, After = Priority.Default)]
-    internal sealed class GLSLIdentifier : ClassificationFormatDefinition
+    internal sealed class GLSLInputVariable : ClassificationFormatDefinition
     {
-        public GLSLIdentifier()
+        public GLSLInputVariable()
         {
-            DisplayName = nameof(GLSLIdentifier);
+            DisplayName = nameof(GLSLInputVariable);
+            ForegroundColor = Colors.LightPink;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLOutputVariable))]
+    [Name(nameof(GLSLOutputVariable))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLOutputVariable : ClassificationFormatDefinition
+    {
+        public GLSLOutputVariable()
+        {
+            DisplayName = nameof(GLSLOutputVariable);
+            ForegroundColor = Colors.Pink;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLUniformVariable))]
+    [Name(nameof(GLSLUniformVariable))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLUniformVariable : ClassificationFormatDefinition
+    {
+        public GLSLUniformVariable()
+        {
+            DisplayName = nameof(GLSLUniformVariable);
+            ForegroundColor = Colors.DeepPink;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLBufferVariable))]
+    [Name(nameof(GLSLBufferVariable))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLBufferVariable : ClassificationFormatDefinition
+    {
+        public GLSLBufferVariable()
+        {
+            DisplayName = nameof(GLSLBufferVariable);
+            ForegroundColor = Colors.MediumVioletRed;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLSharedVariable))]
+    [Name(nameof(GLSLSharedVariable))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLSharedVariable : ClassificationFormatDefinition
+    {
+        public GLSLSharedVariable()
+        {
+            DisplayName = nameof(GLSLSharedVariable);
+            ForegroundColor = Colors.PaleVioletRed;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLBuiltInVariable))]
+    [Name(nameof(GLSLBuiltInVariable))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLBuiltInVariable : ClassificationFormatDefinition
+    {
+        public GLSLBuiltInVariable()
+        {
+            DisplayName = nameof(GLSLBuiltInVariable);
             ForegroundColor = Colors.YellowGreen;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLStruct))]
+    [Name(nameof(GLSLStruct))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLStruct : ClassificationFormatDefinition
+    {
+        public GLSLStruct()
+        {
+            DisplayName = nameof(GLSLStruct);
+            ForegroundColor = Colors.ForestGreen;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLIntegerConstant))]
+    [Name(nameof(GLSLIntegerConstant))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLIntegerConstant : ClassificationFormatDefinition
+    {
+        public GLSLIntegerConstant()
+        {
+            DisplayName = nameof(GLSLIntegerConstant);
+            ForegroundColor = Colors.LightSkyBlue;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLFloatingConstant))]
+    [Name(nameof(GLSLFloatingConstant))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLFloatingConstant : ClassificationFormatDefinition
+    {
+        public GLSLFloatingConstant()
+        {
+            DisplayName = nameof(GLSLFloatingConstant);
+            ForegroundColor = Colors.LightSteelBlue;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLBuiltInConstant))]
+    [Name(nameof(GLSLBuiltInConstant))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLBuiltInConstant : ClassificationFormatDefinition
+    {
+        public GLSLBuiltInConstant()
+        {
+            DisplayName = nameof(GLSLBuiltInConstant);
+            ForegroundColor = Colors.PowderBlue;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLFunction))]
+    [Name(nameof(GLSLFunction))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLFunction : ClassificationFormatDefinition
+    {
+        public GLSLFunction()
+        {
+            DisplayName = nameof(GLSLFunction);
+            ForegroundColor = Colors.IndianRed;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLBuiltInFunction))]
+    [Name(nameof(GLSLBuiltInFunction))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLBuiltInFunction : ClassificationFormatDefinition
+    {
+        public GLSLBuiltInFunction()
+        {
+            DisplayName = nameof(GLSLBuiltInFunction);
+            ForegroundColor = Colors.OrangeRed;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLOperator))]
+    [Name(nameof(GLSLOperator))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLOperator : ClassificationFormatDefinition
+    {
+        public GLSLOperator()
+        {
+            DisplayName = nameof(GLSLOperator);
+            ForegroundColor = Colors.SlateGray;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLSemicolon))]
+    [Name(nameof(GLSLSemicolon))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLSemicolon : ClassificationFormatDefinition
+    {
+        public GLSLSemicolon()
+        {
+            DisplayName = nameof(GLSLSemicolon);
+            ForegroundColor = Colors.DimGray;
         }
     }
 
@@ -88,9 +270,4 @@ namespace GLSLLanguageIntegration.Classification
             ForegroundColor = Colors.Gray;
         }
     }
-
-    /*IntegerConstant,
-    FloatingConstant,
-    Operator,
-    Semicolon*/
 }

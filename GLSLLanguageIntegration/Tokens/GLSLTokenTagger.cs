@@ -14,12 +14,17 @@ namespace GLSLLanguageIntegration.Tags
         private TokenBuilder _tokenBuffer = new TokenBuilder();
         private GLSLTagSpanCollection _tagSpans = new GLSLTagSpanCollection();
 
-        private GLSLBracketTagger _bracketTagger = new GLSLBracketTagger();
-        private GLSLCommentTagger _commentTagger = new GLSLCommentTagger();
         private GLSLPreprocessorTagger _preprocessorTagger = new GLSLPreprocessorTagger();
+        private GLSLCommentTagger _commentTagger = new GLSLCommentTagger();
         private GLSLKeywordTagger _keywordTagger = new GLSLKeywordTagger();
         private GLSLTypeTagger _typeTagger = new GLSLTypeTagger();
-        private GLSLIdentifierTagger _identifierTagger = new GLSLIdentifierTagger();
+        private GLSLVariableTagger _variableTagger = new GLSLVariableTagger();
+        private GLSLStructTagger _structTagger = new GLSLStructTagger();
+        private GLSLConstantTagger _constantTagger = new GLSLConstantTagger();
+        private GLSLFunctionTagger _functionTagger = new GLSLFunctionTagger();
+        private GLSLOperatorTagger _operatorTagger = new GLSLOperatorTagger();
+        private GLSLStatementTagger _statementTagger = new GLSLStatementTagger();
+        private GLSLBracketTagger _bracketTagger = new GLSLBracketTagger();
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
@@ -47,8 +52,8 @@ namespace GLSLLanguageIntegration.Tags
                     return _keywordTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.Type:
                     return _typeTagger.GetQuickInfo(token);
-                case GLSLTokenTypes.Identifier:
-                    return _identifierTagger.GetQuickInfo(token);
+                case GLSLTokenTypes.BuiltInVariable:
+                    return _variableTagger.GetQuickInfo(token);
             }
 
             return null;
@@ -159,7 +164,32 @@ namespace GLSLLanguageIntegration.Tags
 
                 if (!result.IsMatch)
                 {
-                    result = _identifierTagger.Match(token, position, span);
+                    result = _variableTagger.Match(token, position, span);
+                }
+
+                if (!result.IsMatch)
+                {
+                    result = _structTagger.Match(token, position, span);
+                }
+
+                if (!result.IsMatch)
+                {
+                    result = _constantTagger.Match(token, position, span);
+                }
+
+                if (!result.IsMatch)
+                {
+                    result = _functionTagger.Match(token, position, span);
+                }
+
+                if (!result.IsMatch)
+                {
+                    result = _operatorTagger.Match(token, position, span);
+                }
+
+                if (!result.IsMatch)
+                {
+                    result = _statementTagger.Match(token, position, span);
                 }
             }
 

@@ -75,6 +75,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Taggers\GLSLConstantTagger.cs" />
+    <Compile Include="Taggers\GLSLStatementTagger.cs" />
+    <Compile Include="Taggers\GLSLOperatorTagger.cs" />
+    <Compile Include="Taggers\GLSLStructTagger.cs" />
+    <Compile Include="Taggers\GLSLVariableTagger.cs" />
     <Compile Include="Taggers\IGLSLTagger.cs" />
     <Compile Include="Tags\GLSLOutlineTag.cs" />
     <Compile Include="Spans\GLSLTagSpanCollection.cs" />
@@ -83,7 +87,6 @@
     <Compile Include="Taggers\GLSLCommentTagger.cs" />
     <Compile Include="Taggers\GLSLTypeTagger.cs" />
     <Compile Include="Spans\GLSLSpanResult.cs" />
-    <Compile Include="Taggers\GLSLIdentifierTagger.cs" />
     <Compile Include="Taggers\GLSLKeywordTagger.cs" />
     <Compile Include="Taggers\GLSLFunctionTagger.cs" />
     <Compile Include="Spans\SpanBuilder.cs" />

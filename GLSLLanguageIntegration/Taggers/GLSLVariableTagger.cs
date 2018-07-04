@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GLSLLanguageIntegration.Properties;
+﻿using GLSLLanguageIntegration.Properties;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tags;
 using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 
 namespace GLSLLanguageIntegration.Taggers
 {
-    public class GLSLIdentifierTagger : IGLSLTagger
+    public class GLSLVariableTagger : IGLSLTagger
     {
-        public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Identifier;
+        public const GLSLTokenTypes INPUT_TOKEN_TYPE = GLSLTokenTypes.InputVariable;
+        public const GLSLTokenTypes OUTPUT_TOKEN_TYPE = GLSLTokenTypes.OutputVariable;
+        public const GLSLTokenTypes UNIFORM_TOKEN_TYPE = GLSLTokenTypes.UniformVariable;
+        public const GLSLTokenTypes BUFFER_TOKEN_TYPE = GLSLTokenTypes.BufferVariable;
+        public const GLSLTokenTypes SHARED_TOKEN_TYPE = GLSLTokenTypes.SharedVariable;
+        public const GLSLTokenTypes BUILT_IN_TOKEN_TYPE = GLSLTokenTypes.SharedVariable;
 
         private TokenSet _tokens = new TokenSet(Resources.Identifiers);
 
@@ -27,7 +21,7 @@ namespace GLSLLanguageIntegration.Taggers
 
         public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {
-            var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            var result = new GLSLSpanResult(BUILT_IN_TOKEN_TYPE, span);
 
             if (_tokens.Contains(token))
             {

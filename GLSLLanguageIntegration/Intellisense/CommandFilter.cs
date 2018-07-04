@@ -146,14 +146,9 @@ namespace GLSLLanguageIntegration.Intellisense
                 SnapshotPoint caret = TextView.Caret.Position.BufferPosition;
                 ITextSnapshot snapshot = caret.Snapshot;
 
-                if (!Broker.IsCompletionActive(TextView))
-                {
-                    _currentSession = Broker.CreateCompletionSession(TextView, snapshot.CreateTrackingPoint(caret, PointTrackingMode.Positive), true);
-                }
-                else
-                {
-                    _currentSession = Broker.GetSessions(TextView)[0];
-                }
+                _currentSession = Broker.IsCompletionActive(TextView)
+                    ? Broker.GetSessions(TextView)[0]
+                    : Broker.CreateCompletionSession(TextView, snapshot.CreateTrackingPoint(caret, PointTrackingMode.Positive), true);
 
                 _currentSession.Dismissed += (sender, args) => _currentSession = null;
                 _currentSession.Start();

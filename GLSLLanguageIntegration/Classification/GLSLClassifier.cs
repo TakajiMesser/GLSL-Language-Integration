@@ -41,7 +41,20 @@ namespace GLSLLanguageIntegration.Classification
                 [GLSLTokenTypes.Comment] = typeService.GetClassificationType(nameof(GLSLComment)),
                 [GLSLTokenTypes.Keyword] = typeService.GetClassificationType(nameof(GLSLKeyword)),
                 [GLSLTokenTypes.Type] = typeService.GetClassificationType(nameof(GLSLType)),
-                [GLSLTokenTypes.Identifier] = typeService.GetClassificationType(nameof(GLSLIdentifier)),
+                [GLSLTokenTypes.InputVariable] = typeService.GetClassificationType(nameof(GLSLInputVariable)),
+                [GLSLTokenTypes.OutputVariable] = typeService.GetClassificationType(nameof(GLSLOutputVariable)),
+                [GLSLTokenTypes.UniformVariable] = typeService.GetClassificationType(nameof(GLSLUniformVariable)),
+                [GLSLTokenTypes.BufferVariable] = typeService.GetClassificationType(nameof(GLSLBufferVariable)),
+                [GLSLTokenTypes.SharedVariable] = typeService.GetClassificationType(nameof(GLSLSharedVariable)),
+                [GLSLTokenTypes.BuiltInVariable] = typeService.GetClassificationType(nameof(GLSLBuiltInVariable)),
+                [GLSLTokenTypes.Struct] = typeService.GetClassificationType(nameof(GLSLStruct)),
+                [GLSLTokenTypes.IntegerConstant] = typeService.GetClassificationType(nameof(GLSLIntegerConstant)),
+                [GLSLTokenTypes.FloatingConstant] = typeService.GetClassificationType(nameof(GLSLFloatingConstant)),
+                [GLSLTokenTypes.BuiltInConstant] = typeService.GetClassificationType(nameof(GLSLBuiltInConstant)),
+                [GLSLTokenTypes.Function] = typeService.GetClassificationType(nameof(GLSLFunction)),
+                [GLSLTokenTypes.BuiltInFunction] = typeService.GetClassificationType(nameof(GLSLBuiltInFunction)),
+                [GLSLTokenTypes.Operator] = typeService.GetClassificationType(nameof(GLSLOperator)),
+                [GLSLTokenTypes.Semicolon] = typeService.GetClassificationType(nameof(GLSLSemicolon)),
                 [GLSLTokenTypes.Bracket] = typeService.GetClassificationType(nameof(GLSLBracket))
             };
         }
