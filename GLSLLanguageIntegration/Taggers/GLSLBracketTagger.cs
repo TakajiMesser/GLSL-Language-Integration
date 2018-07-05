@@ -31,7 +31,7 @@ namespace GLSLLanguageIntegration.Taggers
                     _bracketBuilder.Start = start;
                     string text = span.Snapshot.GetText();
 
-                    int end = GetClosingBracketPosition(text, start); //_bracketBuilder.ConsumeUntil(text, start, "}");
+                    int end = GetClosingBracketPosition(text, start);
                     if (end >= 0)
                     {
                         _bracketBuilder.End = end + 1;
@@ -50,6 +50,12 @@ namespace GLSLLanguageIntegration.Taggers
             }
 
             return result;
+        }
+
+        public void Clear()
+        {
+            _bracketSpans.Clear();
+            _bracketBuilder.Clear();
         }
 
         private int GetClosingBracketPosition(string text, int start)
