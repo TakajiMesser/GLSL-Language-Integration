@@ -22,8 +22,6 @@ namespace GLSLLanguageIntegration.Taggers
             _multiLineCommentBuilder.Snapshot = span.Snapshot;
 
             var result = new GLSLSpanResult(TOKEN_TYPE, span);
-            result.AddSpans(_singleLineComments);
-            result.AddSpans(_multiLineComments);
 
             if (token.Contains("//"))
             {
@@ -46,7 +44,7 @@ namespace GLSLLanguageIntegration.Taggers
                         _singleLineComments.Add(commentTagSpan);
 
                         result.Consumed = commentSpan.Length - token.Length;
-                        result.AddSpan(commentTagSpan);
+                        //result.AddSpan(commentTagSpan);
                     }
                 }
             }
@@ -76,16 +74,28 @@ namespace GLSLLanguageIntegration.Taggers
                         {
                             var outlineTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLOutlineTag(TOKEN_TYPE, text.Substring(start, outlineEnd - start) + "...*/"));
                             _multiLineComments.Add(outlineTagSpan);
-                            result.AddSpan(outlineTagSpan);
+                            //result.AddSpan(outlineTagSpan);
                         }
                         
                         result.Consumed = commentSpan.Length - token.Length;
-                        result.AddSpan(commentTagSpan);
+                        //result.AddSpan(commentTagSpan);
                     }
                 }
             }
 
+            result.AddSpans(_singleLineComments);
+            result.AddSpans(_multiLineComments);
+
             return result;
+        }
+
+        public void Clear()
+        {
+            _singleLineComments.Clear();
+            _multiLineComments.Clear();
+
+            _singleLineCommentBuilder.Clear();
+            _multiLineCommentBuilder.Clear();
         }
     }
 }

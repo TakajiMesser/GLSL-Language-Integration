@@ -34,5 +34,7 @@ namespace GLSLLanguageIntegration.Taggers
 
             return result;
         }
+
+        public void Clear() { }
     }
 }

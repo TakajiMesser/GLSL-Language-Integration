@@ -24,23 +24,27 @@ namespace GLSLLanguageIntegration.Spans
 
         public void AddSpan(TagSpan<IGLSLTag> tagSpan)
         {
-            if (Span.OverlapsWith(tagSpan.Span))
+            var translatedSpan = tagSpan.Span.TranslateTo(Span.Snapshot, SpanTrackingMode.EdgeExclusive);
+
+            if (Span.OverlapsWith(translatedSpan))
             {
-                TagSpans.Add(tagSpan);
+                TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, tagSpan.Tag));
             }
         }
 
         public void AddSpan<T>(SnapshotSpan span) where T : IGLSLTag
         {
-            if (Span.OverlapsWith(span))
+            var translatedSpan = span.TranslateTo(Span.Snapshot, SpanTrackingMode.EdgeExclusive);
+
+            if (Span.OverlapsWith(translatedSpan))
             {
                 if (typeof(T) == typeof(GLSLTokenTag))
                 {
-                    TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLTokenTag(TokenType)));
+                    TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLTokenTag(TokenType)));
                 }
                 else if (typeof(T) == typeof(GLSLOutlineTag))
                 {
-                    TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLOutlineTag(TokenType)));
+                    TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLOutlineTag(TokenType)));
                 }
             }
         }
@@ -49,9 +53,11 @@ namespace GLSLLanguageIntegration.Spans
         {
             foreach (var tagSpan in tagSpans)
             {
-                if (Span.OverlapsWith(tagSpan.Span))
+                var translatedSpan = tagSpan.Span.TranslateTo(Span.Snapshot, SpanTrackingMode.EdgeExclusive);
+
+                if (Span.OverlapsWith(translatedSpan))
                 {
-                    TagSpans.Add(tagSpan);
+                    TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, tagSpan.Tag));
                 }
             }
         }
@@ -60,15 +66,17 @@ namespace GLSLLanguageIntegration.Spans
         {
             foreach (var span in spans)
             {
-                if (Span.OverlapsWith(span))
+                var translatedSpan = span.TranslateTo(Span.Snapshot, SpanTrackingMode.EdgeExclusive);
+
+                if (Span.OverlapsWith(translatedSpan))
                 {
                     if (typeof(T) == typeof(GLSLTokenTag))
                     {
-                        TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLTokenTag(TokenType)));
+                        TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLTokenTag(TokenType)));
                     }
                     else if (typeof(T) == typeof(GLSLOutlineTag))
                     {
-                        TagSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLOutlineTag(TokenType)));
+                        TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLOutlineTag(TokenType)));
                     }
                 }
             }

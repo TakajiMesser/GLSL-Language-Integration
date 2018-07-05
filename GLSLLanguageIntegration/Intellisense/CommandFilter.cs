@@ -19,7 +19,7 @@ namespace GLSLLanguageIntegration.Intellisense
         public CommandFilter(IWpfTextView textView, ICompletionBroker broker)
         {
             _currentSession = null;
-            TextView = TextView;
+            TextView = textView;
             Broker = broker;
         }
 

@@ -12,12 +12,27 @@ namespace GLSLLanguageIntegration.Outlining
         private ITextBuffer _buffer;
         private ITextSnapshot _snapshot;
         private ITagAggregator<IGLSLTag> _aggregator;
+        //private GLSLTagSpanCollection _tagSpans = new GLSLTagSpanCollection();
 
         internal GLSLOutliner(ITextBuffer buffer, ITagAggregator<IGLSLTag> aggregator)
         {
             _buffer = buffer;
             _snapshot = buffer.CurrentSnapshot;
             _aggregator = aggregator;
+
+            _aggregator.TagsChanged += (s, args) =>
+            {
+                var spans = args.Span.GetSpans(_buffer);
+                foreach (var span in spans)
+                {
+                    TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
+                }
+            };
+
+            /*_tagSpans.TagsChanged += (s, args) =>
+            {
+                TagsChanged?.Invoke(this, args);
+            };*/
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;

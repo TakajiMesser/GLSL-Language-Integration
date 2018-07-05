@@ -44,18 +44,43 @@ namespace GLSLLanguageIntegration.Spans
 
         public IEnumerable<TagSpan<IGLSLTag>> GetOverlapping(NormalizedSnapshotSpanCollection spans, ITextSnapshot textSnapshot)
         {
-            var fullSpan = new SnapshotSpan(spans.First().Start, spans.Last().End).TranslateTo(textSnapshot, SpanTrackingMode.EdgeExclusive);
+            var fullSpan = new SnapshotSpan(spans.First().Start, spans.Last().End);
 
             foreach (var tagSpan in _tagSpans)
             {
-                if (tagSpan.Span.IntersectsWith(fullSpan))
+                var translatedSpan = tagSpan.Span.TranslateTo(textSnapshot, SpanTrackingMode.EdgeExclusive);
+
+                if (translatedSpan.IntersectsWith(fullSpan))
                 {
                     // Now check more incrementally
                     foreach (var span in spans)
                     {
-                        if (tagSpan.Span.IntersectsWith(span))
+                        if (translatedSpan.IntersectsWith(span))
                         {
-                            yield return tagSpan;
+                            yield return new TagSpan<IGLSLTag>(translatedSpan, tagSpan.Tag);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<TagSpan<IGLSLTag>> GetOverlapping(INormalizedTextChangeCollection textChanges, ITextSnapshot textSnapshot)
+        {
+            var fullSpan = new Span(textChanges.First().NewSpan.Start, textChanges.Last().NewSpan.End);
+
+            foreach (var tagSpan in _tagSpans)
+            {
+                var translatedSpan = tagSpan.Span.TranslateTo(textSnapshot, SpanTrackingMode.EdgeExclusive);
+
+                if (translatedSpan.IntersectsWith(fullSpan))
+                {
+                    // Now check more incrementally
+                    foreach (var textChange in textChanges)
+                    {
+                        if (translatedSpan.IntersectsWith(textChange.NewSpan))
+                        {
+                            yield return new TagSpan<IGLSLTag>(translatedSpan, tagSpan.Tag);
                             break;
                         }
                     }

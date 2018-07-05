@@ -46,5 +46,11 @@ namespace GLSLLanguageIntegration.Taggers
 
             return result;
         }
+
+        public void Clear()
+        {
+            _spans.Clear();
+            _builder.Clear();
+        }
     }
 }

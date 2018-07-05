@@ -35,13 +35,28 @@ namespace GLSLLanguageIntegration.Tags
             {
                 if (args.After == buffer.CurrentSnapshot)
                 {
-                    ParseBuffer();
+                    // TODO - Avoid re-parsing the entire buffer by only parsing the relevant spans
+                    ParseBuffer();// args.Changes);
                 }
             };
 
-            _tagSpans.TagsChanged += (s, args) => TagsChanged?.Invoke(this, args);
+            _tagSpans.TagsChanged += (s, args) =>
+            {
+                TagsChanged?.Invoke(this, args);
+            };
 
             ParseBuffer();
+        }
+
+        public IEnumerable<ITagSpan<IGLSLTag>> GetTags(NormalizedSnapshotSpanCollection spans)
+        {
+            if (spans.Count > 0)
+            {
+                foreach (var tagSpan in _tagSpans.GetOverlapping(spans, _buffer.CurrentSnapshot))
+                {
+                    yield return tagSpan;
+                }
+            }
         }
 
         public object GetQuickInfo(string token, GLSLTokenTypes tokenType)
@@ -63,11 +78,12 @@ namespace GLSLLanguageIntegration.Tags
             return null;
         }
 
-        public void ParseBuffer()
+        private void ParseBuffer()
         {
-            var textSnapshot = _buffer.CurrentSnapshot;
-
+            ClearTaggers();
             _tokenBuffer.Clear();
+            
+            var textSnapshot = _buffer.CurrentSnapshot;
             _tokenBuffer.Snapshot = textSnapshot;
 
             var text = textSnapshot.GetText();
@@ -86,18 +102,49 @@ namespace GLSLLanguageIntegration.Tags
             _tagSpans.Update(textSnapshot, newTagSpans);
         }
 
-        public IEnumerable<ITagSpan<IGLSLTag>> GetTags(NormalizedSnapshotSpanCollection spans)
+        private void ParseBuffer(INormalizedTextChangeCollection textChanges)
         {
-            _tokenBuffer.Clear();
-            _tokenBuffer.Snapshot = _buffer.CurrentSnapshot;
+            var textSnapshot = _buffer.CurrentSnapshot;
 
-            if (spans.Count > 0)
+            _tokenBuffer.Clear();
+            _tokenBuffer.Snapshot = textSnapshot;
+
+            _tagSpans.GetOverlapping(textChanges, textSnapshot);
+
+            foreach (var textChange in textChanges)
             {
-                foreach (var tagSpan in _tagSpans.GetOverlapping(spans, _buffer.CurrentSnapshot))
+                //textChange.
+            }
+
+            var text = textSnapshot.GetText();
+
+            var newTagSpans = new List<TagSpan<IGLSLTag>>();
+
+            for (var i = 0; i < text.Length; i++)
+            {
+                foreach (var result in ProcessCharacter(text[i], i))
                 {
-                    yield return tagSpan;
+                    newTagSpans.AddRange(result.TagSpans);
+                    i += result.Consumed;
                 }
             }
+
+            _tagSpans.Update(textSnapshot, newTagSpans);
+        }
+
+        private void ClearTaggers()
+        {
+            _preprocessorTagger.Clear();
+            _commentTagger.Clear();
+            _keywordTagger.Clear();
+            _typeTagger.Clear();
+            _variableTagger.Clear();
+            _structTagger.Clear();
+            _constantTagger.Clear();
+            _functionTagger.Clear();
+            _operatorTagger.Clear();
+            _statementTagger.Clear();
+            _bracketTagger.Clear();
         }
 
         private IEnumerable<GLSLSpanResult> ProcessCharacter(char character, int position)

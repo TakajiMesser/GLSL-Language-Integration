@@ -6,5 +6,6 @@ namespace GLSLLanguageIntegration.Taggers
     public interface IGLSLTagger
     {
         GLSLSpanResult Match(string token, int position, SnapshotSpan span);
+        void Clear();
     }
 }

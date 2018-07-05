@@ -13,27 +13,28 @@ namespace GLSLLanguageIntegration.Classification
         private ITextBuffer _buffer;
         private ITagAggregator<IGLSLTag> _aggregator;
         private Dictionary<GLSLTokenTypes, IClassificationType> _glslTypes;
+        //private GLSLTagSpanCollection _tagSpans = new GLSLTagSpanCollection();
+
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
         internal GLSLClassifier(ITextBuffer buffer, ITagAggregator<IGLSLTag> glslTagAggregator, IClassificationTypeRegistryService typeService)
         {
             _buffer = buffer;
-            /*_buffer.Changed += (s, args) =>
-            {
-                if (args.After == buffer.CurrentSnapshot)
-                {
-                    _aggregator
-                }
-            };*/
 
             _aggregator = glslTagAggregator;
             _aggregator.TagsChanged += (s, args) =>
             {
-                /*var spans = args.Span.GetSpans(_buffer);
+                var spans = args.Span.GetSpans(_buffer);
                 foreach (var span in spans)
                 {
                     TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
-                }*/
+                }
             };
+
+            /*_tagSpans.TagsChanged += (s, args) =>
+            {
+                TagsChanged?.Invoke(this, args);
+            };*/
 
             _glslTypes = new Dictionary<GLSLTokenTypes, IClassificationType>
             {
@@ -58,8 +59,6 @@ namespace GLSLLanguageIntegration.Classification
                 [GLSLTokenTypes.Bracket] = typeService.GetClassificationType(nameof(GLSLBracket))
             };
         }
-
-        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
         public IEnumerable<ITagSpan<ClassificationTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
