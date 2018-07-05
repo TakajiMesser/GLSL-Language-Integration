@@ -133,48 +133,38 @@ a double-precision floating-point matrix with 4 columns and 3 rows
 dmat4x4
 same as a dmat4
 
-sampler1D
-image1D
+sampler1D,image1D
 a handle for accessing a 1D texture
 
-sampler2D
-image2D
+sampler2D,image2D
 a handle for accessing a 2D texture
 
-sampler3D
-image3D
+sampler3D,image3D
 a handle for accessing a 3D texture
 
-samplerCube
-imageCube
+samplerCube,imageCube
 a handle for accessing a cube mapped texture
 
 sampler2DRect
 image2DRect
 a handle for accessing a rectangle texture
 
-sampler1DArray
-image1DArray
+sampler1DArray,image1DArray
 a handle for accessing a 1D array texture
 
-sampler2DArray
-image2DArray
+sampler2DArray,image2DArray
 a handle for accessing a 2D array texture
 
-samplerBuffer
-imageBuffer
+samplerBuffer,imageBuffer
 a handle for accessing a buffer texture
 
-sampler2DMS
-image2DMS
+sampler2DMS,image2DMS
 a handle for accessing a 2D multi-sample texture
 
-sampler2DMSArray
-image2DMSArray
+sampler2DMSArray,image2DMSArray
 a handle for accessing a 2D multi-sample array texture
 
-samplerCubeArray
-imageCubeArray
+samplerCubeArray,imageCubeArray
 a handle for accessing a cube map array texture
 
 sampler1DShadow
@@ -198,93 +188,71 @@ a handle for accessing a cube map depth texture with comparison
 samplerCubeArrayShadow
 a handle for accessing a cube map array depth texture with comparison
 
-isampler1D
-iimage1D
+isampler1D,iimage1D
 a handle for accessing an integer 1D texture
 
-isampler2D
-iimage2D
+isampler2D,iimage2D
 a handle for accessing an integer 2D texture
 
-isampler3D
-iimage3D
+isampler3D,iimage3D
 a handle for accessing an integer 3D texture
 
-isamplerCube
-iimageCube
+isamplerCube,iimageCube
 a handle for accessing an integer cube mapped texture
 
-isampler2DRect
-iimage2DRect
+isampler2DRect,iimage2DRect
 a handle for accessing an integer 2D rectangle texture
 
-isampler1DArray
-iimage1DArray
+isampler1DArray,iimage1DArray
 a handle for accessing an integer 1D array texture
 
-isampler2DArray
-iimage2DArray
+isampler2DArray,iimage2DArray
 a handle for accessing an integer 2D array texture
 
-isamplerBuffer
-iimageBuffer
+isamplerBuffer,iimageBuffer
 a handle for accessing an integer buffer texture
 
-isampler2DMS
-iimage2DMS
+isampler2DMS,iimage2DMS
 a handle for accessing an integer 2D multi-sample texture
 
-isampler2DMSArray
-iimage2DMSArray
+isampler2DMSArray,iimage2DMSArray
 a handle for accessing an integer 2D multi-sample array texture
 
-isamplerCubeArray
-iimageCubeArray
+isamplerCubeArray,iimageCubeArray
 a handle for accessing an integer cube map array texture
 
 atomic_uint
 a handle for accessing an unsigned integer atomic counter
 
-usampler1D
-uimage1D
+usampler1D,uimage1D
 a handle for accessing an unsigned integer 1D texture
 
-usampler2D
-uimage2D
+usampler2D,uimage2D
 a handle for accessing an unsigned integer 2D texture
 
-usampler3D
-uimage3D
+usampler3D,uimage3D
 a handle for accessing an unsigned integer 3D texture
 
-usamplerCube
-uimageCube
+usamplerCube,uimageCube
 a handle for accessing an unsigned integer cube mapped texture
 
-usampler2DRect
-uimage2DRect
+usampler2DRect,uimage2DRect
 a handle for accessing an unsigned integer rectangle texture
 
-usampler1DArray
-uimage1DArray
+usampler1DArray,uimage1DArray
 a handle for accessing an unsigned integer 1D array texture
 
-usampler2DArray
-uimage2DArray
+usampler2DArray,uimage2DArray
 a handle for accessing an unsigned integer 2D array texture
 
-usamplerBuffer
-uimageBuffer
+usamplerBuffer,uimageBuffer
 a handle for accessing an unsigned integer buffer texture
 
-usampler2DMS
-uimage2DMS
+usampler2DMS,uimage2DMS
 a handle for accessing an unsigned integer 2D multi-sample texture
 
-usampler2DMSArray
-uimage2DMSArray
+usampler2DMSArray,uimage2DMSArray
 a handle for accessing an unsigned integer 2D multi-sample texture array
 
-usamplerCubeArray
-uimageCubeArray
+usamplerCubeArray,uimageCubeArray
 a handle for accessing an unsigned integer cube map array texture

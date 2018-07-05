@@ -2,6 +2,7 @@
 using GLSLLanguageIntegration.Tags;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
+using System;
 using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Taggers
@@ -30,7 +31,7 @@ namespace GLSLLanguageIntegration.Taggers
                     _bracketBuilder.Start = start;
                     string text = span.Snapshot.GetText();
 
-                    int end = _bracketBuilder.ConsumeUntil(text, start, "}");
+                    int end = GetClosingBracketPosition(text, start); //_bracketBuilder.ConsumeUntil(text, start, "}");
                     if (end >= 0)
                     {
                         _bracketBuilder.End = end + 1;
@@ -49,6 +50,25 @@ namespace GLSLLanguageIntegration.Taggers
             }
 
             return result;
+        }
+
+        private int GetClosingBracketPosition(string text, int start)
+        {
+            int position = _bracketBuilder.ConsumeUntil(text, start, "{", "}");
+            if (position >= 0)
+            {
+                switch (text[position])
+                {
+                    case '{':
+                        int end = GetClosingBracketPosition(text, position);
+                        int doubleEnd = GetClosingBracketPosition(text, end);
+                        return doubleEnd;
+                    case '}':
+                        return position;
+                }
+            }
+
+            throw new ArgumentException("Closing bracket not found in text");
         }
     }
 }

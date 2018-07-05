@@ -54,6 +54,10 @@ namespace GLSLLanguageIntegration.Tags
                     return _typeTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.BuiltInVariable:
                     return _variableTagger.GetQuickInfo(token);
+                case GLSLTokenTypes.BuiltInFunction:
+                    return _functionTagger.GetQuickInfo(token);
+                case GLSLTokenTypes.BuiltInConstant:
+                    return _constantTagger.GetQuickInfo(token);
             }
 
             return null;

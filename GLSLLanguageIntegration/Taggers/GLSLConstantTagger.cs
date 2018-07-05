@@ -1,5 +1,7 @@
-﻿using GLSLLanguageIntegration.Spans;
+﻿using GLSLLanguageIntegration.Properties;
+using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tags;
+using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 
 namespace GLSLLanguageIntegration.Taggers
@@ -10,19 +12,26 @@ namespace GLSLLanguageIntegration.Taggers
         public const GLSLTokenTypes FLOAT_TOKEN_TYPE = GLSLTokenTypes.FloatingConstant;
         public const GLSLTokenTypes BUILT_IN_TOKEN_TYPE = GLSLTokenTypes.BuiltInConstant;
 
+        private TokenSet _tokens = new TokenSet(Resources.Constants);
+
+        public object GetQuickInfo(string token) => _tokens.Contains(token) ? _tokens.GetInfo(token).ToQuickInfo() : null;
+
         public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {
-            var result = new GLSLSpanResult(INT_TOKEN_TYPE, span);
+            var result = new GLSLSpanResult(BUILT_IN_TOKEN_TYPE, span);
 
-            /*var builder = new SpanBuilder()
+            if (_tokens.Contains(token))
             {
-                Snapshot = span.Snapshot,
-                Start = position - token.Length,
-                End = position
-            };
+                var builder = new SpanBuilder()
+                {
+                    Snapshot = span.Snapshot,
+                    Start = position - token.Length,
+                    End = position
+                };
 
-            result.Consumed = 0;
-            result.AddSpan<GLSLTokenTag>(builder.ToSpan());*/
+                result.Consumed = 0;
+                result.AddSpan<GLSLTokenTag>(builder.ToSpan());
+            }
 
             return result;
         }

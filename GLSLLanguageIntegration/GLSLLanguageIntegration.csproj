@@ -114,6 +114,7 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="TestFiles\deferred2.frag" />
     <None Include="TestFiles\deferred.frag" />
     <None Include="TestFiles\deferred.geom" />
     <None Include="TestFiles\deferred.tesc" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="Resources\Directives.txt" />
+    <Content Include="Resources\Constants.txt" />
     <Content Include="Resources\Types.txt" />
     <Content Include="Resources\Identifiers.txt" />
     <Content Include="Resources\Keywords.txt" />

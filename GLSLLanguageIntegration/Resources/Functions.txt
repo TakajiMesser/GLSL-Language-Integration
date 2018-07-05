@@ -1,14 +1,22 @@
 ﻿radians
+Converts degrees to radians, i.e., pi / 180 ⋅degrees
 
 degrees
+Converts radians to degrees, i.e., 180 / pi radians
 
 sin
+The standard trigonometric sine function.
 
 cos
+The standard trigonometric cosine function.
 
 tan
+The standard trigonometric tangent.
 
 asin
+Arc sine. Returns an angle whose sine is x.
+The range of values returned by this function is [−pi / 2, pi / 2]
+Results are undefined if ∣x∣ > 1.
 
 acos
 

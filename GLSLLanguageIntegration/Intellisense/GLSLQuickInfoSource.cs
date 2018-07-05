@@ -39,32 +39,49 @@ namespace GLSLLanguageIntegration.Intellisense
                             applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(preprocessorTagSpan, SpanTrackingMode.EdgeExclusive);
                             quickInfoContent.Add("Preprocessor");
                             break;
-                        case GLSLTokenTypes.Comment:
-                            var commentTagSpan = tag.Span.GetSpans(_buffer).First();
-                            applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(commentTagSpan, SpanTrackingMode.EdgeExclusive);
-                            quickInfoContent.Add("Comment");
-                            break;
                         case GLSLTokenTypes.Keyword:
-                            var keywordtagSpan = tag.Span.GetSpans(_buffer).First();
-                            applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(keywordtagSpan, SpanTrackingMode.EdgeExclusive);
-
-                            var keywordTagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
-                            var keywordQuickInfo = keywordTagger.GetQuickInfo(keywordtagSpan.GetText(), tag.Tag.TokenType);
-
-                            quickInfoContent.Add(keywordQuickInfo ?? "Keyword");
+                            quickInfoContent.Add(GetQuickInfo(tag, "Keyword", out applicableToSpan));
                             break;
                         case GLSLTokenTypes.Type:
-                            var typeTagSpan = tag.Span.GetSpans(_buffer).First();
-                            applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(typeTagSpan, SpanTrackingMode.EdgeExclusive);
-
-                            var typeTagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
-                            var typeQuickInfo = typeTagger.GetQuickInfo(typeTagSpan.GetText(), tag.Tag.TokenType);
-
-                            quickInfoContent.Add(typeQuickInfo ?? "Type");
+                            quickInfoContent.Add(GetQuickInfo(tag, "Type", out applicableToSpan));
+                            break;
+                        case GLSLTokenTypes.InputVariable:
+                        case GLSLTokenTypes.OutputVariable:
+                        case GLSLTokenTypes.UniformVariable:
+                        case GLSLTokenTypes.BufferVariable:
+                        case GLSLTokenTypes.SharedVariable:
+                        case GLSLTokenTypes.BuiltInVariable:
+                            quickInfoContent.Add(GetQuickInfo(tag, "Variable", out applicableToSpan));
+                            break;
+                        case GLSLTokenTypes.Struct:
+                            break;
+                        case GLSLTokenTypes.IntegerConstant:
+                        case GLSLTokenTypes.FloatingConstant:
+                        case GLSLTokenTypes.BuiltInConstant:
+                            break;
+                        case GLSLTokenTypes.Function:
+                        case GLSLTokenTypes.BuiltInFunction:
+                            break;
+                        case GLSLTokenTypes.Operator:
+                            break;
+                        case GLSLTokenTypes.Semicolon:
+                            break;
+                        case GLSLTokenTypes.Bracket:
                             break;
                     }
                 }
             }
+        }
+
+        private object GetQuickInfo(IMappingTagSpan<IGLSLTag> tag, string baseText, out ITrackingSpan applicableToSpan)
+        {
+            var tagSpan = tag.Span.GetSpans(_buffer).First();
+            applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
+
+            var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
+            var quickInfo = tagger.GetQuickInfo(tagSpan.GetText(), tag.Tag.TokenType);
+
+            return quickInfo ?? baseText;
         }
 
         public void Dispose()

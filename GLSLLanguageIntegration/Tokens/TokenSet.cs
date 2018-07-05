@@ -19,21 +19,23 @@ namespace GLSLLanguageIntegration.Tokens
                 {
                     if (lines.Count > 0)
                     {
-                        string description = "";
+                        var names = lines.First().Split(',');
+                        string description = null;
+
                         if (lines.Count > 1)
                         {
-                            description = lines.Last();
-                            lines.RemoveAt(lines.Count - 1);
+                            description = string.Join(Environment.NewLine, lines.Skip(1));
                         }
 
-                        foreach (var token in lines)
+                        foreach (var name in names)
                         {
-                            var tokenInfo = new TokenInfo(token)
+                            var tokenInfo = new TokenInfo(name)
                             {
                                 Definition = description
                             };
 
-                            _infoByToken.Add(token, tokenInfo);
+                            //_infoByToken.Add(name, tokenInfo);
+                            _infoByToken[name] = tokenInfo;
                         }
 
                         lines.Clear();

@@ -61,6 +61,55 @@ namespace GLSLLanguageIntegration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to radians
+        ///Converts degrees to radians, i.e., pi / 180 ⋅degrees
+        ///
+        ///degrees
+        ///Converts radians to degrees, i.e., 180 / pi radians
+        ///
+        ///sin
+        ///The standard trigonometric sine function.
+        ///
+        ///cos
+        ///The standard trigonometric cosine function.
+        ///
+        ///tan
+        ///The standard trigonometric tangent.
+        ///
+        ///asin
+        ///Arc sine. Returns an angle whose sine is x.
+        ///The range of values returned by this function is [−pi / 2, pi / 2]
+        ///Results are undefined if ∣x∣ &gt; 1.
+        ///
+        ///acos
+        ///
+        ///atan
+        ///
+        ///sinh
+        ///
+        ///cosh
+        ///
+        ///tanh
+        ///
+        ///asinh
+        ///
+        ///acosh
+        ///
+        ///atanh
+        ///
+        ///pow
+        ///
+        ///exp
+        ///
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Constants {
+            get {
+                return ResourceManager.GetString("Constants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to #
         ///
         ///#define
@@ -102,16 +151,24 @@ namespace GLSLLanguageIntegration.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to radians
+        ///Converts degrees to radians, i.e., pi / 180 ⋅degrees
         ///
         ///degrees
+        ///Converts radians to degrees, i.e., 180 / pi radians
         ///
         ///sin
+        ///The standard trigonometric sine function.
         ///
         ///cos
+        ///The standard trigonometric cosine function.
         ///
         ///tan
+        ///The standard trigonometric tangent.
         ///
         ///asin
+        ///Arc sine. Returns an angle whose sine is x.
+        ///The range of values returned by this function is [−pi / 2, pi / 2]
+        ///Results are undefined if ∣x∣ &gt; 1.
         ///
         ///acos
         ///
@@ -133,54 +190,7 @@ namespace GLSLLanguageIntegration.Properties {
         ///
         ///exp
         ///
-        ///log
-        ///
-        ///exp2
-        ///
-        ///log2
-        ///
-        ///sqrt
-        ///
-        ///inversesqrt
-        ///
-        ///abs
-        ///
-        ///sign
-        ///
-        ///floor
-        ///
-        ///trunc
-        ///
-        ///round
-        ///
-        ///roundEven
-        ///
-        ///ceil
-        ///
-        ///fract
-        ///
-        ///mod
-        ///
-        ///modf
-        ///
-        ///min
-        ///
-        ///max
-        ///
-        ///clamp
-        ///
-        ///mix
-        ///
-        ///step
-        ///
-        ///smoothstep
-        ///
-        ///isnan isinf
-        ///floatBitsToInt floatBitsToUint 
-        ///intBitsToFloat uintBitsToFloat
-        ///fma frexp ldexp
-        ///packUnorm2x16 packSnorm2x16 packUnorm4x8 packSnorm4x8 
-        ///unpackUnorm2x16 unpackSnorm2x16 unpackUnorm4 [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Functions {
             get {
@@ -215,17 +225,9 @@ namespace GLSLLanguageIntegration.Properties {
         ///
         ///gl_PointSize
         ///
-        ///gl_ClipDistance
-        ///
-        ///gl_CullDistance
-        ///
         ///gl_in
         ///
         ///gl_PrimitiveIDIn
-        ///
-        ///gl_InvocationID
-        ///
-        ///gl_PrimitiveID
         ///
         ///gl_Layer
         ///
@@ -233,17 +235,25 @@ namespace GLSLLanguageIntegration.Properties {
         ///
         ///gl_PatchVerticesIn
         ///
-        ///gl_PrimitiveID
-        ///
         ///gl_InvocationID
         ///
         ///gl_TessLevelOuter
         ///
         ///gl_TessLevelInner
         ///
-        ///gl_PatchVerticesIn
+        ///gl_TessCoord
         ///
-        ///gl [rest of string was truncated]&quot;;.
+        ///gl_FragColor
+        ///
+        ///gl_FragCoord
+        ///
+        ///gl_FrontFacing
+        ///
+        ///gl_ClipDistance
+        ///
+        ///gl_CullDistance
+        ///
+        ///gl_PointCoord [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Identifiers {
             get {
