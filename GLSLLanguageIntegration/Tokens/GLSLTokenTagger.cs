@@ -1,12 +1,11 @@
 ﻿using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Taggers;
-using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
 
-namespace GLSLLanguageIntegration.Tags
+namespace GLSLLanguageIntegration.Tokens
 {
     internal sealed class GLSLTokenTagger : ITagger<IGLSLTag>
     {

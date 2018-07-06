@@ -1,5 +1,5 @@
 ﻿using GLSLLanguageIntegration.Spans;
-using GLSLLanguageIntegration.Tags;
+using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 
 namespace GLSLLanguageIntegration.Taggers

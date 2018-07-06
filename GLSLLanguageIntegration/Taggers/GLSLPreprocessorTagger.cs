@@ -1,5 +1,6 @@
-﻿using GLSLLanguageIntegration.Spans;
-using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Classification;
+using GLSLLanguageIntegration.Spans;
+using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using System.Collections.Generic;
 
@@ -39,7 +40,7 @@ namespace GLSLLanguageIntegration.Taggers
                         _spans.Add(preprocessorSpan);
 
                         result.Consumed = preprocessorSpan.Length - token.Length;
-                        result.AddSpan<GLSLTokenTag>(preprocessorSpan);
+                        result.AddSpan<GLSLClassifierTag>(preprocessorSpan);
                     }
                 }
             }

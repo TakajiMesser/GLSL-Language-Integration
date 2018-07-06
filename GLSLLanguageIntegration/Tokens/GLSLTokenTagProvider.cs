@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 
-namespace GLSLLanguageIntegration.Tags
+namespace GLSLLanguageIntegration.Tokens
 {
     [Export(typeof(ITaggerProvider))]
     [TagType(typeof(IGLSLTag))]

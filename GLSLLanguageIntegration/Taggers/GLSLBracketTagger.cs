@@ -1,5 +1,6 @@
-﻿using GLSLLanguageIntegration.Spans;
-using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Outlining;
+using GLSLLanguageIntegration.Spans;
+using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
@@ -9,7 +10,9 @@ namespace GLSLLanguageIntegration.Taggers
 {
     public class GLSLBracketTagger : IGLSLTagger
     {
-        public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Bracket;
+        public const GLSLTokenTypes PARENTHESIS_TOKEN_TYPE = GLSLTokenTypes.Parenthesis;
+        public const GLSLTokenTypes CURLY_TOKEN_TYPE = GLSLTokenTypes.CurlyBracket;
+        public const GLSLTokenTypes SQUARE_TOKEN_TYPE = GLSLTokenTypes.SquareBracket;
 
         private List<SnapshotSpan> _bracketSpans = new List<SnapshotSpan>();
         private SpanBuilder _bracketBuilder = new SpanBuilder();
@@ -18,7 +21,7 @@ namespace GLSLLanguageIntegration.Taggers
         {
             _bracketBuilder.Snapshot = span.Snapshot;
 
-            var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            var result = new GLSLSpanResult(CURLY_TOKEN_TYPE, span);
             result.AddSpans<GLSLOutlineTag>(_bracketSpans);
 
             if (token.Contains("{"))
@@ -41,7 +44,7 @@ namespace GLSLLanguageIntegration.Taggers
                         int outlineEnd = _bracketBuilder.ConsumeUntil(text, start, "\r", "\n");
                         if (outlineEnd >= 0)
                         {
-                            var bracketTagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(TOKEN_TYPE, text.Substring(start, outlineEnd - start) + "...}"));
+                            var bracketTagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(CURLY_TOKEN_TYPE, text.Substring(start, outlineEnd - start) + "...}"));
                             _bracketSpans.Add(bracketTagSpan.Span);
                             result.AddSpan(bracketTagSpan);
                         }

@@ -1,4 +1,4 @@
-﻿using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Classification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
@@ -16,13 +16,13 @@ namespace GLSLLanguageIntegration.Tokens
 
         private StringBuilder _builder = new StringBuilder();
 
-        public TagSpan<GLSLTokenTag> GetTag(SnapshotSpan span, GLSLTokenTypes type)
+        public TagSpan<GLSLClassifierTag> GetTag(SnapshotSpan span, GLSLTokenTypes type)
         {
             var tokenSpan = Span;
 
             if (tokenSpan.IntersectsWith(span))
             {
-                return new TagSpan<GLSLTokenTag>(tokenSpan, new GLSLTokenTag(type));
+                return new TagSpan<GLSLClassifierTag>(tokenSpan, new GLSLClassifierTag(type));
             }
 
             return null;

@@ -67,6 +67,10 @@
     <Compile Include="Classification\GLSLClassifier.cs" />
     <Compile Include="Classification\ClassificationType.cs" />
     <Compile Include="Classification\ClassificationFormat.cs" />
+    <Compile Include="Highlighting\HighlightFormatDefinition.cs" />
+    <Compile Include="Highlighting\GLSLHighlightTag.cs" />
+    <Compile Include="Highlighting\GLSLHighlighter.cs" />
+    <Compile Include="Highlighting\GLSLHighlighterProvider.cs" />
     <Compile Include="Outlining\GLSLOutlinerProvider.cs" />
     <Compile Include="Outlining\GLSLOutliner.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -80,9 +84,9 @@
     <Compile Include="Taggers\GLSLStructTagger.cs" />
     <Compile Include="Taggers\GLSLVariableTagger.cs" />
     <Compile Include="Taggers\IGLSLTagger.cs" />
-    <Compile Include="Tags\GLSLOutlineTag.cs" />
+    <Compile Include="Outlining\GLSLOutlineTag.cs" />
     <Compile Include="Spans\GLSLTagSpanCollection.cs" />
-    <Compile Include="Tags\IGLSLTag.cs" />
+    <Compile Include="Tokens\IGLSLTag.cs" />
     <Compile Include="Taggers\GLSLBracketTagger.cs" />
     <Compile Include="Taggers\GLSLCommentTagger.cs" />
     <Compile Include="Taggers\GLSLTypeTagger.cs" />
@@ -97,7 +101,7 @@
     <Compile Include="Tokens\GLSLTokenTagger.cs" />
     <Compile Include="Tokens\GLSLTokenTagProvider.cs" />
     <Compile Include="Tokens\GLSLTokenTypes.cs" />
-    <Compile Include="Tags\GLSLTokenTag.cs" />
+    <Compile Include="Classification\GLSLClassifierTag.cs" />
     <Compile Include="Intellisense\VsTextViewCreationListener.cs" />
     <Compile Include="Intellisense\GLSLCompletionSourceProvider.cs" />
     <Compile Include="Intellisense\GLSLQuickInfoSourceProvider.cs" />

@@ -1,20 +1,21 @@
 ﻿using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 
-namespace GLSLLanguageIntegration.Classification
+namespace GLSLLanguageIntegration.Outlining
 {
-    [Export(typeof(ITaggerProvider))]
-    [TagType(typeof(ClassificationTag))]
+    [Export(typeof(IViewTaggerProvider))]
+    [TagType(typeof(TextMarkerTag))]
     [ContentType("glsl")]
-    internal sealed class GLSLClassifierProvider : ITaggerProvider
+    internal sealed class GLSLHighlighterProvider : IViewTaggerProvider
     {
         [Export]
         [Name("glsl")]
-        [BaseDefinition("code")]
+        [BaseDefinition("text")]
         internal static ContentTypeDefinition GLSLContentType = null;
 
         [Export]
@@ -48,18 +49,32 @@ namespace GLSLLanguageIntegration.Classification
         internal static FileExtensionToContentTypeDefinition FragFileType = null;
 
         [Import]
-        internal IClassificationTypeRegistryService ClassificationTypeRegistry { get; set; }
+        internal ITextSearchService TextSearchService { get; set; }
+
+        [Import]
+        internal ITextStructureNavigatorSelectorService TextStructureNavigatorSelector { get; set; }
 
         [Import]
         internal IBufferTagAggregatorFactoryService _aggregatorFactory = null;
 
-        public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
+        public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
-            return buffer.Properties.GetOrCreateSingletonProperty(() =>
+            if (textView.TextBuffer != buffer)
             {
-                var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
-                return new GLSLClassifier(buffer, aggregator, ClassificationTypeRegistry) as ITagger<T>;
-            }); 
+                return null;
+            }
+            else
+            {
+                return buffer.Properties.GetOrCreateSingletonProperty(() =>
+                {
+                    var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
+                    var navigator = TextStructureNavigatorSelector.GetTextStructureNavigator(buffer);
+                    return new GLSLHighlighter(textView, buffer, TextSearchService, navigator, aggregator) as ITagger<T>;
+                });
+
+                //var navigator = TextStructureNavigatorSelector.GetTextStructureNavigator(buffer);
+                //return new GLSLHighlighter(textView, buffer, TextSearchService, navigator) as ITagger<T>;
+            }
         }
     }
 }

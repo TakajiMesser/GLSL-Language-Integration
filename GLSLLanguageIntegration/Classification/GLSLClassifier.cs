@@ -1,4 +1,4 @@
-﻿using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -56,7 +56,9 @@ namespace GLSLLanguageIntegration.Classification
                 [GLSLTokenTypes.BuiltInFunction] = typeService.GetClassificationType(nameof(GLSLBuiltInFunction)),
                 [GLSLTokenTypes.Operator] = typeService.GetClassificationType(nameof(GLSLOperator)),
                 [GLSLTokenTypes.Semicolon] = typeService.GetClassificationType(nameof(GLSLSemicolon)),
-                [GLSLTokenTypes.Bracket] = typeService.GetClassificationType(nameof(GLSLBracket))
+                [GLSLTokenTypes.Parenthesis] = typeService.GetClassificationType(nameof(GLSLParenthesis)),
+                [GLSLTokenTypes.CurlyBracket] = typeService.GetClassificationType(nameof(GLSLCurlyBracket)),
+                [GLSLTokenTypes.SquareBracket] = typeService.GetClassificationType(nameof(GLSLSquareBracket))
             };
         }
 
@@ -66,7 +68,7 @@ namespace GLSLLanguageIntegration.Classification
 
             foreach (var tag in _aggregator.GetTags(spans))
             {
-                if (tag.Tag is GLSLTokenTag)
+                if (tag.Tag is GLSLClassifierTag)
                 {
                     foreach (var span in tag.Span.GetSpans(textSnapshot))
                     {

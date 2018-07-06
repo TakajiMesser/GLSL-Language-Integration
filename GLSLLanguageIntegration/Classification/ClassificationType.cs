@@ -79,7 +79,15 @@ namespace GLSLLanguageIntegration.Classification
         internal static ClassificationTypeDefinition glslSemicolon = null;
 
         [Export(typeof(ClassificationTypeDefinition))]
-        [Name(nameof(GLSLBracket))]
-        internal static ClassificationTypeDefinition glslBracket = null;
+        [Name(nameof(GLSLParenthesis))]
+        internal static ClassificationTypeDefinition glslParenthesis = null;
+
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name(nameof(GLSLCurlyBracket))]
+        internal static ClassificationTypeDefinition glslCurlyBracket = null;
+
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name(nameof(GLSLSquareBracket))]
+        internal static ClassificationTypeDefinition glslSquareBracket = null;
     }
 }

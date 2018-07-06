@@ -1,4 +1,4 @@
-﻿namespace GLSLLanguageIntegration.Tags
+﻿namespace GLSLLanguageIntegration.Tokens
 {
     public enum GLSLTokenTypes
     {
@@ -20,6 +20,8 @@
         BuiltInFunction,
         Operator,
         Semicolon,
-        Bracket
+        Parenthesis,
+        CurlyBracket,
+        SquareBracket
     }
 }

@@ -1,6 +1,6 @@
-﻿using GLSLLanguageIntegration.Properties;
+﻿using GLSLLanguageIntegration.Classification;
+using GLSLLanguageIntegration.Properties;
 using GLSLLanguageIntegration.Spans;
-using GLSLLanguageIntegration.Tags;
 using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 
@@ -33,7 +33,7 @@ namespace GLSLLanguageIntegration.Taggers
                 };
 
                 result.Consumed = 0;
-                result.AddSpan<GLSLTokenTag>(builder.ToSpan());
+                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
             }
 
             return result;

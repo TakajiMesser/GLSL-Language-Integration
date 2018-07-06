@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.Text.Tagging;
+﻿using GLSLLanguageIntegration.Tokens;
+using Microsoft.VisualStudio.Text.Tagging;
 
-namespace GLSLLanguageIntegration.Tags
+namespace GLSLLanguageIntegration.Outlining
 {
     public class GLSLOutlineTag : IGLSLTag
     {

@@ -1,5 +1,7 @@
-﻿using GLSLLanguageIntegration.Spans;
-using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Classification;
+using GLSLLanguageIntegration.Outlining;
+using GLSLLanguageIntegration.Spans;
+using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
@@ -40,7 +42,7 @@ namespace GLSLLanguageIntegration.Taggers
                         var commentSpan = _singleLineCommentBuilder.ToSpan();
                         _singleLineCommentBuilder.Clear();
 
-                        var commentTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLTokenTag(TOKEN_TYPE));
+                        var commentTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLClassifierTag(TOKEN_TYPE));
                         _singleLineComments.Add(commentTagSpan);
 
                         result.Consumed = commentSpan.Length - token.Length;
@@ -66,7 +68,7 @@ namespace GLSLLanguageIntegration.Taggers
                         var commentSpan = _multiLineCommentBuilder.ToSpan();
                         _multiLineCommentBuilder.Clear();
 
-                        var commentTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLTokenTag(TOKEN_TYPE));
+                        var commentTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLClassifierTag(TOKEN_TYPE));
                         _multiLineComments.Add(commentTagSpan);
 
                         int outlineEnd = _multiLineCommentBuilder.ConsumeUntil(text, start, "\r", "\n");

@@ -1,4 +1,4 @@
-﻿using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -66,7 +66,9 @@ namespace GLSLLanguageIntegration.Intellisense
                             break;
                         case GLSLTokenTypes.Semicolon:
                             break;
-                        case GLSLTokenTypes.Bracket:
+                        case GLSLTokenTypes.Parenthesis:
+                        case GLSLTokenTypes.CurlyBracket:
+                        case GLSLTokenTypes.SquareBracket:
                             break;
                     }
                 }

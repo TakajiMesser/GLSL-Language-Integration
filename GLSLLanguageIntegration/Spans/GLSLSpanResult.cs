@@ -1,4 +1,6 @@
-﻿using GLSLLanguageIntegration.Tags;
+﻿using GLSLLanguageIntegration.Classification;
+using GLSLLanguageIntegration.Outlining;
+using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace GLSLLanguageIntegration.Spans
         {
             TokenType = tokenType;
             Span = span;
+            Consumed = 0;
         }
 
         public void AddSpan(TagSpan<IGLSLTag> tagSpan)
@@ -38,9 +41,9 @@ namespace GLSLLanguageIntegration.Spans
 
             if (Span.OverlapsWith(translatedSpan))
             {
-                if (typeof(T) == typeof(GLSLTokenTag))
+                if (typeof(T) == typeof(GLSLClassifierTag))
                 {
-                    TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLTokenTag(TokenType)));
+                    TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLClassifierTag(TokenType)));
                 }
                 else if (typeof(T) == typeof(GLSLOutlineTag))
                 {
@@ -70,9 +73,9 @@ namespace GLSLLanguageIntegration.Spans
 
                 if (Span.OverlapsWith(translatedSpan))
                 {
-                    if (typeof(T) == typeof(GLSLTokenTag))
+                    if (typeof(T) == typeof(GLSLClassifierTag))
                     {
-                        TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLTokenTag(TokenType)));
+                        TagSpans.Add(new TagSpan<IGLSLTag>(translatedSpan, new GLSLClassifierTag(TokenType)));
                     }
                     else if (typeof(T) == typeof(GLSLOutlineTag))
                     {

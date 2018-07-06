@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text.Tagging;
 
-namespace GLSLLanguageIntegration.Tags
+namespace GLSLLanguageIntegration.Tokens
 {
     public interface IGLSLTag : ITag
     {

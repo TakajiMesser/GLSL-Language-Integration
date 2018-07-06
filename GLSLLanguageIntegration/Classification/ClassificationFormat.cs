@@ -258,15 +258,43 @@ namespace GLSLLanguageIntegration.Classification
     }
 
     [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = nameof(GLSLBracket))]
-    [Name(nameof(GLSLBracket))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLParenthesis))]
+    [Name(nameof(GLSLParenthesis))]
     [UserVisible(true)]
     [Order(Before = Priority.High, After = Priority.Default)]
-    internal sealed class GLSLBracket : ClassificationFormatDefinition
+    internal sealed class GLSLParenthesis : ClassificationFormatDefinition
     {
-        public GLSLBracket()
+        public GLSLParenthesis()
         {
-            DisplayName = nameof(GLSLBracket);
+            DisplayName = nameof(GLSLParenthesis);
+            ForegroundColor = Colors.Gray;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLCurlyBracket))]
+    [Name(nameof(GLSLCurlyBracket))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLCurlyBracket : ClassificationFormatDefinition
+    {
+        public GLSLCurlyBracket()
+        {
+            DisplayName = nameof(GLSLCurlyBracket);
+            ForegroundColor = Colors.Gray;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLSquareBracket))]
+    [Name(nameof(GLSLSquareBracket))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLSquareBracket : ClassificationFormatDefinition
+    {
+        public GLSLSquareBracket()
+        {
+            DisplayName = nameof(GLSLSquareBracket);
             ForegroundColor = Colors.Gray;
         }
     }
