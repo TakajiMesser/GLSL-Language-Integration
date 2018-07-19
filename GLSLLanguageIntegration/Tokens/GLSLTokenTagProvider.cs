@@ -12,10 +12,7 @@ namespace GLSLLanguageIntegration.Tokens
     {
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return buffer.Properties.GetOrCreateSingletonProperty(() =>
-            {
-                return new GLSLTokenTagger(buffer) as ITagger<T>;
-            });
+            return buffer.Properties.GetOrCreateSingletonProperty(() => new GLSLTokenTagger(buffer) as ITagger<T>);
         }
     }
 }
