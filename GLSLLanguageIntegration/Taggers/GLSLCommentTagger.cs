@@ -46,7 +46,6 @@ namespace GLSLLanguageIntegration.Taggers
                         _singleLineComments.Add(commentTagSpan);
 
                         result.Consumed = commentSpan.Length - token.Length;
-                        //result.AddSpan(commentTagSpan);
                     }
                 }
             }
@@ -76,11 +75,9 @@ namespace GLSLLanguageIntegration.Taggers
                         {
                             var outlineTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLOutlineTag(TOKEN_TYPE, text.Substring(start, outlineEnd - start) + "...*/"));
                             _multiLineComments.Add(outlineTagSpan);
-                            //result.AddSpan(outlineTagSpan);
                         }
                         
                         result.Consumed = commentSpan.Length - token.Length;
-                        //result.AddSpan(commentTagSpan);
                     }
                 }
             }

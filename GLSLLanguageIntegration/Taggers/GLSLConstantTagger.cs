@@ -13,7 +13,7 @@ namespace GLSLLanguageIntegration.Taggers
         public const GLSLTokenTypes FLOAT_TOKEN_TYPE = GLSLTokenTypes.FloatingConstant;
         public const GLSLTokenTypes BUILT_IN_TOKEN_TYPE = GLSLTokenTypes.BuiltInConstant;
 
-        private TokenSet _builtInTokens = new TokenSet(Resources.Constants);
+        private TokenSet _builtInTokens = new TokenSet(Resources.Constants, BUILT_IN_TOKEN_TYPE);
 
         public object GetQuickInfo(string token) => _builtInTokens.Contains(token) ? _builtInTokens.GetInfo(token).ToQuickInfo() : null;
 
@@ -33,29 +33,23 @@ namespace GLSLLanguageIntegration.Taggers
                 result = new GLSLSpanResult(BUILT_IN_TOKEN_TYPE, span);
                 result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
             }
-            else if (IsIntegerConstant(token))
-            {
-                result = new GLSLSpanResult(INT_TOKEN_TYPE, span);
-                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
-            }
             else if (IsFloatingConstant(token))
             {
                 result = new GLSLSpanResult(FLOAT_TOKEN_TYPE, span);
+                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
+            }
+            else if (IsIntegerConstant(token))
+            {
+                result = new GLSLSpanResult(INT_TOKEN_TYPE, span);
                 result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
             }
 
             return result;
         }
 
-        private bool IsIntegerConstant(string token)
-        {
-            return Regex.Match(token, @"(0x|0X)*\d+(u|U)*").Success;
-        }
+        private bool IsFloatingConstant(string token) => Regex.Match(token, @"^\d+\.\d+(f|F|lf|LF)?$").Success;
 
-        private bool IsFloatingConstant(string token)
-        {
-            return Regex.Match(token, @"\d+\.\d+(f|F|lf|LF)?").Success;
-        }
+        private bool IsIntegerConstant(string token) => Regex.Match(token, @"^(0x|0X)*\d+(u|U)*$").Success;
 
         public void Clear() { }
     }

@@ -12,6 +12,7 @@
         BufferVariable,
         SharedVariable,
         BuiltInVariable,
+        LocalVariable,
         Struct,
         IntegerConstant,
         FloatingConstant,

@@ -61,51 +61,211 @@ namespace GLSLLanguageIntegration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to radians
-        ///Converts degrees to radians, i.e., pi / 180 ⋅degrees
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_16x {
+            get {
+                object obj = ResourceManager.GetObject("Comment_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Comment_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_16x_32 {
+            get {
+                object obj = ResourceManager.GetObject("Comment_16x_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap comment_16xMD {
+            get {
+                object obj = ResourceManager.GetObject("comment_16xMD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_16xMD_32 {
+            get {
+                object obj = ResourceManager.GetObject("Comment_16xMD_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap comment_16xSM {
+            get {
+                object obj = ResourceManager.GetObject("comment_16xSM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_16xSM_24 {
+            get {
+                object obj = ResourceManager.GetObject("Comment_16xSM_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_16xSM_32 {
+            get {
+                object obj = ResourceManager.GetObject("Comment_16xSM_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_16xSM_Green24 {
+            get {
+                object obj = ResourceManager.GetObject("Comment_16xSM_Green24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Comment_noHalo_16x {
+            get {
+                object obj = ResourceManager.GetObject("Comment_noHalo_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CommentFilled_16x {
+            get {
+                object obj = ResourceManager.GetObject("CommentFilled_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Constant_16x {
+            get {
+                object obj = ResourceManager.GetObject("Constant_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Constant_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Constant_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Constant_left_16x {
+            get {
+                object obj = ResourceManager.GetObject("Constant_left_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Constant_left_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Constant_left_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Constant_left_16x_32 {
+            get {
+                object obj = ResourceManager.GetObject("Constant_left_16x_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to const ivec3 gl_MaxComputeWorkGroupCount = { 65535, 65535, 65535 };
         ///
-        ///degrees
-        ///Converts radians to degrees, i.e., 180 / pi radians
+        ///const ivec3 gl_MaxComputeWorkGroupSize = { 1024, 1024, 64 };
         ///
-        ///sin
-        ///The standard trigonometric sine function.
+        ///const int gl_MaxComputeUniformComponents = 512;
         ///
-        ///cos
-        ///The standard trigonometric cosine function.
+        ///const int gl_MaxComputeTextureImageUnits = 16;
         ///
-        ///tan
-        ///The standard trigonometric tangent.
+        ///const int gl_MaxComputeImageUniforms = 8;
         ///
-        ///asin
-        ///Arc sine. Returns an angle whose sine is x.
-        ///The range of values returned by this function is [−pi / 2, pi / 2]
-        ///Results are undefined if ∣x∣ &gt; 1.
+        ///const int gl_MaxComputeAtomicCounters = 8;
         ///
-        ///acos
+        ///const int gl_MaxComputeAtomicCounterBuffers = 8;
         ///
-        ///atan
+        ///const int gl_MaxVertexAttribs = 16;
         ///
-        ///sinh
+        ///const int gl_MaxVertexUniformComponents = 1024;
         ///
-        ///cosh
+        ///const int gl_MaxVaryingComponents = 60;
         ///
-        ///tanh
-        ///
-        ///asinh
-        ///
-        ///acosh
-        ///
-        ///atanh
-        ///
-        ///pow
-        ///
-        ///exp
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///c [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Constants {
             get {
                 return ResourceManager.GetString("Constants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap data_number_on_16x {
+            get {
+                object obj = ResourceManager.GetObject("data_number_on_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap data_number_on_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("data_number_on_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -280,6 +440,146 @@ namespace GLSLLanguageIntegration.Properties {
         internal static string Keywords {
             get {
                 return ResourceManager.GetString("Keywords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Numeric_16x {
+            get {
+                object obj = ResourceManager.GetObject("Numeric_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Numeric_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Numeric_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Numeric_16x_32 {
+            get {
+                object obj = ResourceManager.GetObject("Numeric_16x_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Numeric_16xMD {
+            get {
+                object obj = ResourceManager.GetObject("Numeric_16xMD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Numeric_16xMD_24 {
+            get {
+                object obj = ResourceManager.GetObject("Numeric_16xMD_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Numeric_16xMD_32 {
+            get {
+                object obj = ResourceManager.GetObject("Numeric_16xMD_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Operator_16x {
+            get {
+                object obj = ResourceManager.GetObject("Operator_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Operator_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Operator_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Operator_16x_32 {
+            get {
+                object obj = ResourceManager.GetObject("Operator_16x_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Operator_Grey_16x {
+            get {
+                object obj = ResourceManager.GetObject("Operator_Grey_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Operator_left_16x {
+            get {
+                object obj = ResourceManager.GetObject("Operator_left_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Operator_left_16x_24 {
+            get {
+                object obj = ResourceManager.GetObject("Operator_left_16x_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Operator_left_16x_32 {
+            get {
+                object obj = ResourceManager.GetObject("Operator_left_16x_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OperatorCircle_16x {
+            get {
+                object obj = ResourceManager.GetObject("OperatorCircle_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

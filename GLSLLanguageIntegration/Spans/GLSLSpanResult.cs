@@ -11,7 +11,6 @@ namespace GLSLLanguageIntegration.Spans
     {
         public GLSLTokenTypes TokenType { get; private set; }
         public SnapshotSpan Span { get; private set; }
-
         public int Consumed { get; set; }
 
         public List<TagSpan<IGLSLTag>> TagSpans { get; private set; } = new List<TagSpan<IGLSLTag>>();
@@ -22,7 +21,6 @@ namespace GLSLLanguageIntegration.Spans
         {
             TokenType = tokenType;
             Span = span;
-            Consumed = 0;
         }
 
         public void AddSpan(TagSpan<IGLSLTag> tagSpan)

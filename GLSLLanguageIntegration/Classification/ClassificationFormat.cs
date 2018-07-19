@@ -146,6 +146,20 @@ namespace GLSLLanguageIntegration.Classification
     }
 
     [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLLocalVariable))]
+    [Name(nameof(GLSLLocalVariable))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLLocalVariable : ClassificationFormatDefinition
+    {
+        public GLSLLocalVariable()
+        {
+            DisplayName = nameof(GLSLLocalVariable);
+            ForegroundColor = Colors.WhiteSmoke;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = nameof(GLSLStruct))]
     [Name(nameof(GLSLStruct))]
     [UserVisible(true)]

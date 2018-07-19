@@ -1,8 +1,15 @@
 ﻿using GLSLLanguageIntegration.Classification;
+using GLSLLanguageIntegration.Properties;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GLSLLanguageIntegration.Taggers
 {
@@ -14,6 +21,8 @@ namespace GLSLLanguageIntegration.Taggers
 
         private List<SnapshotSpan> _spans = new List<SnapshotSpan>();
         private SpanBuilder _builder = new SpanBuilder();
+
+        public object GetQuickInfo(string token) => new TokenInfo("Preprocessor", TOKEN_TYPE).ToQuickInfo();
 
         public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {

@@ -11,7 +11,7 @@ namespace GLSLLanguageIntegration.Taggers
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Function;
         public const GLSLTokenTypes BUILT_IN_TOKEN_TYPE = GLSLTokenTypes.BuiltInFunction;
 
-        private TokenSet _tokens = new TokenSet(Resources.Functions);
+        private TokenSet _tokens = new TokenSet(Resources.Functions, BUILT_IN_TOKEN_TYPE);
 
         public object GetQuickInfo(string token) => _tokens.Contains(token) ? _tokens.GetInfo(token).ToQuickInfo() : null;
 

@@ -118,22 +118,118 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CommentFilled_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\CommentFilled_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="comment_16xMD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\comment_16xMD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_16xMD_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_16xMD_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="comment_16xSM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\comment_16xSM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_16xSM_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_16xSM_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_16xSM_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_16xSM_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_16xSM_Green24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_16xSM_Green24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_16x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_16x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_16x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_16x_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Comment_noHalo_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Comment\Comment_noHalo_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Constants" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Constants.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Definitions\Constants.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Constant_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Constant\Constant_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Constant_16x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Constant\Constant_16x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Constant_left_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Constant\Constant_left_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Constant_left_16x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Constant\Constant_left_16x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Constant_left_16x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Constant\Constant_left_16x_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="data_number_on_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\data_number_on_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="data_number_on_16x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\data_number_on_16x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Directives" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Directives.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Definitions\Directives.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Functions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Functions.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Definitions\Functions.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Identifiers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Identifiers.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Definitions\Identifiers.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Keywords" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Keywords.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Definitions\Keywords.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Numeric_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\Numeric_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Numeric_16xMD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\Numeric_16xMD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Numeric_16xMD_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\Numeric_16xMD_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Numeric_16xMD_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\Numeric_16xMD_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Numeric_16x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\Numeric_16x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Numeric_16x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Numeric\Numeric_16x_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OperatorCircle_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\OperatorCircle_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operator_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\Operator_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operator_16x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\Operator_16x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operator_16x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\Operator_16x_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operator_Grey_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\Operator_Grey_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operator_left_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\Operator_left_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operator_left_16x_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\Operator_left_16x_24.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Operator_left_16x_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Operator\Operator_left_16x_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Types" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Types.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Definitions\Types.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

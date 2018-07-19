@@ -10,9 +10,9 @@ namespace GLSLLanguageIntegration.Taggers
     {
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Type;
 
-        private TokenSet _tokens = new TokenSet(Resources.Types);
+        private TokenSet _tokens = new TokenSet(Resources.Types, TOKEN_TYPE);
 
-        public object GetQuickInfo(string token) => _tokens.Contains(token)? _tokens.GetInfo(token).ToQuickInfo() : null;
+        public object GetQuickInfo(string token) => _tokens.Contains(token)? _tokens.GetInfo(token).ToQuickInfo() : "Type";
 
         public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {

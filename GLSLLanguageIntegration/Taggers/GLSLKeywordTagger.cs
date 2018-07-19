@@ -10,7 +10,7 @@ namespace GLSLLanguageIntegration.Taggers
     {
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Keyword;
 
-        private static TokenSet _tokens = new TokenSet(Resources.Keywords);
+        private static TokenSet _tokens = new TokenSet(Resources.Keywords, TOKEN_TYPE);
 
         public object GetQuickInfo(string token) => _tokens.Contains(token) ? _tokens.GetInfo(token).ToQuickInfo() : null;
 

@@ -9,7 +9,12 @@ namespace GLSLLanguageIntegration.Tokens
     {
         private Dictionary<string, TokenInfo> _infoByToken = new Dictionary<string, TokenInfo>();
 
-        public TokenSet(string contents)
+        public TokenSet(string contents, GLSLTokenTypes glslType)
+        {
+            ParseContentForTokens(contents, glslType);
+        }
+
+        private void ParseContentForTokens(string contents, GLSLTokenTypes glslType)
         {
             var lines = new List<string>();
 
@@ -29,12 +34,11 @@ namespace GLSLLanguageIntegration.Tokens
 
                         foreach (var name in names)
                         {
-                            var tokenInfo = new TokenInfo(name)
+                            var tokenInfo = new TokenInfo(name, glslType)
                             {
                                 Definition = description
                             };
 
-                            //_infoByToken.Add(name, tokenInfo);
                             _infoByToken[name] = tokenInfo;
                         }
 
