@@ -160,6 +160,20 @@ namespace GLSLLanguageIntegration.Classification
     }
 
     [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLParameterVariable))]
+    [Name(nameof(GLSLParameterVariable))]
+    [UserVisible(true)]
+    [Order(Before = Priority.High, After = Priority.Default)]
+    internal sealed class GLSLParameterVariable : ClassificationFormatDefinition
+    {
+        public GLSLParameterVariable()
+        {
+            DisplayName = nameof(GLSLParameterVariable);
+            ForegroundColor = Colors.WhiteSmoke;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = nameof(GLSLStruct))]
     [Name(nameof(GLSLStruct))]
     [UserVisible(true)]

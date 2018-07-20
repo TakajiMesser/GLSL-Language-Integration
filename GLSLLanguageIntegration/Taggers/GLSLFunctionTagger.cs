@@ -17,7 +17,7 @@ namespace GLSLLanguageIntegration.Taggers
 
         public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
         {
-            var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            var result = new GLSLSpanResult(BUILT_IN_TOKEN_TYPE, span);
 
             if (_tokens.Contains(token))
             {

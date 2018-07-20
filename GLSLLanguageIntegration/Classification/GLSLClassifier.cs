@@ -49,6 +49,7 @@ namespace GLSLLanguageIntegration.Classification
                 [GLSLTokenTypes.SharedVariable] = typeService.GetClassificationType(nameof(GLSLSharedVariable)),
                 [GLSLTokenTypes.BuiltInVariable] = typeService.GetClassificationType(nameof(GLSLBuiltInVariable)),
                 [GLSLTokenTypes.LocalVariable] = typeService.GetClassificationType(nameof(GLSLLocalVariable)),
+                [GLSLTokenTypes.ParameterVariable] = typeService.GetClassificationType(nameof(GLSLParameterVariable)),
                 [GLSLTokenTypes.Struct] = typeService.GetClassificationType(nameof(GLSLStruct)),
                 [GLSLTokenTypes.IntegerConstant] = typeService.GetClassificationType(nameof(GLSLIntegerConstant)),
                 [GLSLTokenTypes.FloatingConstant] = typeService.GetClassificationType(nameof(GLSLFloatingConstant)),

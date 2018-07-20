@@ -97,6 +97,7 @@
     <Compile Include="Taggers\GLSLFunctionTagger.cs" />
     <Compile Include="Spans\SpanBuilder.cs" />
     <Compile Include="Tokens\TokenBuilder.cs" />
+    <Compile Include="Tokens\VariableInfo.cs" />
     <Compile Include="Tokens\TokenInfo.cs" />
     <Compile Include="Tokens\TokenSet.cs" />
     <Compile Include="Taggers\GLSLPreprocessorTagger.cs" />

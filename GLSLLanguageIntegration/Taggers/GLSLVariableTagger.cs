@@ -22,6 +22,9 @@ namespace GLSLLanguageIntegration.Taggers
         private List<TagSpan<IGLSLTag>> _inputVariables = new List<TagSpan<IGLSLTag>>();
         private List<TagSpan<IGLSLTag>> _outputVariables = new List<TagSpan<IGLSLTag>>();
         private List<TagSpan<IGLSLTag>> _uniformVariables = new List<TagSpan<IGLSLTag>>();
+        private List<TagSpan<IGLSLTag>> _localVariables = new List<TagSpan<IGLSLTag>>();
+
+        private Dictionary<string, VariableInfo> _variableInfoByToken = new Dictionary<string, VariableInfo>();
 
         private TokenSet _tokens = new TokenSet(Resources.Identifiers, BUILT_IN_TOKEN_TYPE);
 
@@ -31,17 +34,9 @@ namespace GLSLLanguageIntegration.Taggers
             {
                 return _tokens.GetInfo(token).ToQuickInfo();
             }
-            else if (_inputVariables.Any(v => v.Span.GetText() == token))
+            else if (_variableInfoByToken.ContainsKey(token))
             {
-                return new TokenInfo(token, GLSLTokenTypes.InputVariable).ToQuickInfo();
-            }
-            else if (_outputVariables.Any(v => v.Span.GetText() == token))
-            {
-                return new TokenInfo(token, GLSLTokenTypes.OutputVariable).ToQuickInfo();
-            }
-            else if (_uniformVariables.Any(v => v.Span.GetText() == token))
-            {
-                return new TokenInfo(token, GLSLTokenTypes.UniformVariable).ToQuickInfo();
+                return _variableInfoByToken[token].ToQuickInfo();
             }
             else
             {
@@ -49,7 +44,7 @@ namespace GLSLLanguageIntegration.Taggers
             }
         }
 
-        public GLSLSpanResult AddToken(string token, int position, SnapshotSpan span, GLSLTokenTypes type)
+        public GLSLSpanResult AddToken(string token, string variableType, int position, SnapshotSpan span, GLSLTokenTypes type)
         {
             var builder = new SpanBuilder()
             {
@@ -60,7 +55,7 @@ namespace GLSLLanguageIntegration.Taggers
 
             var result = new GLSLSpanResult(type, span);
             result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
-
+            
             switch (type)
             {
                 case GLSLTokenTypes.InputVariable:
@@ -72,7 +67,12 @@ namespace GLSLLanguageIntegration.Taggers
                 case GLSLTokenTypes.UniformVariable:
                     _uniformVariables.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(type)));
                     break;
+                case GLSLTokenTypes.LocalVariable:
+                    _localVariables.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(type)));
+                    break;
             }
+
+            _variableInfoByToken[token] = new VariableInfo(token, variableType, type);
 
             return result;
         }
@@ -119,12 +119,22 @@ namespace GLSLLanguageIntegration.Taggers
             {
                 return GLSLTokenTypes.UniformVariable;
             }
+            else if (_localVariables.Any(v => v.Span.GetText() == token))
+            {
+                return GLSLTokenTypes.LocalVariable;
+            }
             else
             {
                 return null;
             }
         }
 
-        public void Clear() { }
+        public void Clear()
+        {
+            _inputVariables.Clear();
+            _outputVariables.Clear();
+            _uniformVariables.Clear();
+            _localVariables.Clear();
+        }
     }
 }

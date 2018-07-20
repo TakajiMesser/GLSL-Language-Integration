@@ -162,6 +162,8 @@ namespace GLSLLanguageIntegration.Tokens
             switch (character)
             {
                 case var value when char.IsWhiteSpace(character):
+                case ')':
+                case '}':
                     yield return ProcessBuffer(position);
                     break;
                 case '.':
@@ -207,11 +209,6 @@ namespace GLSLLanguageIntegration.Tokens
                 {
                     var tokenResult = _statementBuilder.GetTokenAt(i);
 
-                    var token = tokenResult.Token;
-                    var type = tokenResult.TokenType;
-                    var start = tokenResult.StartPosition;
-                    var end = tokenResult.EndPosition;
-
                     if (!tokenResult.TokenType.HasValue)
                     {
                         if (i > 0)
@@ -228,33 +225,29 @@ namespace GLSLLanguageIntegration.Tokens
                                         switch (previousPreviousResult.Token)
                                         {
                                             case "uniform":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.UniformVariable);
+                                                yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.UniformVariable);
                                                 break;
                                             case "in":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.InputVariable);
+                                                yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.InputVariable);
                                                 break;
                                             case "out":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.OutputVariable);
+                                                yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.OutputVariable);
                                                 break;
                                         }
                                     }
                                     else
                                     {
-                                        yield return _variableTagger.AddToken(tokenResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
+                                        yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
                                     }
+                                }
+                                else
+                                {
+                                    yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
                                 }
                             }
                         }
                     }
                 }
-
-                /*foreach (var tokenResult in _statementBuilder.Tokens)
-                {
-                    var token = tokenResult.Token;
-                    var type = tokenResult.TokenType;
-                    var start = tokenResult.StartPosition;
-                    var end = tokenResult.EndPosition;
-                }*/
 
                 _statementBuilder.Clear();
             }

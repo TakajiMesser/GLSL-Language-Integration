@@ -13,6 +13,7 @@
         SharedVariable,
         BuiltInVariable,
         LocalVariable,
+        ParameterVariable,
         Struct,
         IntegerConstant,
         FloatingConstant,

@@ -35,7 +35,11 @@ namespace GLSLLanguageIntegration.Tokens
             };
             DockPanel.SetDock(image, Dock.Left);
 
-            var titleBlock = GetTitle();
+            var titleBlock = new TextBlock()
+            {
+                Foreground = Brushes.White,
+                Text = GetTitle()
+            };
             DockPanel.SetDock(titleBlock, Dock.Right);
 
             dockPanel.Children.Add(image);
@@ -56,38 +60,27 @@ namespace GLSLLanguageIntegration.Tokens
             return stackPanel;
         }
 
-        private TextBlock GetTitle()
+        protected virtual string GetTitle()
         {
-            var textBlock = new TextBlock()
-            {
-                Foreground = Brushes.White
-            };
-
             switch (GLSLType)
             {
                 case GLSLTokenTypes.Preprocessor:
-                    textBlock.Text = "Preprocessor";
-                    break;
+                    return "Preprocessor";
                 case GLSLTokenTypes.Keyword:
-                    textBlock.Text = "(Keyword) " + Token;
-                    break;
+                    return "(Keyword) " + Token;
                 case GLSLTokenTypes.Type:
-                    textBlock.Text = "(Type) " + Token;
-                    break;
+                    return "(Type) " + Token;
                 case GLSLTokenTypes.InputVariable:
-                    textBlock.Text = "(Input Variable) " + Token;
-                    break;
+                    return "(Input Variable) " + Token;
                 case GLSLTokenTypes.OutputVariable:
-                    textBlock.Text = "(Output Variable) " + Token;
-                    break;
+                    return "(Output Variable) " + Token;
                 case GLSLTokenTypes.UniformVariable:
-                    textBlock.Text = "(Uniform Variable) " + Token;
-                    break;
+                    return "(Uniform Variable) " + Token;
+                case GLSLTokenTypes.LocalVariable:
+                    return "(Local Variable) " + Token;
                 default:
-                    throw new NotImplementedException("Could not handle type " + Enum.GetName(typeof(GLSLTokenTypes), GLSLType));
+                    return Token;
             }
-
-            return textBlock;
         }
 
         private BitmapImage GetImageSource()

@@ -51,6 +51,10 @@ namespace GLSLLanguageIntegration.Classification
         internal static ClassificationTypeDefinition glslLocalVariable = null;
 
         [Export(typeof(ClassificationTypeDefinition))]
+        [Name(nameof(GLSLParameterVariable))]
+        internal static ClassificationTypeDefinition glslParameterVariable = null;
+
+        [Export(typeof(ClassificationTypeDefinition))]
         [Name(nameof(GLSLStruct))]
         internal static ClassificationTypeDefinition glslStruct = null;
 

@@ -1,258 +1,258 @@
 ﻿void
-for functions that do not return a value
+For functions that do not return a value.
 
 bool
-a conditional type, taking on values of true or false
+A conditional type, taking on values of true or false.
 
 int
-a signed integer
+A signed integer.
 
 uint
-an unsigned integer
+An unsigned integer.
 
 float
-a single-precision floating-point scalar
+A single-precision floating-point scalar.
 
 double
-a double-precision floating-point scalar
+A double-precision floating-point scalar.
 
 vec2
-a two-component single-precision floating-point vector
+A two-component single-precision floating-point vector.
 
 vec3
-a three-component single-precision floating-point vector
+A three-component single-precision floating-point vector.
 
 vec4
-a four-component single-precision floating-point vector
+A four-component single-precision floating-point vector.
 
 dvec2
-a two-component double-precision floating-point vector
+A two-component double-precision floating-point vector.
 
 dvec3
-a three-component double-precision floating-point vector
+A three-component double-precision floating-point vector.
 
 dvec4
-a four-component double-precision floating-point vector
+A four-component double-precision floating-point vector.
 
 bvec2
-a two-component Boolean vector
+A two-component Boolean vector.
 
 bvec3
-a three-component Boolean vector
+A three-component Boolean vector.
 
 bvec4
-a four-component Boolean vector
+A four-component Boolean vector.
 
 ivec2
-a two-component signed integer vector
+A two-component signed integer vector.
 
-ivec3
-a three-component signed integer vector
+vec3
+A three-component signed integer vector.
 
 ivec4
-a four-component signed integer vector
+A four-component signed integer vector.
 
 uvec2
-a two-component unsigned integer vector
+A two-component unsigned integer vector.
 
 uvec3
-a three-component unsigned integer vector
+A three-component unsigned integer vector.
 
 uvec4
-a four-component unsigned integer vector
+A four-component unsigned integer vector.
 
 mat2
-a 2×2 single-precision floating-point matrix
+A 2×2 single-precision floating-point matrix.
 
 mat3
-a 3×3 single-precision floating-point matrix
+A 3×3 single-precision floating-point matrix.
 
 mat4
-a 4×4 single-precision floating-point matrix
+A 4×4 single-precision floating-point matrix.
 
 mat2x2
-same as a mat2
+Same as a mat2.
 
 mat2x3
-a single-precision floating-point matrix with 2 columns and 3 rows
+A single-precision floating-point matrix with 2 columns and 3 rows.
 
 mat2x4
-a single-precision floating-point matrix with 2 columns and 4 rows
+A single-precision floating-point matrix with 2 columns and 4 rows.
 
 mat3x2
-a single-precision floating-point matrix with 3 columns and 2 rows
+A single-precision floating-point matrix with 3 columns and 2 rows.
 
 mat3x3
-same as a mat3
+Same as a mat3.
 
 mat3x4
-a single-precision floating-point matrix with 3 columns and 4 rows
+A single-precision floating-point matrix with 3 columns and 4 rows.
 
 mat4x2
-a single-precision floating-point matrix with 4 columns and 2 rows
+A single-precision floating-point matrix with 4 columns and 2 rows.
 
 mat4x3
-a single-precision floating-point matrix with 4 columns and 3 rows
+A single-precision floating-point matrix with 4 columns and 3 rows.
 
 mat4x4
-same as a mat4
+Same as a mat4.
 
 dmat2
-a 2×2 double-precision floating-point matrix
+A 2×2 double-precision floating-point matrix.
 
 dmat3
-a 3×3 double-precision floating-point matrix
+A 3×3 double-precision floating-point matrix.
 
 dmat4
-a 4×4 double-precision floating-point matrix
+A 4×4 double-precision floating-point matrix.
 
 dmat2x2
-same as a dmat2
+Same as a dmat2.
 
 dmat2x3
-a double-precision floating-point matrix with 2 columns and 3 rows
+A double-precision floating-point matrix with 2 columns and 3 rows.
 
 dmat2x4
-a double-precision floating-point matrix with 2 columns and 4 rows
+A double-precision floating-point matrix with 2 columns and 4 rows.
 
 dmat3x2
-a double-precision floating-point matrix with 3 columns and 2 rows
+A double-precision floating-point matrix with 3 columns and 2 rows.
 
 dmat3x3
-same as a dmat3
+Same as a dmat3.
 
 dmat3x4
-a double-precision floating-point matrix with 3 columns and 4 rows
+A double-precision floating-point matrix with 3 columns and 4 rows.
 
 dmat4x2
-a double-precision floating-point matrix with 4 columns and 2 rows
+A double-precision floating-point matrix with 4 columns and 2 rows.
 
 dmat4x3
-a double-precision floating-point matrix with 4 columns and 3 rows
+A double-precision floating-point matrix with 4 columns and 3 rows.
 
 dmat4x4
-same as a dmat4
+Same as a dmat4.
 
 sampler1D,image1D
-a handle for accessing a 1D texture
+A handle for accessing a 1D texture.
 
 sampler2D,image2D
-a handle for accessing a 2D texture
+A handle for accessing a 2D texture.
 
 sampler3D,image3D
-a handle for accessing a 3D texture
+A handle for accessing a 3D texture.
 
 samplerCube,imageCube
-a handle for accessing a cube mapped texture
+A handle for accessing a cube mapped texture.
 
 sampler2DRect
 image2DRect
-a handle for accessing a rectangle texture
+A handle for accessing a rectangle texture.
 
 sampler1DArray,image1DArray
-a handle for accessing a 1D array texture
+A handle for accessing a 1D array texture.
 
 sampler2DArray,image2DArray
-a handle for accessing a 2D array texture
+A handle for accessing a 2D array texture.
 
 samplerBuffer,imageBuffer
-a handle for accessing a buffer texture
+A handle for accessing a buffer texture.
 
 sampler2DMS,image2DMS
-a handle for accessing a 2D multi-sample texture
+A handle for accessing a 2D multi-sample texture.
 
 sampler2DMSArray,image2DMSArray
-a handle for accessing a 2D multi-sample array texture
+A handle for accessing a 2D multi-sample array texture.
 
 samplerCubeArray,imageCubeArray
-a handle for accessing a cube map array texture
+A handle for accessing a cube map array texture.
 
 sampler1DShadow
-a handle for accessing a 1D depth texture with comparison
+A handle for accessing a 1D depth texture with comparison.
 
 sampler2DShadow
-a handle for accessing a 2D depth texture with comparison
+A handle for accessing a 2D depth texture with comparison.
 
 sampler2DRectShadow
-a handle for accessing a rectangle texture with comparison
+A handle for accessing a rectangle texture with comparison.
 
 sampler1DArrayShadow
-a handle for accessing a 1D array depth texture with comparison
+A handle for accessing a 1D array depth texture with comparison.
 
 sampler2DArrayShadow
-a handle for accessing a 2D array depth texture with comparison
+A handle for accessing a 2D array depth texture with comparison.
 
 samplerCubeShadow
-a handle for accessing a cube map depth texture with comparison
+A handle for accessing a cube map depth texture with comparison.
 
 samplerCubeArrayShadow
-a handle for accessing a cube map array depth texture with comparison
+A handle for accessing a cube map array depth texture with comparison.
 
 isampler1D,iimage1D
-a handle for accessing an integer 1D texture
+A handle for accessing an integer 1D texture.
 
 isampler2D,iimage2D
-a handle for accessing an integer 2D texture
+A handle for accessing an integer 2D texture.
 
 isampler3D,iimage3D
-a handle for accessing an integer 3D texture
+A handle for accessing an integer 3D texture.
 
 isamplerCube,iimageCube
-a handle for accessing an integer cube mapped texture
+A handle for accessing an integer cube mapped texture.
 
 isampler2DRect,iimage2DRect
-a handle for accessing an integer 2D rectangle texture
+A handle for accessing an integer 2D rectangle texture.
 
 isampler1DArray,iimage1DArray
-a handle for accessing an integer 1D array texture
+A handle for accessing an integer 1D array texture.
 
 isampler2DArray,iimage2DArray
-a handle for accessing an integer 2D array texture
+A handle for accessing an integer 2D array texture.
 
 isamplerBuffer,iimageBuffer
-a handle for accessing an integer buffer texture
+A handle for accessing an integer buffer texture.
 
 isampler2DMS,iimage2DMS
-a handle for accessing an integer 2D multi-sample texture
+A handle for accessing an integer 2D multi-sample texture.
 
 isampler2DMSArray,iimage2DMSArray
-a handle for accessing an integer 2D multi-sample array texture
+A handle for accessing an integer 2D multi-sample array texture.
 
 isamplerCubeArray,iimageCubeArray
-a handle for accessing an integer cube map array texture
+A handle for accessing an integer cube map array texture.
 
 atomic_uint
-a handle for accessing an unsigned integer atomic counter
+A handle for accessing an unsigned integer atomic counter.
 
 usampler1D,uimage1D
-a handle for accessing an unsigned integer 1D texture
+A handle for accessing an unsigned integer 1D texture.
 
 usampler2D,uimage2D
-a handle for accessing an unsigned integer 2D texture
+A handle for accessing an unsigned integer 2D texture.
 
 usampler3D,uimage3D
-a handle for accessing an unsigned integer 3D texture
+A handle for accessing an unsigned integer 3D texture.
 
 usamplerCube,uimageCube
-a handle for accessing an unsigned integer cube mapped texture
+A handle for accessing an unsigned integer cube mapped texture.
 
 usampler2DRect,uimage2DRect
-a handle for accessing an unsigned integer rectangle texture
+A handle for accessing an unsigned integer rectangle texture.
 
 usampler1DArray,uimage1DArray
-a handle for accessing an unsigned integer 1D array texture
+A handle for accessing an unsigned integer 1D array texture.
 
 usampler2DArray,uimage2DArray
-a handle for accessing an unsigned integer 2D array texture
+A handle for accessing an unsigned integer 2D array texture.
 
 usamplerBuffer,uimageBuffer
-a handle for accessing an unsigned integer buffer texture
+A handle for accessing an unsigned integer buffer texture.
 
 usampler2DMS,uimage2DMS
-a handle for accessing an unsigned integer 2D multi-sample texture
+A handle for accessing an unsigned integer 2D multi-sample texture.
 
 usampler2DMSArray,uimage2DMSArray
-a handle for accessing an unsigned integer 2D multi-sample texture array
+A handle for accessing an unsigned integer 2D multi-sample texture array.
 
 usamplerCubeArray,uimageCubeArray
-a handle for accessing an unsigned integer cube map array texture
+A handle for accessing an unsigned integer cube map array texture.
