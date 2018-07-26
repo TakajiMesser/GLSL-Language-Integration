@@ -12,14 +12,6 @@ namespace GLSLLanguageIntegration.Utilities
             yield return source;
         }
 
-        public static IEnumerable<T> YieldOrDefault<T>(this T source)
-        {
-            if (source != null)
-            {
-                yield return source;
-            }
-        }
-
         public static IEnumerable<T> Subset<T>(this IEnumerable<T> source, int startIndex)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));

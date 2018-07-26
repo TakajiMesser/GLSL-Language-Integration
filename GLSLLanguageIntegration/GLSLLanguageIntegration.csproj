@@ -114,6 +114,7 @@
     <Compile Include="Intellisense\GLSLCompletionSource.cs" />
     <Compile Include="Intellisense\CommandFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\GLSLExtensions.cs" />
     <Compile Include="Utilities\WPFUtilities.cs" />
     <Compile Include="Utilities\LINQExtensions.cs" />
   </ItemGroup>

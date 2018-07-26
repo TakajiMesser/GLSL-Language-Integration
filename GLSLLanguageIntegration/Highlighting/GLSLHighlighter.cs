@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -77,9 +76,16 @@ namespace GLSLLanguageIntegration.Outlining
                         currentToken = currentToken.TranslateTo(spans.First().Snapshot, SpanTrackingMode.EdgeExclusive);
                     }
 
+                    yield return new TagSpan<GLSLHighlightTag>(currentToken, new GLSLHighlightTag());
+
+                    foreach (var span in tokenSpans)
+                    {
+                        yield return new TagSpan<GLSLHighlightTag>(span, new GLSLHighlightTag());
+                    }
+
                     // First, yield back the word the cursor is under (if it overlaps)
                     // Note that we'll yield back the same word again in the wordspans collection; the duplication here is expected.   
-                    if (spans.OverlapsWith(new NormalizedSnapshotSpanCollection(currentToken)))
+                    /*if (spans.OverlapsWith(new NormalizedSnapshotSpanCollection(currentToken)))
                     {
                         yield return new TagSpan<GLSLHighlightTag>(currentToken, new GLSLHighlightTag());
 
@@ -88,7 +94,7 @@ namespace GLSLLanguageIntegration.Outlining
                         {
                             yield return new TagSpan<GLSLHighlightTag>(span, new GLSLHighlightTag());
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -144,7 +150,7 @@ namespace GLSLLanguageIntegration.Outlining
             // If we've selected something not worth highlighting, we might have missed a "word" by a little bit  
             if (!IsExtentValid(extent, point))
             {
-                //Before we retry, make sure it is worthwhile   
+                //Before we retry, make sure it is worthwhile
                 if (extent.Span.Start != point || point == point.GetContainingLine().Start || char.IsWhiteSpace((point - 1).GetChar()))
                 {
                     // If we couldn't find a word, clear out the existing markers  
@@ -174,34 +180,49 @@ namespace GLSLLanguageIntegration.Outlining
             var wordSpans = new List<SnapshotSpan>();
             var text = request.Snapshot.GetText(extent.Span);
 
-            if (text.Any(c => char.IsLetter(c)))
+            var isComment = false;
+
+            lock (_spanLock)
             {
-                var isComment = false;
-
-                lock (_spanLock)
-                {
-                    // Assume everything is a comment until we properly parse
-                    isComment = _commentSpans == null || _commentSpans.OverlapsWith(extent.Span);
-                }
-
-                if (!isComment && (!_currentToken.HasValue || extent.Span != _currentToken))
-                {
-                    // Find the new spans
-                    var findData = new FindData(extent.Span.GetText(), extent.Span.Snapshot)
-                    {
-                        FindOptions = FindOptions.WholeWord | FindOptions.MatchCase
-                    };
-
-                    wordSpans.AddRange(_textSearchService.FindAll(findData));
-                }
+                // Assume everything is a comment until we properly parse
+                isComment = _commentSpans == null || _commentSpans.OverlapsWith(extent.Span);
             }
-            else
-            {
-                var span = GetMatchingBracketSpan(extent, text);
 
-                if (span.HasValue && (!_currentToken.HasValue || extent.Span != _currentToken))
+            if (!isComment)
+            {
+                if (text.Any(c => char.IsLetter(c)))
                 {
-                    wordSpans.Add(span.Value);
+                    if (!_currentToken.HasValue || extent.Span != _currentToken)
+                    {
+                        var first = extent.Span.GetText();
+                        var second = extent.Span.Snapshot.GetText();
+                        var third = extent.Span.Snapshot.TextBuffer.CurrentSnapshot.GetText();
+
+                        // Find the new spans
+                        var findData = new FindData(extent.Span./*Snapshot.*/GetText(), extent.Span.Snapshot)
+                        {
+                            FindOptions = FindOptions.WholeWord | FindOptions.MatchCase
+                        };
+
+                        var spans = _textSearchService.FindAll(findData);
+
+                        foreach (var span in spans)
+                        {
+                            if (!_commentSpans.OverlapsWith(span))
+                            {
+                                wordSpans.Add(span);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var span = GetMatchingBracketSpan(extent, text);
+
+                    if (span.HasValue && (!_currentToken.HasValue || extent.Span != _currentToken))
+                    {
+                        wordSpans.Add(span.Value);
+                    }
                 }
             }
 
@@ -285,6 +306,9 @@ namespace GLSLLanguageIntegration.Outlining
                 {
                     _tokenSpans = tokenSpans;
                     _currentToken = token;
+
+                    var first = _buffer.CurrentSnapshot.GetText();
+                    //var second = new SnapshotSpan(_buffer.CurrentSnapshot, 0, _buffer.)
 
                     TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(new SnapshotSpan(_buffer.CurrentSnapshot, 0, _buffer.CurrentSnapshot.Length)));
                 }

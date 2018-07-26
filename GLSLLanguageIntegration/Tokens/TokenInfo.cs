@@ -1,6 +1,5 @@
 ﻿using GLSLLanguageIntegration.Properties;
 using GLSLLanguageIntegration.Utilities;
-using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -66,20 +65,8 @@ namespace GLSLLanguageIntegration.Tokens
             {
                 case GLSLTokenTypes.Preprocessor:
                     return "Preprocessor";
-                case GLSLTokenTypes.Keyword:
-                    return "(Keyword) " + Token;
-                case GLSLTokenTypes.Type:
-                    return "(Type) " + Token;
-                case GLSLTokenTypes.InputVariable:
-                    return "(Input Variable) " + Token;
-                case GLSLTokenTypes.OutputVariable:
-                    return "(Output Variable) " + Token;
-                case GLSLTokenTypes.UniformVariable:
-                    return "(Uniform Variable) " + Token;
-                case GLSLTokenTypes.LocalVariable:
-                    return "(Local Variable) " + Token;
                 default:
-                    return Token;
+                    return "(" + GLSLType.GetDisplayName() + ") " + Token;
             }
         }
 

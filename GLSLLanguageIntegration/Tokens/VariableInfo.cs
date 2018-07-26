@@ -18,19 +18,9 @@ namespace GLSLLanguageIntegration.Tokens
 
         protected override string GetTitle()
         {
-            switch (GLSLType)
-            {
-                case GLSLTokenTypes.InputVariable:
-                    return "(Input Variable) " + VariableType + " " + Token;
-                case GLSLTokenTypes.OutputVariable:
-                    return "(Output Variable) " + VariableType + " " + Token;
-                case GLSLTokenTypes.UniformVariable:
-                    return "(Uniform Variable) " + VariableType + " " + Token;
-                case GLSLTokenTypes.LocalVariable:
-                    return "(Local Variable) " + VariableType + " " + Token;
-                default:
-                    throw new NotImplementedException("Could not handle type " + Enum.GetName(typeof(GLSLTokenTypes), GLSLType));
-            }
+            if (!GLSLType.IsVariable()) throw new NotImplementedException("Could not handle type " + Enum.GetName(typeof(GLSLTokenTypes), GLSLType));
+
+            return "(" + GLSLType.GetDisplayName() + ") " + VariableType + " " + Token;
         }
     }
 }
