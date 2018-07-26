@@ -194,12 +194,8 @@ namespace GLSLLanguageIntegration.Outlining
                 {
                     if (!_currentToken.HasValue || extent.Span != _currentToken)
                     {
-                        var first = extent.Span.GetText();
-                        var second = extent.Span.Snapshot.GetText();
-                        var third = extent.Span.Snapshot.TextBuffer.CurrentSnapshot.GetText();
-
                         // Find the new spans
-                        var findData = new FindData(extent.Span./*Snapshot.*/GetText(), extent.Span.Snapshot)
+                        var findData = new FindData(extent.Span.GetText(), extent.Span.Snapshot)
                         {
                             FindOptions = FindOptions.WholeWord | FindOptions.MatchCase
                         };
@@ -306,9 +302,6 @@ namespace GLSLLanguageIntegration.Outlining
                 {
                     _tokenSpans = tokenSpans;
                     _currentToken = token;
-
-                    var first = _buffer.CurrentSnapshot.GetText();
-                    //var second = new SnapshotSpan(_buffer.CurrentSnapshot, 0, _buffer.)
 
                     TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(new SnapshotSpan(_buffer.CurrentSnapshot, 0, _buffer.CurrentSnapshot.Length)));
                 }

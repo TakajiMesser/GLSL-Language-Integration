@@ -3,16 +3,21 @@ using GLSLLanguageIntegration.Properties;
 using GLSLLanguageIntegration.Tokens;
 using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Language.Intellisense;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
+using Microsoft.VisualStudio.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GLSLLanguageIntegration.Intellisense
 {
-    internal sealed class GLSLQuickInfoSource : IQuickInfoSource
+    internal sealed class GLSLQuickInfoSource : IAsyncQuickInfoSource
     {
         private ITagAggregator<IGLSLTag> _aggregator;
         private ITextBuffer _buffer;
@@ -24,32 +29,68 @@ namespace GLSLLanguageIntegration.Intellisense
             _aggregator = aggregator;
         }
 
-        public void AugmentQuickInfoSession(IQuickInfoSession session, IList<object> quickInfoContent, out ITrackingSpan applicableToSpan)
+        public async Task<QuickInfoItem> GetQuickInfoItemAsync(IAsyncQuickInfoSession session, CancellationToken cancellationToken)
         {
-            applicableToSpan = null;
             if (_disposed) throw new ObjectDisposedException(nameof(GLSLQuickInfoSource));
 
             var triggerPoint = (SnapshotPoint)session.GetTriggerPoint(_buffer.CurrentSnapshot);
 
             if (triggerPoint != null)
             {
-                foreach (var tag in _aggregator.GetTags(new SnapshotSpan(triggerPoint, triggerPoint)))
+                var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
+                var triggerSpan = new SnapshotSpan(triggerPoint, triggerPoint);
+
+                foreach (var tag in _aggregator.GetTags(triggerSpan))
                 {
+                    if (cancellationToken.IsCancellationRequested) return null;
+
                     // Ignore outline tags, since they will likely place our trigger point somewhere awkward
                     if (tag.Tag is GLSLClassifierTag)
                     {
-                        var quickInfo = GetQuickInfo(tag, out applicableToSpan);
+                        var span = tag.Span.GetSpans(_buffer.CurrentSnapshot).First();
+                        var applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
+                        
+                        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+                        var quickInfo = tagger.GetQuickInfo(span.GetText(), tag.Tag.TokenType);
+
                         if (quickInfo != null)
                         {
-                            quickInfoContent.Add(quickInfo);
-                            break;
+                            return new QuickInfoItem(applicableToSpan, quickInfo);
                         }
                     }
                 }
             }
+
+            return null;
         }
 
-        private object GetQuickInfo(IMappingTagSpan<IGLSLTag> tag, out ITrackingSpan applicableToSpan)
+        private QuickInfoItem GetQuickInfo(SnapshotPoint triggerPoint, CancellationToken cancellationToken)
+        {
+            var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
+            var triggerSpan = new SnapshotSpan(triggerPoint, triggerPoint);
+
+            foreach (var tag in _aggregator.GetTags(triggerSpan))
+            {
+                if (cancellationToken.IsCancellationRequested) return null;
+
+                // Ignore outline tags, since they will likely place our trigger point somewhere awkward
+                if (tag.Tag is GLSLClassifierTag)
+                {
+                    var span = tag.Span.GetSpans(_buffer.CurrentSnapshot).First();
+                    var applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
+                    var quickInfo = tagger.GetQuickInfo(span.GetText(), tag.Tag.TokenType);
+
+                    if (quickInfo != null)
+                    {
+                        return new QuickInfoItem(applicableToSpan, quickInfo);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private object GetQuickInfoFromTag(IMappingTagSpan<IGLSLTag> tag, out ITrackingSpan applicableToSpan)
         {
             var span = tag.Span.GetSpans(_buffer.CurrentSnapshot).First();
             applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
@@ -60,9 +101,6 @@ namespace GLSLLanguageIntegration.Intellisense
             return quickInfo;
         }
 
-        public void Dispose()
-        {
-            _disposed = true;
-        }
+        public void Dispose() => _disposed = true;
     }
 }

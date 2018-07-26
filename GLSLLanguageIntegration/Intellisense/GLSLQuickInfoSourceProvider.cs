@@ -7,20 +7,20 @@ using System.ComponentModel.Composition;
 
 namespace GLSLLanguageIntegration.Intellisense
 {
-    [Export(typeof(IQuickInfoSourceProvider))]
+    [Export(typeof(IAsyncQuickInfoSourceProvider))]
     [ContentType("glsl")]
     [Name("glslQuickInfo")]
-    internal sealed class GLSLQuickInfoSourceProvider : IQuickInfoSourceProvider
+    internal sealed class GLSLQuickInfoSourceProvider : IAsyncQuickInfoSourceProvider
     {
         [Import]
         private IBufferTagAggregatorFactoryService _aggregatorFactory = null;
 
-        public IQuickInfoSource TryCreateQuickInfoSource(ITextBuffer buffer)
+        public IAsyncQuickInfoSource TryCreateQuickInfoSource(ITextBuffer textBuffer)
         {
-            return buffer.Properties.GetOrCreateSingletonProperty(() =>
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() =>
             {
-                var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
-                return new GLSLQuickInfoSource(buffer, aggregator);
+                var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(textBuffer);
+                return new GLSLQuickInfoSource(textBuffer, aggregator);
             });
         }
     }
