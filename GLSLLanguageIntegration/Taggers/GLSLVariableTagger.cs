@@ -24,27 +24,34 @@ namespace GLSLLanguageIntegration.Taggers
         private List<TagSpan<IGLSLTag>> _uniformVariables = new List<TagSpan<IGLSLTag>>();
         private List<TagSpan<IGLSLTag>> _localVariables = new List<TagSpan<IGLSLTag>>();
 
-        private Dictionary<string, VariableInfo> _variableInfoByToken = new Dictionary<string, VariableInfo>();
+        //private Dictionary<string, VariableInfo> _variableInfoByToken = new Dictionary<string, VariableInfo>();
+        private List<VariableInfo> _variableInfos = new List<VariableInfo>();
 
         private TokenSet _tokens = new TokenSet(Resources.Identifiers, BUILT_IN_TOKEN_TYPE);
 
-        public object GetQuickInfo(string token)
+        public object GetQuickInfo(string token, int scope)
         {
             if (_tokens.Contains(token))
             {
                 return _tokens.GetInfo(token).ToQuickInfo();
             }
-            else if (_variableInfoByToken.ContainsKey(token))
-            {
-                return _variableInfoByToken[token].ToQuickInfo();
-            }
             else
             {
-                return null;
+                var variableInfo = _variableInfos.FirstOrDefault(v => v.Token == token && v.Scope <= scope);
+                if (variableInfo != null)
+                {
+                    return variableInfo.ToQuickInfo();
+                }
             }
+            /*else if (_variableInfoByToken.ContainsKey(token) && _variableInfoByToken[token].Scope <= scope)
+            {
+                return _variableInfoByToken[token].ToQuickInfo();
+            }*/
+
+            return null;
         }
 
-        public GLSLSpanResult AddToken(string token, string variableType, int position, SnapshotSpan span, GLSLTokenTypes type)
+        public GLSLSpanResult AddToken(string token, int scope, string variableType, int position, SnapshotSpan span, GLSLTokenTypes type)
         {
             var builder = new SpanBuilder()
             {
@@ -72,7 +79,8 @@ namespace GLSLLanguageIntegration.Taggers
                     break;
             }
 
-            _variableInfoByToken[token] = new VariableInfo(token, variableType, type);
+            _variableInfos.Add(new VariableInfo(token, scope, variableType, type));
+            //_variableInfoByToken[token] = new VariableInfo(token, scope, variableType, type);
 
             return result;
         }

@@ -1,6 +1,7 @@
 ﻿using GLSLLanguageIntegration.Outlining;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
@@ -73,6 +74,23 @@ namespace GLSLLanguageIntegration.Taggers
             result.AddSpans(_squareBracketSpans);
 
             return result;
+        }
+
+        public int GetScope(SnapshotSpan span)
+        {
+            int scope = 0;
+
+            foreach (var bracketSpan in _curlyBracketSpans)
+            {
+                var translatedSpan = bracketSpan.Span.Translated(span.Snapshot);
+
+                if (translatedSpan.OverlapsWith(span))
+                {
+                    scope++;
+                }
+            }
+
+            return scope;
         }
 
         public void Clear()

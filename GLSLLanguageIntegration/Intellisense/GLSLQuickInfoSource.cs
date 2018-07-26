@@ -51,7 +51,7 @@ namespace GLSLLanguageIntegration.Intellisense
                         var applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
                         
                         await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-                        var quickInfo = tagger.GetQuickInfo(span.GetText(), tag.Tag.TokenType);
+                        var quickInfo = tagger.GetQuickInfo(span, tag.Tag.TokenType);
 
                         if (quickInfo != null)
                         {
@@ -78,7 +78,7 @@ namespace GLSLLanguageIntegration.Intellisense
                 {
                     var span = tag.Span.GetSpans(_buffer.CurrentSnapshot).First();
                     var applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
-                    var quickInfo = tagger.GetQuickInfo(span.GetText(), tag.Tag.TokenType);
+                    var quickInfo = tagger.GetQuickInfo(span, tag.Tag.TokenType);
 
                     if (quickInfo != null)
                     {
@@ -96,7 +96,7 @@ namespace GLSLLanguageIntegration.Intellisense
             applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
 
             var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
-            var quickInfo = tagger.GetQuickInfo(span.GetText(), tag.Tag.TokenType);
+            var quickInfo = tagger.GetQuickInfo(span, tag.Tag.TokenType);
 
             return quickInfo;
         }

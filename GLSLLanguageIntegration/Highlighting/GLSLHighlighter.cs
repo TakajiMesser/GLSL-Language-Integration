@@ -1,4 +1,5 @@
 ﻿using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
@@ -180,15 +181,7 @@ namespace GLSLLanguageIntegration.Outlining
             var wordSpans = new List<SnapshotSpan>();
             var text = request.Snapshot.GetText(extent.Span);
 
-            var isComment = false;
-
-            lock (_spanLock)
-            {
-                // Assume everything is a comment until we properly parse
-                isComment = _commentSpans == null || _commentSpans.OverlapsWith(extent.Span);
-            }
-
-            if (!isComment)
+            if (!IsComment(extent))
             {
                 if (text.Any(c => char.IsLetter(c)))
                 {
@@ -227,6 +220,32 @@ namespace GLSLLanguageIntegration.Outlining
             {
                 SynchronousUpdate(request, new NormalizedSnapshotSpanCollection(wordSpans), extent.Span);
             }
+        }
+
+        private bool IsComment(TextExtent extent)
+        {
+            lock (_spanLock)
+            {
+                // Assume everything is a comment until we properly parse
+                if (_commentSpans == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    foreach (var commentSpan in _commentSpans)
+                    {
+                        var translatedSpan = commentSpan.Translated(extent.Span.Snapshot);
+
+                        if (translatedSpan.OverlapsWith(extent.Span))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         private SnapshotSpan? GetMatchingBracketSpan(TextExtent extent, string text)

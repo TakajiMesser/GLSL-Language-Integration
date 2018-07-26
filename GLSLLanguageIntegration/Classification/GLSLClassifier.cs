@@ -1,4 +1,5 @@
 ﻿using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -75,14 +76,8 @@ namespace GLSLLanguageIntegration.Classification
                     foreach (var span in tag.Span.GetSpans(textSnapshot))
                     {
                         // Ensure that we translate our span to the expected snapshot
-                        var currentSpan = span;
-
-                        if (currentSpan.Snapshot != textSnapshot)
-                        {
-                            currentSpan = span.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive);
-                        }
-
-                        yield return new TagSpan<ClassificationTag>(currentSpan, new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
+                        var translatedSpan = span.Translated(textSnapshot);
+                        yield return new TagSpan<ClassificationTag>(translatedSpan, new ClassificationTag(_glslTypes[tag.Tag.TokenType]));
                     }
                 }
             }

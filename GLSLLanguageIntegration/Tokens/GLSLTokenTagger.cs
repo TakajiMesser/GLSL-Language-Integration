@@ -59,8 +59,10 @@ namespace GLSLLanguageIntegration.Tokens
             }
         }
 
-        public object GetQuickInfo(string token, GLSLTokenTypes tokenType)
+        public object GetQuickInfo(SnapshotSpan span, GLSLTokenTypes tokenType)
         {
+            string token = span.GetText();
+
             switch (tokenType)
             {
                 case GLSLTokenTypes.Keyword:
@@ -74,7 +76,8 @@ namespace GLSLLanguageIntegration.Tokens
                 case GLSLTokenTypes.BufferVariable:
                 case GLSLTokenTypes.SharedVariable:
                 case GLSLTokenTypes.LocalVariable:
-                    return _variableTagger.GetQuickInfo(token);
+                    int scope = _bracketTagger.GetScope(span);
+                    return _variableTagger.GetQuickInfo(token, scope);
                 case GLSLTokenTypes.BuiltInFunction:
                     return _functionTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.BuiltInConstant:
@@ -216,6 +219,9 @@ namespace GLSLLanguageIntegration.Tokens
                             var previousResult = _statementBuilder.GetTokenAt(i - 1);
                             if (previousResult.TokenType == GLSLTokenTypes.Type)
                             {
+                                // We need to determine the scope of this variable
+                                int scope = _bracketTagger.GetScope(tokenResult.Span);
+
                                 // This is a variable. Check for preceding keyword
                                 if (i > 1)
                                 {
@@ -225,24 +231,24 @@ namespace GLSLLanguageIntegration.Tokens
                                         switch (previousPreviousResult.Token)
                                         {
                                             case "uniform":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.UniformVariable);
+                                                yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.UniformVariable);
                                                 break;
                                             case "in":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.InputVariable);
+                                                yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.InputVariable);
                                                 break;
                                             case "out":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.OutputVariable);
+                                                yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.OutputVariable);
                                                 break;
                                         }
                                     }
                                     else
                                     {
-                                        yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
+                                        yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
                                     }
                                 }
                                 else
                                 {
-                                    yield return _variableTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
+                                    yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
                                 }
                             }
                         }

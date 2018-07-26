@@ -35,6 +35,8 @@ layout(location = 6) out vec4 finalColor;
 
 vec3 calculateNormal(vec2 texCoords)
 {
+	vec3 nNormal;
+
     vec3 nNormal = normalize(fNormal);
     vec3 nTangent = normalize(fTangent);
 

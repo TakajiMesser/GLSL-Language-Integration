@@ -10,7 +10,6 @@ namespace GLSLLanguageIntegration.Outlining
 
         public GLSLTokenTypes TokenType { get; private set; }
         public OutliningRegionTag RegionTag { get; private set; }
-        public int Scope { get; private set; }
 
         public GLSLOutlineTag(GLSLTokenTypes type, string collapseText = COLLAPSE_TEXT, string collapseHint = COLLAPSE_HINT)
         {
