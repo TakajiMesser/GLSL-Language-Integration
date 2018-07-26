@@ -10,7 +10,7 @@ namespace GLSLLanguageIntegration.Intellisense
         private ITextView _textView;
         private IList<ITextBuffer> _subjectBuffers;
         private TemplateQuickInfoControllerProvider _componentContext;
-        private IQuickInfoSession _session;
+        private IAsyncQuickInfoSession _session;
 
         internal TemplateQuickInfoController(ITextView textView, IList<ITextBuffer> subjectBuffers, TemplateQuickInfoControllerProvider componentContext)
         {
@@ -37,7 +37,7 @@ namespace GLSLLanguageIntegration.Intellisense
         /// <summary>
         /// Determine if the mouse is hovering over a token. If so, highlight the token and display QuickInfo
         /// </summary>
-        private void OnTextViewMouseHover(object sender, MouseHoverEventArgs e)
+        private async void OnTextViewMouseHover(object sender, MouseHoverEventArgs e)
         {
             SnapshotPoint? point = GetMousePosition(new SnapshotPoint(_textView.TextSnapshot, e.Position));
 
@@ -48,8 +48,7 @@ namespace GLSLLanguageIntegration.Intellisense
                 // Find the broker for this buffer
                 if (!_componentContext.QuickInfoBroker.IsQuickInfoActive(_textView))
                 {
-                    _session = _componentContext.QuickInfoBroker.CreateQuickInfoSession(_textView, triggerPoint, true);
-                    _session.Start();
+                    _session = await _componentContext.QuickInfoBroker.TriggerQuickInfoAsync(_textView, triggerPoint);
                 }
             }
         }

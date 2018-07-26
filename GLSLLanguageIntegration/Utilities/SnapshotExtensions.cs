@@ -1,6 +1,4 @@
-﻿using GLSLLanguageIntegration.Tokens;
-using Microsoft.VisualStudio.Text;
-using System;
+﻿using Microsoft.VisualStudio.Text;
 
 namespace GLSLLanguageIntegration.Utilities
 {

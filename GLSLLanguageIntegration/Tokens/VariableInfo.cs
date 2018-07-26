@@ -1,9 +1,5 @@
-﻿using GLSLLanguageIntegration.Properties;
-using GLSLLanguageIntegration.Utilities;
+﻿using GLSLLanguageIntegration.Utilities;
 using System;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace GLSLLanguageIntegration.Tokens
 {

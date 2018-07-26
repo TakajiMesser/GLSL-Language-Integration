@@ -71,9 +71,6 @@ namespace GLSLLanguageIntegration.Outlining
                     var navigator = TextStructureNavigatorSelector.GetTextStructureNavigator(buffer);
                     return new GLSLHighlighter(textView, buffer, TextSearchService, navigator, aggregator) as ITagger<T>;
                 });
-
-                //var navigator = TextStructureNavigatorSelector.GetTextStructureNavigator(buffer);
-                //return new GLSLHighlighter(textView, buffer, TextSearchService, navigator) as ITagger<T>;
             }
         }
     }

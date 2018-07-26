@@ -43,10 +43,6 @@ namespace GLSLLanguageIntegration.Taggers
                     return variableInfo.ToQuickInfo();
                 }
             }
-            /*else if (_variableInfoByToken.ContainsKey(token) && _variableInfoByToken[token].Scope <= scope)
-            {
-                return _variableInfoByToken[token].ToQuickInfo();
-            }*/
 
             return null;
         }
