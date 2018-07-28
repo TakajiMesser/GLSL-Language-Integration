@@ -79,6 +79,7 @@ namespace GLSLLanguageIntegration.Tokens
                     int scope = _bracketTagger.GetScope(span);
                     return _variableTagger.GetQuickInfo(token, scope);
                 case GLSLTokenTypes.BuiltInFunction:
+                case GLSLTokenTypes.Function:
                     return _functionTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.BuiltInConstant:
                     return _constantTagger.GetQuickInfo(token);
@@ -176,7 +177,9 @@ namespace GLSLLanguageIntegration.Tokens
                 case '(':
                     // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
                     yield return ProcessBuffer(position);
-                    yield return _bracketTagger.Match(character.ToString(), position + 1, new SnapshotSpan(_tokenBuffer.Snapshot, position, 1));
+                    var bracketResult = _bracketTagger.Match(character.ToString(), position + 1, new SnapshotSpan(_tokenBuffer.Snapshot, position, 1));
+                    _statementBuilder.AppendResult("(", position, bracketResult);
+                    yield return bracketResult;
                     break;
                 case '{':
                     yield return ProcessBuffer(position);
@@ -248,6 +251,19 @@ namespace GLSLLanguageIntegration.Tokens
                                 }
                                 else
                                 {
+                                    // In this case, this could be a variable OR a function definition
+                                    // For it to be a function, the scope must be zero AND the token must be followed by parentheses
+                                    if (scope == 0 && i < _statementBuilder.TokenCount - 1)
+                                    {
+                                        var nextResult = _statementBuilder.GetTokenAt(i + 1);
+                                        if (nextResult.Token == "(")
+                                        {
+                                            // We can now confirm that this is a function definition. Any variables defined within the definition are now parameters
+                                            yield return _functionTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.EndPosition, tokenResult.Span);
+                                            continue;
+                                        }
+                                    }
+
                                     yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.EndPosition, tokenResult.Span, GLSLTokenTypes.LocalVariable);
                                 }
                             }
