@@ -24,45 +24,15 @@ namespace GLSLLanguageIntegration.Taggers
         private SpanBuilder _curlyBracketBuilder = new SpanBuilder();
         private SpanBuilder _squareBracketBuilder = new SpanBuilder();
 
-        public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
+        public GLSLSpanResult Match(SnapshotSpan span)
         {
             _parenthesisBuilder.Snapshot = span.Snapshot;
             _curlyBracketBuilder.Snapshot = span.Snapshot;
             _squareBracketBuilder.Snapshot = span.Snapshot;
 
             var result = new GLSLSpanResult(CURLY_TOKEN_TYPE, span);
-            /*string text = span.Snapshot.GetText();
-
-            for (var i = 0; i < token.Length; i++)
-            {
-                switch (token[i])
-                {
-                    case '(':
-                        var parenthesisSpan = GetSpan(_parenthesisBuilder, text, position - token.Length + i, '(', ')');
-                        if (parenthesisSpan.HasValue)
-                        {
-                            var collapseText = GetCollapseText(_parenthesisBuilder, text, position - token.Length + i, ')');
-                            _parenthesisSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLOutlineTag(PARENTHESIS_TOKEN_TYPE, collapseText)));
-                        }
-                        break;
-                    case '{':
-                        var curlySpan = GetSpan(_curlyBracketBuilder, text, position - token.Length + i, '(', ')');
-                        if (curlySpan.HasValue)
-                        {
-                            var collapseText = GetCollapseText(_curlyBracketBuilder, text, position - token.Length + i, ')');
-                            _curlyBracketSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLOutlineTag(CURLY_TOKEN_TYPE, collapseText)));
-                        }
-                        break;
-                    case '[':
-                        var squareSpan = GetSpan(_squareBracketBuilder, text, position - token.Length + i, '(', ')');
-                        if (squareSpan.HasValue)
-                        {
-                            var collapseText = GetCollapseText(_squareBracketBuilder, text, position - token.Length + i, ')');
-                            _squareBracketSpans.Add(new TagSpan<IGLSLTag>(span, new GLSLOutlineTag(SQUARE_TOKEN_TYPE, collapseText)));
-                        }
-                        break;
-                }
-            }*/
+            string token = span.GetText();
+            int position = span.Start + token.Length;
 
             MatchParentheses(token, position, span);
             MatchCurlyBrackets(token, position, span);

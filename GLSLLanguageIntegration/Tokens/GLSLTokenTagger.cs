@@ -1,5 +1,6 @@
 ﻿using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Taggers;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
@@ -10,7 +11,7 @@ namespace GLSLLanguageIntegration.Tokens
     internal sealed class GLSLTokenTagger : ITagger<IGLSLTag>
     {
         private ITextBuffer _buffer;
-        private TokenBuilder _tokenBuffer = new TokenBuilder();
+        private SnapshotSpan? _tokenSpan = null;
         private StatementBuilder _statementBuilder = new StatementBuilder();
         private GLSLTagSpanCollection _tagSpans = new GLSLTagSpanCollection();
 
@@ -93,11 +94,10 @@ namespace GLSLLanguageIntegration.Tokens
         private void ParseBuffer()
         {
             ClearTaggers();
-            _tokenBuffer.Clear();
+            _tokenSpan = null;
             _statementBuilder.Clear();
 
             var textSnapshot = _buffer.CurrentSnapshot;
-            _tokenBuffer.Snapshot = textSnapshot;
             _statementBuilder.Snapshot = textSnapshot;
 
             var text = textSnapshot.GetText();
@@ -120,8 +120,8 @@ namespace GLSLLanguageIntegration.Tokens
         {
             var textSnapshot = _buffer.CurrentSnapshot;
 
-            _tokenBuffer.Clear();
-            _tokenBuffer.Snapshot = textSnapshot;
+            //_tokenBuffer.Clear();
+            //_tokenBuffer.Snapshot = textSnapshot;
 
             _tagSpans.GetOverlapping(textChanges, textSnapshot);
 
@@ -177,18 +177,18 @@ namespace GLSLLanguageIntegration.Tokens
                 case '(':
                     // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
                     yield return ProcessBuffer(position);
-                    var bracketResult = _bracketTagger.Match(character.ToString(), position + 1, new SnapshotSpan(_tokenBuffer.Snapshot, position, 1));
+                    var bracketResult = _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
                     _statementBuilder.AppendResult("(", position, bracketResult);
                     yield return bracketResult;
                     break;
                 case '{':
                     yield return ProcessBuffer(position);
-                    yield return _bracketTagger.Match(character.ToString(), position + 1, new SnapshotSpan(_tokenBuffer.Snapshot, position, 1));
+                    yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
                     break;
                 case '[':
                     // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
                     yield return ProcessBuffer(position);
-                    yield return _bracketTagger.Match(character.ToString(), position + 1, new SnapshotSpan(_tokenBuffer.Snapshot, position, 1));
+                    yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
                     break;
                 case ';':
                     // End of statement -> Need to check statement for errors
@@ -199,7 +199,12 @@ namespace GLSLLanguageIntegration.Tokens
                     }
                     break;
                 default:
-                    _tokenBuffer.Append(character, position);
+                    if (!_tokenSpan.HasValue)
+                    {
+                        _tokenSpan = new SnapshotSpan(_buffer.CurrentSnapshot, position, 0);
+                    }
+
+                    _tokenSpan = _tokenSpan.Value.Extended(1);
                     break;
             }
         }
@@ -209,7 +214,7 @@ namespace GLSLLanguageIntegration.Tokens
             if (_statementBuilder.Length > 0)
             {
                 // Process the constructed statement
-                _statementBuilder.Terminate(character.ToString(), position + 1, new SnapshotSpan(_tokenBuffer.Snapshot, position, 1));
+                _statementBuilder.Terminate(character.ToString(), position + 1, new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
 
                 for (var i = 0; i < _statementBuilder.TokenCount; i++)
                 {
@@ -281,10 +286,10 @@ namespace GLSLLanguageIntegration.Tokens
         {
             var result = new GLSLSpanResult();
 
-            if (_tokenBuffer.Length > 0)
+            if (_tokenSpan.HasValue)
             {
-                string token = _tokenBuffer.ToString();
-                result = Tokenize(token, position, _tokenBuffer.Span);
+                string token = _tokenSpan.Value.GetText();
+                result = Tokenize(token, position, _tokenSpan.Value);
 
                 if (result.IsMatch)
                 {
@@ -292,10 +297,10 @@ namespace GLSLLanguageIntegration.Tokens
                 }
                 else
                 {
-                    _statementBuilder.AppendToken(token, position, _tokenBuffer.Span);
+                    _statementBuilder.AppendToken(token, position, _tokenSpan.Value);
                 }
                 
-                _tokenBuffer.Clear();
+                _tokenSpan = null;
             }
 
             return result;
@@ -307,46 +312,46 @@ namespace GLSLLanguageIntegration.Tokens
 
             if (!string.IsNullOrWhiteSpace(token))
             {
-                result = _commentTagger.Match(token, position, span);
+                result = _commentTagger.Match(span);
 
                 if (!result.IsMatch)
                 {
-                    result = _preprocessorTagger.Match(token, position, span);
+                    result = _preprocessorTagger.Match(span);
                 }
 
                 if (!result.IsMatch)
                 {
-                    result = _keywordTagger.Match(token, position, span);
+                    result = _keywordTagger.Match(span);
                 }
 
                 if (!result.IsMatch)
                 {
-                    result = _typeTagger.Match(token, position, span);
+                    result = _typeTagger.Match(span);
                 }
 
                 if (!result.IsMatch)
                 {
-                    result = _variableTagger.Match(token, position, span);
+                    result = _variableTagger.Match(span);
                 }
 
                 if (!result.IsMatch)
                 {
-                    result = _structTagger.Match(token, position, span);
+                    result = _structTagger.Match(span);
                 }
 
                 if (!result.IsMatch)
                 {
-                    result = _constantTagger.Match(token, position, span);
+                    result = _constantTagger.Match(span);
                 }
 
                 if (!result.IsMatch)
                 {
-                    result = _functionTagger.Match(token, position, span);
+                    result = _functionTagger.Match(span);
                 }
 
                 if (!result.IsMatch)
                 {
-                    result = _operatorTagger.Match(token, position, span);
+                    result = _operatorTagger.Match(span);
                 }
 
                 /*if (!result.IsMatch)

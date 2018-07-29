@@ -57,8 +57,11 @@ namespace GLSLLanguageIntegration.Taggers
             return result;
         }
 
-        public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
+        public GLSLSpanResult Match(SnapshotSpan span)
         {
+            string token = span.GetText();
+            int position = span.Start + token.Length;
+
             var matchType = MatchTokenType(token);
 
             if (matchType.HasValue)

@@ -14,9 +14,11 @@ namespace GLSLLanguageIntegration.Taggers
 
         public object GetQuickInfo(string token) => _tokens.Contains(token)? _tokens.GetInfo(token).ToQuickInfo() : "Type";
 
-        public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
+        public GLSLSpanResult Match(SnapshotSpan span)
         {
             var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            string token = span.GetText();
+            int position = span.Start + token.Length;
 
             if (_tokens.Contains(token))
             {

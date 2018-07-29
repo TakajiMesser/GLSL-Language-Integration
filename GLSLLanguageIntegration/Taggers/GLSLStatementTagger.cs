@@ -8,7 +8,7 @@ namespace GLSLLanguageIntegration.Taggers
     {
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Semicolon;
 
-        public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
+        public GLSLSpanResult Match(SnapshotSpan span)
         {
             var result = new GLSLSpanResult(TOKEN_TYPE, span);
 

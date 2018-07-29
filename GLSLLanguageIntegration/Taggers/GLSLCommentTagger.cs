@@ -18,12 +18,14 @@ namespace GLSLLanguageIntegration.Taggers
         private SpanBuilder _singleLineCommentBuilder = new SpanBuilder();
         private SpanBuilder _multiLineCommentBuilder = new SpanBuilder();
 
-        public GLSLSpanResult Match(string token, int position, SnapshotSpan span)
+        public GLSLSpanResult Match(SnapshotSpan span)
         {
             _singleLineCommentBuilder.Snapshot = span.Snapshot;
             _multiLineCommentBuilder.Snapshot = span.Snapshot;
 
             var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            string token = span.GetText();
+            int position = span.Start + token.Length;
 
             if (token.Contains("//"))
             {
