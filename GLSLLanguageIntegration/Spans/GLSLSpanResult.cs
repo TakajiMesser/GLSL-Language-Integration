@@ -11,8 +11,8 @@ namespace GLSLLanguageIntegration.Spans
     {
         public GLSLTokenTypes TokenType { get; private set; }
         public SnapshotSpan Span { get; private set; }
-        public int Consumed { get; set; }
 
+        public int Consumed { get; set; } = 0;
         public List<TagSpan<IGLSLTag>> TagSpans { get; private set; } = new List<TagSpan<IGLSLTag>>();
         public bool IsMatch => TagSpans.Count > 0;
 
