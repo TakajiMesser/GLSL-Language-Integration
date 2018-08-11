@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GLSLLanguageIntegration.Intellisense
+namespace GLSLLanguageIntegration.Intellisense.Completions
 {
     internal sealed class GLSLCompletionSource : ICompletionSource
     {

@@ -168,6 +168,7 @@ namespace GLSLLanguageIntegration.Tokens
                 case var value when char.IsWhiteSpace(character):
                 case ')':
                 case '}':
+                case ',':
                     yield return ProcessBuffer(position);
                     break;
                 case '.':

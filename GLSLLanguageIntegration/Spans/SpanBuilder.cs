@@ -28,7 +28,7 @@ namespace GLSLLanguageIntegration.Spans
         /// <returns>The earliest position of a terminator, or -1 if no terminators were found.</returns>
         public int ConsumeUntil(string text, int start, params string[] terminators)
         {
-            for (var i = start; i < text.Length; i++)
+            for (var i = start; i >= 0 && i < text.Length; i++)
             {
                 char character = text[i];
 

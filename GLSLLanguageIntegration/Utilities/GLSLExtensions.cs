@@ -5,30 +5,6 @@ namespace GLSLLanguageIntegration.Utilities
 {
     public static class GLSLExtensions
     {
-        /*Preprocessor,
-        Comment,
-        Keyword,
-        Type,
-        InputVariable,
-        OutputVariable,
-        UniformVariable,
-        BufferVariable,
-        SharedVariable,
-        BuiltInVariable,
-        LocalVariable,
-        ParameterVariable,
-        Struct,
-        IntegerConstant,
-        FloatingConstant,
-        BuiltInConstant,
-        Function,
-        BuiltInFunction,
-        Operator,
-        Semicolon,
-        Parenthesis,
-        CurlyBracket,
-        SquareBracket*/
-
         public static string GetDisplayName(this GLSLTokenTypes type)
         {
             switch (type)

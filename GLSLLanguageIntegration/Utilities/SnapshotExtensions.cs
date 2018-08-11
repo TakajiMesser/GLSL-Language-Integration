@@ -8,6 +8,8 @@ namespace GLSLLanguageIntegration.Utilities
             ? span.TranslateTo(snapshot, SpanTrackingMode.EdgePositive)
             : span;
 
+        public static SnapshotSpan FullSpan(this ITextSnapshot snapshot) => new SnapshotSpan(snapshot, 0, snapshot.Length);
+
         public static SnapshotSpan Extended(this SnapshotSpan span, int amount) =>
             new SnapshotSpan(span.Snapshot, span.Start, span.Length + amount);
     }

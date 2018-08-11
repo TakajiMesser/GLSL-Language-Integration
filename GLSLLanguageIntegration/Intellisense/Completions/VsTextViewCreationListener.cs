@@ -1,13 +1,11 @@
 ﻿using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Language.Intellisense;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 
-namespace GLSLLanguageIntegration.Intellisense
+namespace GLSLLanguageIntegration.Intellisense.Completions
 {
     [Export(typeof(IVsTextViewCreationListener))]
     [ContentType("glsl")]
@@ -15,20 +13,19 @@ namespace GLSLLanguageIntegration.Intellisense
     internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
     {
         [Import]
-        IVsEditorAdaptersFactoryService AdaptersFactory = null;
+        internal IVsEditorAdaptersFactoryService AdapterService;
 
         [Import]
-        ICompletionBroker CompletionBroker = null;
+        internal ICompletionBroker CompletionBroker;
 
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
-            IWpfTextView view = AdaptersFactory.GetWpfTextView(textViewAdapter);
-            Debug.Assert(view != null);
-
-            var filter = new CommandFilter(view, CompletionBroker);
-
-            textViewAdapter.AddCommandFilter(filter, out IOleCommandTarget next);
-            filter.Next = next;
+            IWpfTextView textView = AdapterService.GetWpfTextView(textViewAdapter);
+            if (textView != null)
+            {
+                textView.Properties.GetOrCreateSingletonProperty(() =>
+                    new CommandFilter(textViewAdapter, textView, CompletionBroker));
+            }
         }
     }
 }

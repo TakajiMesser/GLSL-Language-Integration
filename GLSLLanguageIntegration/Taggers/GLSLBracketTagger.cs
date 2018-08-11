@@ -4,7 +4,6 @@ using GLSLLanguageIntegration.Tokens;
 using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -226,7 +225,7 @@ namespace GLSLLanguageIntegration.Taggers
                 }
             }
 
-            throw new ArgumentException("Closing bracket not found in text");
+            return -1;
         }
     }
 }

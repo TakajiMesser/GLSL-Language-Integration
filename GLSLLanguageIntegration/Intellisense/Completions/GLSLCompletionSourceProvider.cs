@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 
-namespace GLSLLanguageIntegration.Intellisense
+namespace GLSLLanguageIntegration.Intellisense.Completions
 {
     [Export(typeof(ICompletionSourceProvider))]
     [ContentType("glsl")]

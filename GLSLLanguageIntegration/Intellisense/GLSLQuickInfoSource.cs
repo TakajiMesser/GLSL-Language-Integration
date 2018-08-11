@@ -58,7 +58,7 @@ namespace GLSLLanguageIntegration.Intellisense
 
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
                     var quickInfo = tagger.GetQuickInfo(span, tag.Tag.TokenType);
-
+                    
                     if (quickInfo != null)
                     {
                         return new QuickInfoItem(applicableToSpan, quickInfo);

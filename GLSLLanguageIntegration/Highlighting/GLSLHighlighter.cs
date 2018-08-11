@@ -18,11 +18,12 @@ namespace GLSLLanguageIntegration.Outlining
         private ITextStructureNavigator _textStructureNavigator;
         private ITagAggregator<IGLSLTag> _aggregator;
 
-        private NormalizedSnapshotSpanCollection _tokenSpans = new NormalizedSnapshotSpanCollection();
+        private NormalizedSnapshotSpanCollection _wordSpans = new NormalizedSnapshotSpanCollection();
         private SnapshotSpan? _currentToken = null;
         private SnapshotPoint _requestedPoint;
         private object _updateLock = new object();
 
+        private NormalizedSnapshotSpanCollection _tokenSpans;
         private NormalizedSnapshotSpanCollection _commentSpans;
         private List<SnapshotSpan> _parenthesisSpans = new List<SnapshotSpan>();
         private List<SnapshotSpan> _curlyBracketSpans = new List<SnapshotSpan>();
@@ -66,36 +67,25 @@ namespace GLSLLanguageIntegration.Outlining
 
                 // Hold on to a "snapshot" of the word spans and current word, so that we maintain the same collection throughout  
                 SnapshotSpan currentToken = _currentToken.Value;
-                NormalizedSnapshotSpanCollection tokenSpans = _tokenSpans;
+                NormalizedSnapshotSpanCollection wordSpans = _wordSpans;
 
-                if (spans.Count > 0 && tokenSpans.Count > 0)
+                if (spans.Count > 0 && wordSpans.Count > 0)
                 {
                     // If the requested snapshot isn't the same as the one our words are on, translate our spans to the expected snapshot   
-                    if (spans.First().Snapshot != tokenSpans.First().Snapshot)
+                    if (spans.First().Snapshot != wordSpans.First().Snapshot)
                     {
-                        tokenSpans = new NormalizedSnapshotSpanCollection(tokenSpans.Select(s => s.TranslateTo(spans.First().Snapshot, SpanTrackingMode.EdgeExclusive)));
+                        wordSpans = new NormalizedSnapshotSpanCollection(wordSpans.Select(s => s.TranslateTo(spans.First().Snapshot, SpanTrackingMode.EdgeExclusive)));
                         currentToken = currentToken.TranslateTo(spans.First().Snapshot, SpanTrackingMode.EdgeExclusive);
-                    }
-
-                    yield return new TagSpan<GLSLHighlightTag>(currentToken, new GLSLHighlightTag());
-
-                    foreach (var span in tokenSpans)
-                    {
-                        yield return new TagSpan<GLSLHighlightTag>(span, new GLSLHighlightTag());
                     }
 
                     // First, yield back the word the cursor is under (if it overlaps)
                     // Note that we'll yield back the same word again in the wordspans collection; the duplication here is expected.   
-                    /*if (spans.OverlapsWith(new NormalizedSnapshotSpanCollection(currentToken)))
-                    {
-                        yield return new TagSpan<GLSLHighlightTag>(currentToken, new GLSLHighlightTag());
+                    yield return new TagSpan<GLSLHighlightTag>(currentToken, new GLSLHighlightTag());
 
-                        // Second, yield all the other words in the file   
-                        foreach (var span in NormalizedSnapshotSpanCollection.Overlap(spans, tokenSpans))
-                        {
-                            yield return new TagSpan<GLSLHighlightTag>(span, new GLSLHighlightTag());
-                        }
-                    }*/
+                    foreach (var span in wordSpans)
+                    {
+                        yield return new TagSpan<GLSLHighlightTag>(span, new GLSLHighlightTag());
+                    }
                 }
             }
         }
@@ -103,25 +93,24 @@ namespace GLSLLanguageIntegration.Outlining
         private void UpdateTrackedSpans(NormalizedSnapshotSpanCollection spans)
         {
             var textSnapshot = spans.First().Snapshot;
-            var tags = _aggregator.GetTags(spans);
+            var tags = _aggregator.GetTags(textSnapshot.FullSpan());
 
             lock (_spanLock)
             {
+                _tokenSpans = new NormalizedSnapshotSpanCollection(tags.Where(t => t.Tag.TokenType.IsVariable() || t.Tag.TokenType.IsFunction())
+                    .SelectMany(t => t.Span.GetSpans(textSnapshot)));
+
                 _commentSpans = new NormalizedSnapshotSpanCollection(tags.Where(t => t.Tag.TokenType == GLSLTokenTypes.Comment)
-                    .SelectMany(t => t.Span.GetSpans(textSnapshot))
-                    .Select(s => s.Snapshot != textSnapshot ? s.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive) : s));
+                    .SelectMany(t => t.Span.GetSpans(textSnapshot)));
 
                 _parenthesisSpans = new List<SnapshotSpan>(tags.Where(t => t.Tag.TokenType == GLSLTokenTypes.Parenthesis)
-                    .SelectMany(t => t.Span.GetSpans(textSnapshot))
-                    .Select(s => s.Snapshot != textSnapshot ? s.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive) : s));
+                    .SelectMany(t => t.Span.GetSpans(textSnapshot)));
 
                 _curlyBracketSpans = new List<SnapshotSpan>(tags.Where(t => t.Tag.TokenType == GLSLTokenTypes.CurlyBracket)
-                    .SelectMany(t => t.Span.GetSpans(textSnapshot))
-                    .Select(s => s.Snapshot != textSnapshot ? s.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive) : s));
+                    .SelectMany(t => t.Span.GetSpans(textSnapshot)));
 
                 _squareBracketSpans = new List<SnapshotSpan>(tags.Where(t => t.Tag.TokenType == GLSLTokenTypes.SquareBracket)
-                    .SelectMany(t => t.Span.GetSpans(textSnapshot))
-                    .Select(s => s.Snapshot != textSnapshot ? s.TranslateTo(textSnapshot, SpanTrackingMode.EdgePositive) : s));
+                    .SelectMany(t => t.Span.GetSpans(textSnapshot)));
             }
         }
 
@@ -197,9 +186,13 @@ namespace GLSLLanguageIntegration.Outlining
 
                         foreach (var span in spans)
                         {
-                            if (!_commentSpans.OverlapsWith(span))
+                            lock (_spanLock)
                             {
-                                wordSpans.Add(span);
+                                if (!_commentSpans.CloneAndTrackTo(extent.Span.Snapshot, SpanTrackingMode.EdgePositive).OverlapsWith(span)
+                                    && _tokenSpans.CloneAndTrackTo(extent.Span.Snapshot, SpanTrackingMode.EdgePositive).OverlapsWith(span))
+                                {
+                                    wordSpans.Add(span);
+                                }
                             }
                         }
                     }
@@ -253,42 +246,42 @@ namespace GLSLLanguageIntegration.Outlining
             switch (text)
             {
                 case "(":
-                    var endParanthesisSpan = _parenthesisSpans.Select(s => (SnapshotSpan?)s)
+                    var endParanthesisSpan = _parenthesisSpans.Select(s => (SnapshotSpan?)s.Translated(extent.Span.Snapshot))
                         .FirstOrDefault(p => extent.Span.OverlapsWith(new SnapshotSpan(p.Value.Start, p.Value.Start + 1)));
 
                     return endParanthesisSpan.HasValue
                         ? new SnapshotSpan(endParanthesisSpan.Value.End - 1, endParanthesisSpan.Value.End)
                         : (SnapshotSpan?)null;
                 case ")":
-                    var startParanthesisSpan = _parenthesisSpans.Select(s => (SnapshotSpan?)s)
+                    var startParanthesisSpan = _parenthesisSpans.Select(s => (SnapshotSpan?)s.Translated(extent.Span.Snapshot))
                         .FirstOrDefault(p => extent.Span.OverlapsWith(new SnapshotSpan(p.Value.End - 1, p.Value.End)));
 
                     return startParanthesisSpan.HasValue
                         ? new SnapshotSpan(startParanthesisSpan.Value.Start, startParanthesisSpan.Value.Start + 1)
                         : (SnapshotSpan?)null;
                 case "{":
-                    var endCurlyBracketSpan = _curlyBracketSpans.Select(s => (SnapshotSpan?)s)
+                    var endCurlyBracketSpan = _curlyBracketSpans.Select(s => (SnapshotSpan?)s.Translated(extent.Span.Snapshot))
                         .FirstOrDefault(p => extent.Span.OverlapsWith(new SnapshotSpan(p.Value.Start, p.Value.Start + 1)));
 
                     return endCurlyBracketSpan.HasValue
                         ? new SnapshotSpan(endCurlyBracketSpan.Value.End - 1, endCurlyBracketSpan.Value.End)
                         : (SnapshotSpan?)null;
                 case "}":
-                    var startCurlyBracketSpan = _curlyBracketSpans.Select(s => (SnapshotSpan?)s)
+                    var startCurlyBracketSpan = _curlyBracketSpans.Select(s => (SnapshotSpan?)s.Translated(extent.Span.Snapshot))
                         .FirstOrDefault(p => extent.Span.OverlapsWith(new SnapshotSpan(p.Value.End - 1, p.Value.End)));
 
                     return startCurlyBracketSpan.HasValue
                         ? new SnapshotSpan(startCurlyBracketSpan.Value.Start, startCurlyBracketSpan.Value.Start + 1)
                         : (SnapshotSpan?)null;
                 case "[":
-                    var endSquareBracketSpan = _squareBracketSpans.Select(s => (SnapshotSpan?)s)
+                    var endSquareBracketSpan = _squareBracketSpans.Select(s => (SnapshotSpan?)s.Translated(extent.Span.Snapshot))
                         .FirstOrDefault(p => extent.Span.OverlapsWith(new SnapshotSpan(p.Value.Start, p.Value.Start + 1)));
 
                     return endSquareBracketSpan.HasValue
                         ? new SnapshotSpan(endSquareBracketSpan.Value.End - 1, endSquareBracketSpan.Value.End)
                         : (SnapshotSpan?)null;
                 case "]":
-                    var startSquareBracketSpan = _squareBracketSpans.Select(s => (SnapshotSpan?)s)
+                    var startSquareBracketSpan = _squareBracketSpans.Select(s => (SnapshotSpan?)s.Translated(extent.Span.Snapshot))
                         .FirstOrDefault(p => extent.Span.OverlapsWith(new SnapshotSpan(p.Value.End - 1, p.Value.End)));
 
                     return startSquareBracketSpan.HasValue
@@ -313,13 +306,13 @@ namespace GLSLLanguageIntegration.Outlining
             return false;
         }
 
-        private void SynchronousUpdate(SnapshotPoint request, NormalizedSnapshotSpanCollection tokenSpans, SnapshotSpan? token)
+        private void SynchronousUpdate(SnapshotPoint request, NormalizedSnapshotSpanCollection wordSpans, SnapshotSpan? token)
         {
             lock (_updateLock)
             {
                 if (request == _requestedPoint)
                 {
-                    _tokenSpans = tokenSpans;
+                    _wordSpans = wordSpans;
                     _currentToken = token;
 
                     TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(new SnapshotSpan(_buffer.CurrentSnapshot, 0, _buffer.CurrentSnapshot.Length)));
