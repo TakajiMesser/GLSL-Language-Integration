@@ -1,10 +1,12 @@
 ﻿using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Taggers;
 using GLSLLanguageIntegration.Utilities;
+using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace GLSLLanguageIntegration.Tokens
 {
@@ -60,6 +62,25 @@ namespace GLSLLanguageIntegration.Tokens
             }
         }
 
+        public IEnumerable<Completion> GetCompletions(SnapshotSpan span)
+        {
+            var scope = _bracketTagger.GetScope(span);
+            var token = span.GetText();
+
+            // We need to filter OUT any variables whose token text does not match our current span text
+
+            foreach (var variableInfo in _variableTagger.GetVariables(scope))
+            {
+                if (variableInfo.Token.Contains(token, StringComparison.OrdinalIgnoreCase))
+                {
+                    var iconSource = variableInfo.GetImageSource();
+                    yield return new Completion(variableInfo.Token, variableInfo.Token, variableInfo.Definition, iconSource, "");
+                }
+            }
+
+            yield break;
+        }
+
         public object GetQuickInfo(SnapshotSpan span, GLSLTokenTypes tokenType)
         {
             string token = span.GetText();
@@ -77,7 +98,7 @@ namespace GLSLLanguageIntegration.Tokens
                 case GLSLTokenTypes.BufferVariable:
                 case GLSLTokenTypes.SharedVariable:
                 case GLSLTokenTypes.LocalVariable:
-                    int scope = _bracketTagger.GetScope(span);
+                    var scope = _bracketTagger.GetScope(span);
                     return _variableTagger.GetQuickInfo(token, scope);
                 case GLSLTokenTypes.BuiltInFunction:
                 case GLSLTokenTypes.Function:
@@ -226,7 +247,7 @@ namespace GLSLLanguageIntegration.Tokens
                             if (previousResult.TokenType == GLSLTokenTypes.Type)
                             {
                                 // We need to determine the scope of this variable
-                                int scope = _bracketTagger.GetScope(tokenResult.Span);
+                                var scope = _bracketTagger.GetScope(tokenResult.Span);
 
                                 // This is a variable. Check for preceding keyword
                                 if (i > 1)
@@ -256,7 +277,7 @@ namespace GLSLLanguageIntegration.Tokens
                                 {
                                     // In this case, this could be a variable OR a function definition
                                     // For it to be a function, the scope must be zero AND the token must be followed by parentheses
-                                    if (scope == 0 && i < _statementBuilder.TokenCount - 1)
+                                    if (scope.Level == 0 && i < _statementBuilder.TokenCount - 1)
                                     {
                                         var nextResult = _statementBuilder.GetTokenAt(i + 1);
                                         if (nextResult.Token == "(")

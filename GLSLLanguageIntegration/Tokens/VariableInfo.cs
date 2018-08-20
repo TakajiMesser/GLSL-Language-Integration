@@ -5,10 +5,10 @@ namespace GLSLLanguageIntegration.Tokens
 {
     public class VariableInfo : TokenInfo
     {
-        public int Scope { get; private set; }
+        public Scope Scope { get; private set; }
         public string VariableType { get; private set; }
 
-        public VariableInfo(string token, int scope, string variableType, GLSLTokenTypes glslType) : base(token, glslType)
+        public VariableInfo(string token, Scope scope, string variableType, GLSLTokenTypes glslType) : base(token, glslType)
         {
             Scope = scope;
             VariableType = variableType;

@@ -70,7 +70,7 @@ namespace GLSLLanguageIntegration.Tokens
             }
         }
 
-        private BitmapImage GetImageSource()
+        public BitmapImage GetImageSource()
         {
             switch (GLSLType)
             {

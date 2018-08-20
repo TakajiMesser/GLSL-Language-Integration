@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.TextManager.Interop;
 using System;
 using System.Linq;
@@ -14,15 +15,17 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
     {
         private IWpfTextView _textView;
         private IOleCommandTarget _nextCommand;
+        private ITextStructureNavigator _textNavigator;
 
         private ICompletionBroker _completionBroker;
         private ICompletionSession _completionSession;
 
-        public CommandFilter(IVsTextView textViewAdapter, IWpfTextView textView, ICompletionBroker completionBroker)
+        public CommandFilter(IVsTextView textViewAdapter, IWpfTextView textView, ITextStructureNavigator textNavigator, ICompletionBroker completionBroker)
         {
             textViewAdapter.AddCommandFilter(this, out _nextCommand);
 
             _textView = textView;
+            _textNavigator = textNavigator;
             _completionBroker = completionBroker;
         }
 

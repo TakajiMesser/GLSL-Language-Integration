@@ -23,6 +23,8 @@ namespace GLSLLanguageIntegration.Taggers
         private SpanBuilder _curlyBracketBuilder = new SpanBuilder();
         private SpanBuilder _squareBracketBuilder = new SpanBuilder();
 
+        private Scope _rootScope;
+
         public GLSLSpanResult Match(SnapshotSpan span)
         {
             _parenthesisBuilder.Snapshot = span.Snapshot;
@@ -44,22 +46,7 @@ namespace GLSLLanguageIntegration.Taggers
             return result;
         }
 
-        public int GetScope(SnapshotSpan span)
-        {
-            int scope = 0;
-
-            foreach (var bracketSpan in _curlyBracketSpans)
-            {
-                var translatedSpan = bracketSpan.Span.Translated(span.Snapshot);
-
-                if (translatedSpan.OverlapsWith(span))
-                {
-                    scope++;
-                }
-            }
-
-            return scope;
-        }
+        public Scope GetScope(SnapshotSpan span) => GetRootScope(span).GetMatchingScope(span);
 
         public void Clear()
         {
@@ -70,6 +57,14 @@ namespace GLSLLanguageIntegration.Taggers
             _parenthesisBuilder.Clear();
             _curlyBracketBuilder.Clear();
             _squareBracketBuilder.Clear();
+
+            _rootScope = null;
+        }
+
+        private Scope GetRootScope(SnapshotSpan span)
+        {
+            _rootScope = _rootScope ?? new Scope(span.Snapshot.FullSpan());
+            return _rootScope;
         }
 
         private SnapshotSpan? GetSpan(SpanBuilder spanBuilder, string text, int position, char openingChar, char closingChar)
@@ -170,6 +165,8 @@ namespace GLSLLanguageIntegration.Taggers
 
                             var tagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(CURLY_TOKEN_TYPE, collapseText));
                             _curlyBracketSpans.Add(tagSpan);
+
+                            GetRootScope(span).AddChild(bracketSpan);
                         }
                     }
                 }
