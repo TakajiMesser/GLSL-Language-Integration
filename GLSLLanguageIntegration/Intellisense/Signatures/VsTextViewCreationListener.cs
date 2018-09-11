@@ -14,13 +14,13 @@ namespace GLSLLanguageIntegration.Intellisense.Signatures
     internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
     {
         [Import]
-        internal IVsEditorAdaptersFactoryService AdapterService;
+        internal IVsEditorAdaptersFactoryService AdapterService { get; set; }
 
         [Import]
         internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
 
         [Import]
-        internal ISignatureHelpBroker SignatureHelpBroker;
+        internal ISignatureHelpBroker SignatureHelpBroker { get; set; }
 
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {

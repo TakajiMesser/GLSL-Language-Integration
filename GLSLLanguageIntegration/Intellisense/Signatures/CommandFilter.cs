@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
@@ -30,6 +31,9 @@ namespace GLSLLanguageIntegration.Intellisense.Signatures
 
         public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
+            //await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             int hresult = HandleEditorCommands(ref pguidCmdGroup, nCmdID)
                 ? VSConstants.S_OK
                 : _nextCommand.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
@@ -95,6 +99,8 @@ namespace GLSLLanguageIntegration.Intellisense.Signatures
                 }
             }
 
+            //await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            ThreadHelper.ThrowIfNotOnUIThread();
             return _nextCommand.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
 

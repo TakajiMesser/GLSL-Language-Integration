@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
@@ -29,8 +30,29 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
             _completionBroker = completionBroker;
         }
 
+        public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
+        {
+            if (pguidCmdGroup == VSConstants.VSStd2K)
+            {
+                switch ((VSConstants.VSStd2KCmdID)prgCmds[0].cmdID)
+                {
+                    case VSConstants.VSStd2KCmdID.AUTOCOMPLETE:
+                    case VSConstants.VSStd2KCmdID.COMPLETEWORD:
+                        prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_ENABLED | (uint)OLECMDF.OLECMDF_SUPPORTED;
+                        return VSConstants.S_OK;
+                }
+            }
+
+            //await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return _nextCommand.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
+        }
+
         public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
+            //await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             int hresult = HandleEditorCommands(ref pguidCmdGroup, nCmdID)
                 ? VSConstants.S_OK
                 : _nextCommand.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
@@ -84,23 +106,6 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
             }
 
             return false;
-        }
-
-        public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
-        {
-            if (pguidCmdGroup == VSConstants.VSStd2K)
-            {
-                switch ((VSConstants.VSStd2KCmdID)prgCmds[0].cmdID)
-                {
-                    case VSConstants.VSStd2KCmdID.AUTOCOMPLETE:
-                    case VSConstants.VSStd2KCmdID.COMPLETEWORD:
-                        prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_ENABLED | (uint)OLECMDF.OLECMDF_SUPPORTED;
-                        return VSConstants.S_OK;
-                }
-            }
-            
-            //await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            return _nextCommand.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
 
         private char GetTypeChar(IntPtr pvaIn) => (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);

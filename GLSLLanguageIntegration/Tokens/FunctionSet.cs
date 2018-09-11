@@ -24,18 +24,8 @@ namespace GLSLLanguageIntegration.Tokens
                 {
                     if (lines.Count > 0)
                     {
-                        // genType atan (genType y, genType x)
-                        // genType atan (genType y_over_x) 
-                        // genType sin (genType angle)
                         var match = Regex.Match(lines.First(),
-                            //@"^(?<returnType>[a-zA-Z]+) (?<name>[a-zA-Z]+) \([a-zA-Z]\)");
                             @"^(?<returnType>[a-zA-Z]+) (?<name>[a-zA-Z]+) \(((?<parameterType>[a-zA-Z]+) (?<parameterName>[a-zA-Z_]+)(, )?)*\)( )*$");
-
-                        int a = 4;
-                        if (lines.First().StartsWith("genType atan"))
-                        {
-                            a = 3;
-                        }
 
                         if (match.Success)
                         {

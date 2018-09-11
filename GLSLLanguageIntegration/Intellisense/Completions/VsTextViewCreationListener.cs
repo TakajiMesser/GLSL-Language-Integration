@@ -14,13 +14,13 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
     internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
     {
         [Import]
-        internal IVsEditorAdaptersFactoryService AdapterService;
+        internal IVsEditorAdaptersFactoryService AdapterService { get; set; }
 
         [Import]
         internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
 
         [Import]
-        internal ICompletionBroker CompletionBroker;
+        internal ICompletionBroker CompletionBroker { get; set; }
 
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
