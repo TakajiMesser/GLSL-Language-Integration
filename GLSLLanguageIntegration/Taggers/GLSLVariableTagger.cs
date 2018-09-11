@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace GLSLLanguageIntegration.Taggers
 {
-    public class GLSLVariableTagger : IGLSLTagger
+    public class GLSLVariableTagger// : IGLSLTagger
     {
         public const GLSLTokenTypes INPUT_TOKEN_TYPE = GLSLTokenTypes.InputVariable;
         public const GLSLTokenTypes OUTPUT_TOKEN_TYPE = GLSLTokenTypes.OutputVariable;
@@ -84,12 +84,12 @@ namespace GLSLLanguageIntegration.Taggers
             return result;
         }
 
-        public GLSLSpanResult Match(SnapshotSpan span)
+        public GLSLSpanResult Match(SnapshotSpan span, Scope scope)
         {
             string token = span.GetText();
             int position = span.Start + token.Length;
 
-            var matchType = MatchTokenType(token);
+            var matchType = MatchTokenType(token, scope);
 
             if (matchType.HasValue)
             {
@@ -111,32 +111,22 @@ namespace GLSLLanguageIntegration.Taggers
             }
         }
 
-        public GLSLTokenTypes? MatchTokenType(string token)
+        public GLSLTokenTypes? MatchTokenType(string token, Scope scope)
         {
             if (_tokens.Contains(token))
             {
                 return GLSLTokenTypes.BuiltInVariable;
             }
-            else if (_inputVariables.Any(v => v.Span.GetText() == token))
-            {
-                return GLSLTokenTypes.InputVariable;
-            }
-            else if (_outputVariables.Any(v => v.Span.GetText() == token))
-            {
-                return GLSLTokenTypes.OutputVariable;
-            }
-            else if (_uniformVariables.Any(v => v.Span.GetText() == token))
-            {
-                return GLSLTokenTypes.UniformVariable;
-            }
-            else if (_localVariables.Any(v => v.Span.GetText() == token))
-            {
-                return GLSLTokenTypes.LocalVariable;
-            }
             else
             {
-                return null;
+                var variableInfo = _variableInfos.GetVariable(token, scope);
+                if (variableInfo != null)
+                {
+                    return variableInfo.GLSLType;
+                }
             }
+
+            return null;
         }
 
         public void Clear()

@@ -1,38 +1,62 @@
-﻿radians
+﻿genType radians (genType degrees)
 Converts degrees to radians, i.e., pi / 180 ⋅degrees.
 
-degrees
+genType degrees (genType radians)
 Converts radians to degrees, i.e., 180 / pi radians.
 
-sin
+genType sin (genType angle)
 The standard trigonometric sine function.
 
-cos
+genType cos (genType angle) 
 The standard trigonometric cosine function.
 
-tan
+genType tan (genType angle)
 The standard trigonometric tangent.
 
-asin
+genType asin (genType x) 
 Arc sine. Returns an angle whose sine is x.
 The range of values returned by this function is [−pi / 2, pi / 2].
 Results are undefined if ∣x∣ > 1.
 
-acos
+genType acos (genType x)
+Arc cosine. Returns an angle whose cosine is x. The
+range of values returned by this function is [0, p].
+Results are undefined if ∣x∣ > 1.
 
-atan
+genType atan (genType y, genType x)
+Arc tangent. Returns an angle whose tangent is y / x. The
+signs of x and y are used to determine what quadrant the
+angle is in. The range of values returned by this
+function is [−pi, pi]. Results are undefined if x and
+y are both 0.
 
-sinh
+genType atan (genType y_over_x) 
+Arc tangent. Returns an angle whose tangent is
+y_over_x. The range of values returned by this function
+is [−pi / 2, pi / 2].
 
-cosh
+genType sinh (genType x)
+Returns the hyperbolic sine function
+(e ^ x - e ^ (-x)) / 2
 
-tanh
+genType cosh (genType x)
+Returns the hyperbolic cosine function
+(e ^ x + e ^ (-x)) / 2
 
-asinh
+genType tanh (genType x)
+Returns the hyperbolic tangent function
+sinh(x) / cosh(x)
 
-acosh
+genType asinh (genType x)
+Arc hyperbolic sine; returns the inverse of sinh.
 
-atanh
+genType acosh (genType x)
+Arc hyperbolic cosine; returns the non-negative inverse
+of cosh. Results are undefined if x < 1.
+
+genType atanh (genType x)
+Arc hyperbolic tangent; returns the inverse of tanh.
+Results are undefined if ∣x∣ >= 1.
 
 pow
 

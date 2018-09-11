@@ -1,49 +1,106 @@
 ﻿using GLSLLanguageIntegration.Classification;
+using GLSLLanguageIntegration.Spans;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace GLSLLanguageIntegration.Tokens
 {
     public class TokenBuilder
     {
-        public int StartPosition { get; private set; }
-        public int EndPosition => StartPosition + _builder.Length;
-        public int Length => _builder.Length;
-        public ITextSnapshot Snapshot { get; set; }
-        public SnapshotSpan Span => new SnapshotSpan(Snapshot, StartPosition, Length);
+        public int Position { get; set; }
+        public bool IsCompleted { get; private set; } = false;
 
-        private StringBuilder _builder = new StringBuilder();
+        private ITextSnapshot _textSnapshot;
+        private string _text;
 
-        public TagSpan<GLSLClassifierTag> GetTag(SnapshotSpan span, GLSLTokenTypes type)
+        public TokenBuilder(ITextBuffer textBuffer)
         {
-            var tokenSpan = Span;
+            _textSnapshot = textBuffer.CurrentSnapshot;
+            _text = _textSnapshot.GetText();
 
-            if (tokenSpan.IntersectsWith(span))
+            textBuffer.Changed += (s, args) =>
             {
-                return new TagSpan<GLSLClassifierTag>(tokenSpan, new GLSLClassifierTag(type));
-            }
-
-            return null;
+                if (args.After == _textSnapshot)
+                {
+                    // TODO - Avoid re-parsing the entire buffer by only parsing the relevant spans
+                    //ParseBuffer();// args.Changes);
+                }
+            };
         }
 
-        public void Append(char value, int position)
+        public SnapshotSpan GetNextTokenSpan()
         {
-            if (_builder.Length == 0)
+            var tokenStart = Position;
+
+            while (Position < _text.Length)
             {
-                StartPosition = position;
-            }
-            else if (position - StartPosition != _builder.Length)
-            {
-                throw new ArgumentOutOfRangeException("Position is incorrect (Do you need to call Clear() to flush the buffer first?)");
+                char character = _text[Position];
+                Position++;
+
+                if (char.IsWhiteSpace(character))
+                {
+                    if (Position > tokenStart + 1)
+                    {
+                        return new SnapshotSpan(_textSnapshot, tokenStart, Position - 1 - tokenStart);
+                    }
+                    else
+                    {
+                        tokenStart = Position;
+                    }
+                }
+                else if (IsTokenTerminator(character))
+                {
+                    if (Position > tokenStart + 1)
+                    {
+                        Position--;
+                    }
+                    else if (Position < _text.Length && IsOperatorToken(_text.Substring(Position - 1, 2)))
+                    {
+                        Position++;
+                    }
+
+                    return new SnapshotSpan(_textSnapshot, tokenStart, Position - tokenStart);
+                }
             }
 
-            _builder.Append(value);
+            IsCompleted = true;
+            return new SnapshotSpan(_textSnapshot, tokenStart, Position - tokenStart);
         }
 
-        public void Clear() => _builder.Clear();
+        private bool IsOperatorToken(string value)
+        {
+            return value == "//"
+                || value == "/*"
+                || value == "=="
+                || value == "&&"
+                || value == "||";
+        }
 
-        public override string ToString() => _builder.ToString();
+        public IEnumerable<SnapshotSpan> GetTokenSpans()
+        {
+            var tokenLength = 0;
+            var text = _textSnapshot.GetText();
+
+            // Process until we reach a token terminator
+            for (var i = 0; i < text.Length; i++)
+            {
+                if (char.IsWhiteSpace(text[i]))
+                {
+                    // In this case, we do not want to tokenize this character, but we want to reset the tokenStart
+                    tokenLength++;
+                }
+                else if (IsTokenTerminator(text[i]))
+                {
+                    // In this case, we want to tokenize AND reset the tokenStart
+                    yield return new SnapshotSpan(_textSnapshot, i - tokenLength, i);
+                    tokenLength++;
+                }
+            }
+        }
+
+        private bool IsTokenTerminator(char character) => !char.IsLetterOrDigit(character) && character != '_';
     }
 }

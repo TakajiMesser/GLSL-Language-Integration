@@ -26,13 +26,6 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
         {
             if (_disposed) throw new ObjectDisposedException("GLSLCompletionSource");
 
-            /*var completions = new List<Completion>()
-            {
-                new Completion(nameof(GLSLPreprocessor)),
-                new Completion(nameof(GLSLComment)),
-                new Completion(nameof(GLSLKeyword))
-            };*/
-
             ITextSnapshot snapshot = _buffer.CurrentSnapshot;
 
             var triggerPoint = (SnapshotPoint)session.GetTriggerPoint(snapshot);

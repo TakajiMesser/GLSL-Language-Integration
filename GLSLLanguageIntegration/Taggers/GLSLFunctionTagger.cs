@@ -19,7 +19,7 @@ namespace GLSLLanguageIntegration.Taggers
         //private Dictionary<string, VariableInfo> _variableInfoByToken = new Dictionary<string, VariableInfo>();
         private List<FunctionInfo> _functionInfos = new List<FunctionInfo>();
 
-        private TokenSet _tokens = new TokenSet(Resources.Functions, BUILT_IN_TOKEN_TYPE);
+        private FunctionSet _tokens = new FunctionSet(Resources.Functions, BUILT_IN_TOKEN_TYPE);
 
         public object GetQuickInfo(string token)
         {
@@ -52,7 +52,11 @@ namespace GLSLLanguageIntegration.Taggers
             result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
 
             _localFunctions.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(GLSLTokenTypes.Function)));
-            _functionInfos.Add(new FunctionInfo(token, returnType, GLSLTokenTypes.Function));
+
+            var functionInfo = new FunctionInfo(token, GLSLTokenTypes.Function);
+            functionInfo.Overloads.Add(new FunctionOverload(returnType));
+
+            _functionInfos.Add(functionInfo);
 
             return result;
         }

@@ -94,6 +94,8 @@
     <Compile Include="Taggers\IGLSLTagger.cs" />
     <Compile Include="Outlining\GLSLOutlineTag.cs" />
     <Compile Include="Spans\GLSLTagSpanCollection.cs" />
+    <Compile Include="Tokens\ParameterInfo.cs" />
+    <Compile Include="Tokens\FunctionOverload.cs" />
     <Compile Include="Tokens\Scope.cs" />
     <Compile Include="Tokens\IGLSLTag.cs" />
     <Compile Include="Taggers\GLSLBracketTagger.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Spans\SpanBuilder.cs" />
     <Compile Include="Tokens\TokenBuilder.cs" />
     <Compile Include="Tokens\FunctionInfo.cs" />
+    <Compile Include="Tokens\FunctionSet.cs" />
     <Compile Include="Tokens\VariableInfoCollection.cs" />
     <Compile Include="Tokens\VariableInfo.cs" />
     <Compile Include="Tokens\TokenInfo.cs" />

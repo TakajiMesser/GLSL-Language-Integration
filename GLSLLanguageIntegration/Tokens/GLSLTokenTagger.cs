@@ -13,7 +13,6 @@ namespace GLSLLanguageIntegration.Tokens
     internal sealed class GLSLTokenTagger : ITagger<IGLSLTag>
     {
         private ITextBuffer _buffer;
-        private SnapshotSpan? _tokenSpan = null;
         private StatementBuilder _statementBuilder = new StatementBuilder();
         private GLSLTagSpanCollection _tagSpans = new GLSLTagSpanCollection();
 
@@ -67,8 +66,6 @@ namespace GLSLLanguageIntegration.Tokens
             var scope = _bracketTagger.GetScope(span);
             var token = span.GetText();
 
-            // We need to filter OUT any variables whose token text does not match our current span text
-
             foreach (var variableInfo in _variableTagger.GetVariables(scope))
             {
                 if (variableInfo.Token.Contains(token, StringComparison.OrdinalIgnoreCase))
@@ -98,6 +95,7 @@ namespace GLSLLanguageIntegration.Tokens
                 case GLSLTokenTypes.BufferVariable:
                 case GLSLTokenTypes.SharedVariable:
                 case GLSLTokenTypes.LocalVariable:
+                case GLSLTokenTypes.ParameterVariable:
                     var scope = _bracketTagger.GetScope(span);
                     return _variableTagger.GetQuickInfo(token, scope);
                 case GLSLTokenTypes.BuiltInFunction:
@@ -115,26 +113,49 @@ namespace GLSLLanguageIntegration.Tokens
         private void ParseBuffer()
         {
             ClearTaggers();
-            _tokenSpan = null;
             _statementBuilder.Clear();
 
             var textSnapshot = _buffer.CurrentSnapshot;
             _statementBuilder.Snapshot = textSnapshot;
 
-            var text = textSnapshot.GetText();
+            var tagSpans = new List<TagSpan<IGLSLTag>>();
+            var tokenBuilder = new TokenBuilder(_buffer);
 
-            var newTagSpans = new List<TagSpan<IGLSLTag>>();
-
-            for (var i = 0; i < text.Length; i++)
+            while (!tokenBuilder.IsCompleted)
             {
-                foreach (var result in ProcessCharacter(text[i], i))
+                var tokenSpan = tokenBuilder.GetNextTokenSpan();
+
+                var spanResult = ProcessToken(tokenSpan);
+                tokenBuilder.Position += spanResult.Consumed;
+
+                if (spanResult.TokenType != GLSLTokenTypes.Comment && spanResult.TokenType != GLSLTokenTypes.Preprocessor)
                 {
-                    newTagSpans.AddRange(result.TagSpans);
-                    i += result.Consumed;
+                    var token = tokenSpan.GetText();
+
+                    if (token == "{" || token == "[" || token == "(")
+                    {
+                        var bracketResult = _bracketTagger.Match(tokenSpan);
+                        tagSpans.AddRange(bracketResult.TagSpans);
+                    }
+                    
+                    if (token != "{" && token != "}")
+                    {
+                        _statementBuilder.AppendResult(spanResult);
+                    }
+
+                    if (spanResult.TokenType == GLSLTokenTypes.Semicolon || token == "{")
+                    {
+                        foreach (var statementResult in _statementBuilder.ProcessStatement(_bracketTagger, _functionTagger, _variableTagger))
+                        {
+                            tagSpans.AddRange(statementResult.TagSpans);
+                        }
+                    }
                 }
+
+                tagSpans.AddRange(spanResult.TagSpans);
             }
 
-            _tagSpans.Update(textSnapshot, newTagSpans);
+            _tagSpans.Update(textSnapshot, tagSpans);
         }
 
         private void ParseBuffer(INormalizedTextChangeCollection textChanges)
@@ -157,11 +178,11 @@ namespace GLSLLanguageIntegration.Tokens
 
             for (var i = 0; i < text.Length; i++)
             {
-                foreach (var result in ProcessCharacter(text[i], i))
+                /*foreach (var result in ProcessCharacter(text[i], i))
                 {
                     newTagSpans.AddRange(result.TagSpans);
                     i += result.Consumed;
-                }
+                }*/
             }
 
             _tagSpans.Update(textSnapshot, newTagSpans);
@@ -182,192 +203,61 @@ namespace GLSLLanguageIntegration.Tokens
             _bracketTagger.Clear();
         }
 
-        private IEnumerable<GLSLSpanResult> ProcessCharacter(char character, int position)
+        private GLSLSpanResult ProcessToken(SnapshotSpan span)
         {
-            switch (character)
+            var token = span.GetText();
+            var result = _commentTagger.Match(span);
+
+            if (!result.IsMatch)
             {
-                case var value when char.IsWhiteSpace(character):
-                case ')':
-                case '}':
-                case ',':
-                    yield return ProcessBuffer(position);
-                    break;
-                case '.':
-                    // Need to confirm that what came before is a valid variable/identifier
-                    yield return ProcessBuffer(position);
-                    break;
-                case '(':
-                    // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
-                    yield return ProcessBuffer(position);
-                    var bracketResult = _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
-                    _statementBuilder.AppendResult(bracketResult);
-                    yield return bracketResult;
-                    break;
-                case '{':
-                    yield return ProcessBuffer(position);
-                    yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
-                    break;
-                case '[':
-                    // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
-                    yield return ProcessBuffer(position);
-                    yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
-                    break;
-                case ';':
-                    // End of statement -> Need to check statement for errors
-                    yield return ProcessBuffer(position);
-                    foreach (var result in ProcessStatement(character, position))
-                    {
-                        yield return result;
-                    }
-                    break;
-                default:
-                    _tokenSpan = _tokenSpan.HasValue
-                        ? _tokenSpan.Value.Extended(1)
-                        : new SnapshotSpan(_buffer.CurrentSnapshot, position, 1);
-                    break;
-            }
-        }
-
-        private IEnumerable<GLSLSpanResult> ProcessStatement(char character, int position)
-        {
-            if (_statementBuilder.Length > 0)
-            {
-                // Process the constructed statement
-                //_statementBuilder.Terminate(character.ToString(), position + 1, new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
-
-                for (var i = 0; i < _statementBuilder.TokenCount; i++)
-                {
-                    var tokenResult = _statementBuilder.GetTokenAt(i);
-
-                    if (!tokenResult.TokenType.HasValue)
-                    {
-                        if (i > 0)
-                        {
-                            var previousResult = _statementBuilder.GetTokenAt(i - 1);
-                            if (previousResult.TokenType == GLSLTokenTypes.Type)
-                            {
-                                // We need to determine the scope of this variable
-                                var scope = _bracketTagger.GetScope(tokenResult.Span);
-
-                                // This is a variable. Check for preceding keyword
-                                if (i > 1)
-                                {
-                                    var previousPreviousResult = _statementBuilder.GetTokenAt(i - 2);
-                                    if (previousPreviousResult.TokenType == GLSLTokenTypes.Keyword)
-                                    {
-                                        switch (previousPreviousResult.Token)
-                                        {
-                                            case "uniform":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.Span.End, tokenResult.Span, GLSLTokenTypes.UniformVariable);
-                                                break;
-                                            case "in":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.Span.End, tokenResult.Span, GLSLTokenTypes.InputVariable);
-                                                break;
-                                            case "out":
-                                                yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.Span.End, tokenResult.Span, GLSLTokenTypes.OutputVariable);
-                                                break;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.Span.End, tokenResult.Span, GLSLTokenTypes.LocalVariable);
-                                    }
-                                }
-                                else
-                                {
-                                    // In this case, this could be a variable OR a function definition
-                                    // For it to be a function, the scope must be zero AND the token must be followed by parentheses
-                                    if (scope.Level == 0 && i < _statementBuilder.TokenCount - 1)
-                                    {
-                                        var nextResult = _statementBuilder.GetTokenAt(i + 1);
-                                        if (nextResult.Token == "(")
-                                        {
-                                            // We can now confirm that this is a function definition. Any variables defined within the definition are now parameters
-                                            yield return _functionTagger.AddToken(tokenResult.Token, previousResult.Token, tokenResult.Span.End, tokenResult.Span);
-                                            continue;
-                                        }
-                                    }
-
-                                    yield return _variableTagger.AddToken(tokenResult.Token, scope, previousResult.Token, tokenResult.Span.End, tokenResult.Span, GLSLTokenTypes.LocalVariable);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                _statementBuilder.Clear();
+                result = _preprocessorTagger.Match(span);
             }
 
-            yield break;
-        }
-
-        private GLSLSpanResult ProcessBuffer(int position)
-        {
-            var result = new GLSLSpanResult();
-
-            if (_tokenSpan.HasValue)
+            if (!result.IsMatch && span.GetText() == ";")
             {
-                result = Tokenize(_tokenSpan.Value);
-                _statementBuilder.AppendResult(result);
-                _tokenSpan = null;
+                return new GLSLSpanResult(GLSLTokenTypes.Semicolon, span);
             }
 
-            return result;
-        }
-
-        private GLSLSpanResult Tokenize(SnapshotSpan span)
-        {
-            var result = new GLSLSpanResult();
-
-            if (!string.IsNullOrWhiteSpace(span.GetText()))
+            if (!result.IsMatch)
             {
-                result = _commentTagger.Match(span);
-
-                if (!result.IsMatch)
-                {
-                    result = _preprocessorTagger.Match(span);
-                }
-
-                if (!result.IsMatch)
-                {
-                    result = _keywordTagger.Match(span);
-                }
-
-                if (!result.IsMatch)
-                {
-                    result = _typeTagger.Match(span);
-                }
-
-                if (!result.IsMatch)
-                {
-                    result = _variableTagger.Match(span);
-                }
-
-                if (!result.IsMatch)
-                {
-                    result = _structTagger.Match(span);
-                }
-
-                if (!result.IsMatch)
-                {
-                    result = _constantTagger.Match(span);
-                }
-
-                if (!result.IsMatch)
-                {
-                    result = _functionTagger.Match(span);
-                }
-
-                if (!result.IsMatch)
-                {
-                    result = _operatorTagger.Match(span);
-                }
-
-                /*if (!result.IsMatch)
-                {
-                    result = _statementTagger.Match(token, position, span);
-                }*/
+                result = _keywordTagger.Match(span);
             }
+
+            if (!result.IsMatch)
+            {
+                result = _typeTagger.Match(span);
+            }
+
+            if (!result.IsMatch)
+            {
+                var scope = _bracketTagger.GetScope(span);
+                result = _variableTagger.Match(span, scope);
+            }
+
+            if (!result.IsMatch)
+            {
+                result = _structTagger.Match(span);
+            }
+
+            if (!result.IsMatch)
+            {
+                result = _constantTagger.Match(span);
+            }
+
+            if (!result.IsMatch)
+            {
+                result = _functionTagger.Match(span);
+            }
+
+            if (!result.IsMatch)
+            {
+                result = _operatorTagger.Match(span);
+            }
+
+            /*if (!result.IsMatch)
+            {
+                result = _statementTagger.Match(token, position, span);
+            }*/
 
             return result;
         }
