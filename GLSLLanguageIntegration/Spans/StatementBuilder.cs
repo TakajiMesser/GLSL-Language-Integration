@@ -1,7 +1,6 @@
 ﻿using GLSLLanguageIntegration.Taggers;
 using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,56 +34,15 @@ namespace GLSLLanguageIntegration.Spans
             _tokens.Add(tokenResult);
         }
 
-        /*switch (character)
-        {
-            case var value when char.IsWhiteSpace(character):
-            case ')':
-            case '}':
-            case ',':
-                break;
-            case '.':
-                // Need to confirm that what came before is a valid variable/identifier
-                break;
-            case '(':
-                // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
-                var bracketResult = _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
-                _statementBuilder.AppendResult(bracketResult);
-                yield return bracketResult;
-                break;
-            case '{':
-                // Need to process statement before brackets (for block statements, or for function definitions)
-                foreach (var result in ProcessStatement(character, position))
-                {
-                    yield return result;
-                }
-
-                yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
-                break;
-            case '[':
-                // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
-                yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
-                break;
-            case ';':
-                // End of statement -> Need to check statement for errors
-                foreach (var result in ProcessStatement(character, position))
-                {
-                    yield return result;
-                }
-                break;
-        }*/
-
-        // We still have two problems!
-        //      1) Parameter variables are in the parent scope like the function, NOT within the child scope of the method like it should be
-        //      2) Local variables that are in the same scope level, but in DIFFERENT child scopes are not working as separate variables, for whatever reason
-
+        // TODO - Still need to move parameter variables to their child scope. They are currently defined at the parent method scope, which is technically incorrect
         public IEnumerable<GLSLSpanResult> ProcessStatement(GLSLBracketTagger bracketTagger, GLSLFunctionTagger functionTagger, GLSLVariableTagger variableTagger)
         {
             var tokenScope = bracketTagger.GetScope(_tokens.First().Span);
+            File.AppendAllLines(@"C:\Users\Takaji\Desktop\testlog.txt", new[] { tokenScope.Level + " - " + string.Join(" ", _tokens.Select(t => t.Token)) });
 
             if (Length > 0)
             {
                 // Process the constructed statement
-                //_statementBuilder.Terminate(character.ToString(), position + 1, new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
                 bool isFunctionDefinition = false;
 
                 for (var i = 0; i < TokenCount; i++)
@@ -169,6 +127,45 @@ namespace GLSLLanguageIntegration.Spans
         public void Clear()
         {
             _tokens.Clear();
+            File.WriteAllText(@"C:\Users\Takaji\Desktop\testlog.txt", "");
         }
+
+        /*switch (character)
+        {
+            case var value when char.IsWhiteSpace(character):
+            case ')':
+            case '}':
+            case ',':
+                break;
+            case '.':
+                // Need to confirm that what came before is a valid variable/identifier
+                break;
+            case '(':
+                // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
+                var bracketResult = _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
+                _statementBuilder.AppendResult(bracketResult);
+                yield return bracketResult;
+                break;
+            case '{':
+                // Need to process statement before brackets (for block statements, or for function definitions)
+                foreach (var result in ProcessStatement(character, position))
+                {
+                    yield return result;
+                }
+
+                yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
+                break;
+            case '[':
+                // Need to confirm that what came before is a valid function, or certain keywords (e.g. layout)
+                yield return _bracketTagger.Match(new SnapshotSpan(_buffer.CurrentSnapshot, position, 1));
+                break;
+            case ';':
+                // End of statement -> Need to check statement for errors
+                foreach (var result in ProcessStatement(character, position))
+                {
+                    yield return result;
+                }
+                break;
+        }*/
     }
 }

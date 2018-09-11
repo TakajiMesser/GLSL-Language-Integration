@@ -1,6 +1,5 @@
 ﻿using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Tokens

@@ -1,6 +1,4 @@
-﻿using GLSLLanguageIntegration.Classification;
-using GLSLLanguageIntegration.Tokens;
-using GLSLLanguageIntegration.Utilities;
+﻿using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
