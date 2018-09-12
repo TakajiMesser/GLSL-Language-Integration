@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Tokens
 {
-    internal sealed class GLSLTokenTagger : ITagger<IGLSLTag>
+    internal sealed class GLSLTagger : ITagger<IGLSLTag>
     {
         private ITextBuffer _buffer;
         private StatementBuilder _statementBuilder = new StatementBuilder();
@@ -29,7 +29,7 @@ namespace GLSLLanguageIntegration.Tokens
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
-        internal GLSLTokenTagger(ITextBuffer buffer)
+        internal GLSLTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
             _buffer.Changed += (s, args) =>

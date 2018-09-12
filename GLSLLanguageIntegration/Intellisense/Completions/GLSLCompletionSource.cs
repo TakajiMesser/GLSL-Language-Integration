@@ -49,7 +49,7 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
                     session.SelectedCompletionSet.Recalculate();
                 }*/
 
-                var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
+                var tagger = new GLSLTaggerProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTagger;
                 var completions = tagger.GetCompletions(span);
 
                 completionSets.Add(new CompletionSet("All", "All", applicableTo, completions, Enumerable.Empty<Completion>()));

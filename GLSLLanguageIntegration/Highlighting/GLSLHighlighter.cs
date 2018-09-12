@@ -182,7 +182,7 @@ namespace GLSLLanguageIntegration.Outlining
                             FindOptions = FindOptions.WholeWord | FindOptions.MatchCase
                         };
 
-                        var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
+                        var tagger = new GLSLTaggerProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTagger;
                         var scope = tagger.GetScope(extent.Span);
 
                         var spans = _textSearchService.FindAll(findData);

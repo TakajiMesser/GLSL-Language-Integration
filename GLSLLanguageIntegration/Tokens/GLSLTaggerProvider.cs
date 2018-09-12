@@ -8,11 +8,11 @@ namespace GLSLLanguageIntegration.Tokens
     [Export(typeof(ITaggerProvider))]
     [TagType(typeof(IGLSLTag))]
     [ContentType("glsl")]
-    internal sealed class GLSLTokenTagProvider : ITaggerProvider
+    internal sealed class GLSLTaggerProvider : ITaggerProvider
     {
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return buffer.Properties.GetOrCreateSingletonProperty(() => new GLSLTokenTagger(buffer) as ITagger<T>);
+            return buffer.Properties.GetOrCreateSingletonProperty(() => new GLSLTagger(buffer) as ITagger<T>);
         }
     }
 }

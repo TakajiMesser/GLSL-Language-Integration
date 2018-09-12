@@ -31,7 +31,7 @@ namespace GLSLLanguageIntegration.Intellisense
 
             if (triggerPoint != null)
             {
-                var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
+                var tagger = new GLSLTaggerProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTagger;
                 var triggerSpan = new SnapshotSpan(triggerPoint, triggerPoint);
 
                 var quickInfo = await GetQuickInfoAsync(tagger, triggerSpan, cancellationToken);
@@ -44,7 +44,7 @@ namespace GLSLLanguageIntegration.Intellisense
             return null;
         }
 
-        private async Task<QuickInfoItem> GetQuickInfoAsync(GLSLTokenTagger tagger, SnapshotSpan triggerSpan, CancellationToken cancellationToken)
+        private async Task<QuickInfoItem> GetQuickInfoAsync(GLSLTagger tagger, SnapshotSpan triggerSpan, CancellationToken cancellationToken)
         {
             foreach (var tag in _aggregator.GetTags(triggerSpan))
             {

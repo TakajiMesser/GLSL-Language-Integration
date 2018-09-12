@@ -113,8 +113,8 @@
     <Compile Include="Tokens\TokenInfo.cs" />
     <Compile Include="Tokens\TokenSet.cs" />
     <Compile Include="Taggers\GLSLPreprocessorTagger.cs" />
-    <Compile Include="Tokens\GLSLTokenTagger.cs" />
-    <Compile Include="Tokens\GLSLTokenTagProvider.cs" />
+    <Compile Include="Tokens\GLSLTagger.cs" />
+    <Compile Include="Tokens\GLSLTaggerProvider.cs" />
     <Compile Include="Tokens\GLSLTokenTypes.cs" />
     <Compile Include="Classification\GLSLClassifierTag.cs" />
     <Compile Include="Intellisense\Completions\VsTextViewCreationListener.cs" />
