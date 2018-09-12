@@ -55,7 +55,7 @@ namespace GLSLLanguageIntegration.Outlining
         internal ITextStructureNavigatorSelectorService TextStructureNavigatorSelector { get; set; }
 
         [Import]
-        internal IBufferTagAggregatorFactoryService _aggregatorFactory = null;
+        internal IBufferTagAggregatorFactoryService AggregatorFactory { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
@@ -67,7 +67,7 @@ namespace GLSLLanguageIntegration.Outlining
             {
                 return buffer.Properties.GetOrCreateSingletonProperty(() =>
                 {
-                    var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
+                    var aggregator = AggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
                     var navigator = TextStructureNavigatorSelector.GetTextStructureNavigator(buffer);
                     return new GLSLHighlighter(textView, buffer, TextSearchService, navigator, aggregator) as ITagger<T>;
                 });

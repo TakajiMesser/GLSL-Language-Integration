@@ -21,14 +21,14 @@ namespace GLSLLanguageIntegration.Outlining
         private NormalizedSnapshotSpanCollection _wordSpans = new NormalizedSnapshotSpanCollection();
         private SnapshotSpan? _currentToken = null;
         private SnapshotPoint _requestedPoint;
-        private object _updateLock = new object();
+        private readonly object _updateLock = new object();
 
         private NormalizedSnapshotSpanCollection _tokenSpans;
         private NormalizedSnapshotSpanCollection _commentSpans;
         private List<SnapshotSpan> _parenthesisSpans = new List<SnapshotSpan>();
         private List<SnapshotSpan> _curlyBracketSpans = new List<SnapshotSpan>();
         private List<SnapshotSpan> _squareBracketSpans = new List<SnapshotSpan>();
-        private object _spanLock = new object();
+        private readonly object _spanLock = new object();
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
@@ -182,16 +182,23 @@ namespace GLSLLanguageIntegration.Outlining
                             FindOptions = FindOptions.WholeWord | FindOptions.MatchCase
                         };
 
+                        var tagger = new GLSLTokenTagProvider().CreateTagger<IGLSLTag>(_buffer) as GLSLTokenTagger;
+                        var scope = tagger.GetScope(extent.Span);
+
                         var spans = _textSearchService.FindAll(findData);
 
                         foreach (var span in spans)
                         {
-                            lock (_spanLock)
+                            var spanScope = tagger.GetScope(span);
+                            if (spanScope == scope || spanScope.IsDescendentOf(scope) || spanScope.IsAncestorOf(scope))
                             {
-                                if (!_commentSpans.CloneAndTrackTo(extent.Span.Snapshot, SpanTrackingMode.EdgePositive).OverlapsWith(span)
-                                    && _tokenSpans.CloneAndTrackTo(extent.Span.Snapshot, SpanTrackingMode.EdgePositive).OverlapsWith(span))
+                                lock (_spanLock)
                                 {
-                                    wordSpans.Add(span);
+                                    if (!_commentSpans.CloneAndTrackTo(extent.Span.Snapshot, SpanTrackingMode.EdgePositive).OverlapsWith(span)
+                                        && _tokenSpans.CloneAndTrackTo(extent.Span.Snapshot, SpanTrackingMode.EdgePositive).OverlapsWith(span))
+                                    {
+                                        wordSpans.Add(span);
+                                    }
                                 }
                             }
                         }

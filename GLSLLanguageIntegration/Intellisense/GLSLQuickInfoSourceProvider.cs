@@ -13,13 +13,13 @@ namespace GLSLLanguageIntegration.Intellisense
     internal sealed class GLSLQuickInfoSourceProvider : IAsyncQuickInfoSourceProvider
     {
         [Import]
-        private IBufferTagAggregatorFactoryService _aggregatorFactory = null;
+        private IBufferTagAggregatorFactoryService AggregatorFactory { get; set; }
 
         public IAsyncQuickInfoSource TryCreateQuickInfoSource(ITextBuffer textBuffer)
         {
             return textBuffer.Properties.GetOrCreateSingletonProperty(() =>
             {
-                var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(textBuffer);
+                var aggregator = AggregatorFactory.CreateTagAggregator<IGLSLTag>(textBuffer);
                 return new GLSLQuickInfoSource(textBuffer, aggregator);
             });
         }

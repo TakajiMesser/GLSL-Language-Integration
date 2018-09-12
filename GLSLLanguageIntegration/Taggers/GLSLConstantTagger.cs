@@ -50,6 +50,7 @@ namespace GLSLLanguageIntegration.Taggers
             return result;
         }
 
+        // By this point we have already split the token on the '.' character, so this will never match a decimal value...
         private bool IsFloatingConstant(string token) => Regex.Match(token, @"^\d+\.\d+(f|F|lf|LF)?$").Success;
 
         private bool IsIntegerConstant(string token) => Regex.Match(token, @"^(0x|0X)*\d+(u|U)*$").Success;

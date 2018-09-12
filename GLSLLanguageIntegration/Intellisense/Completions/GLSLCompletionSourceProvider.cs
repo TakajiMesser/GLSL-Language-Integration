@@ -13,11 +13,11 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
     internal sealed class GLSLCompletionSourceProvider : ICompletionSourceProvider
     {
         [Import]
-        internal IBufferTagAggregatorFactoryService _aggregatorFactory = null;
+        internal IBufferTagAggregatorFactoryService AggregatorFactory { get; set; }
 
         public ICompletionSource TryCreateCompletionSource(ITextBuffer buffer)
         {
-            var aggregator = _aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
+            var aggregator = AggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
             return new GLSLCompletionSource(buffer, aggregator);
         }
     }

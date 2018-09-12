@@ -261,6 +261,8 @@ namespace GLSLLanguageIntegration.Tokens
             return result;
         }
 
+        public Scope GetScope(SnapshotSpan span) => _bracketTagger.GetScope(span);
+
         /*private IEnumerable<ITagSpan<GLSLTokenTag>> GetTagsForToken(SnapshotSpan span, string token, int position)
         {
             if (token.Length > 0)

@@ -8,16 +8,16 @@ using System.ComponentModel.Composition;
 namespace GLSLLanguageIntegration.Intellisense
 {
     [Export(typeof(IIntellisenseControllerProvider))]
-    [Name("Template QuickInfo Controller")]
+    [Name("GLSL QuickInfo Controller")]
     [ContentType("text")]
-    internal class TemplateQuickInfoControllerProvider : IIntellisenseControllerProvider
+    internal class GLSLQuickInfoControllerProvider : IIntellisenseControllerProvider
     {
         [Import]
         internal IAsyncQuickInfoBroker QuickInfoBroker { get; set; }
 
         public IIntellisenseController TryCreateIntellisenseController(ITextView textView, IList<ITextBuffer> subjectBuffers)
         {
-            return new TemplateQuickInfoController(textView, subjectBuffers, this);
+            return new GLSLQuickInfoController(textView, subjectBuffers, this);
         }
     }
 }

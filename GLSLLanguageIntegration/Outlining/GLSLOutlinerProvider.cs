@@ -47,13 +47,13 @@ namespace GLSLLanguageIntegration.Outlining
         internal static FileExtensionToContentTypeDefinition FragFileType = null;
 
         [Import]
-        internal IBufferTagAggregatorFactoryService aggregatorFactory = null;
+        internal IBufferTagAggregatorFactoryService AggregatorFactory { get; set; }
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
             return buffer.Properties.GetOrCreateSingletonProperty(() =>
             {
-                var aggregator = aggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
+                var aggregator = AggregatorFactory.CreateTagAggregator<IGLSLTag>(buffer);
                 return new GLSLOutliner(buffer, aggregator) as ITagger<T>;
             });
         }

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Intellisense
 {
-    internal class TemplateQuickInfoController : IIntellisenseController
+    internal class GLSLQuickInfoController : IIntellisenseController
     {
         private ITextView _textView;
         private IList<ITextBuffer> _subjectBuffers;
-        private TemplateQuickInfoControllerProvider _componentContext;
+        private GLSLQuickInfoControllerProvider _componentContext;
         private IAsyncQuickInfoSession _session;
 
-        internal TemplateQuickInfoController(ITextView textView, IList<ITextBuffer> subjectBuffers, TemplateQuickInfoControllerProvider componentContext)
+        internal GLSLQuickInfoController(ITextView textView, IList<ITextBuffer> subjectBuffers, GLSLQuickInfoControllerProvider componentContext)
         {
             _textView = textView;
             _subjectBuffers = subjectBuffers;

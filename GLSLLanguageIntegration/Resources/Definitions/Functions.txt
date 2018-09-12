@@ -58,46 +58,179 @@ genType atanh (genType x)
 Arc hyperbolic tangent; returns the inverse of tanh.
 Results are undefined if ∣x∣ >= 1.
 
-pow
+genType pow (genType x, genType y)
+Returns x raised to the y power, i.e., x ^ y
+Results are undefined if x < 0.
+Results are undefined if x = 0 and y <= 0.
 
-exp
+genType exp (genType x)
+Returns the natural exponentiation of x, i.e., e ^ x
 
-log
+genType log (genType x)
+Returns the natural logarithm of x, i.e., returns the value
+y which satisfies the equation x = e ^ y
+Results are undefined if x <= 0.
 
-exp2
+genType exp2 (genType x)
+Returns 2 raised to the x power, i.e., 2 ^ x
 
-log2
+genType log2 (genType x)
+Returns the base 2 logarithm of x, i.e., returns the value
+y which satisfies the equation x = 2 ^ y
+Results are undefined if x <= 0.
 
-sqrt
+genType sqrt (genType x)
+Returns √x.
+Results are undefined if x < 0.
 
-inversesqrt
+genDType sqrt (genDType x)
+Returns √x.
+Results are undefined if x < 0.
 
-abs
+genType inversesqrt (genType x)
+Returns 1 / √x.
+Results are undefined if x <= 0.
 
-sign
+genDType inversesqrt (genDType x)Returns 1 / √x.
+Results are undefined if x <= 0.
 
-floor
+genType abs (genType x)
+Returns x if x >= 0; otherwise it returns –x.
 
-trunc
+genIType abs (genIType x)
+Returns x if x >= 0; otherwise it returns –x.
 
-round
+genDType abs (genDType x)
+Returns x if x >= 0; otherwise it returns –x.
 
-roundEven
+genType sign (genType x)
+Returns 1.0 if x > 0, 0.0 if x = 0, or –1.0 if x < 0.
 
-ceil
+genIType sign (genIType x)
+Returns 1.0 if x > 0, 0.0 if x = 0, or –1.0 if x < 0.
 
-fract
+genDType sign (genDType x)
+Returns 1.0 if x > 0, 0.0 if x = 0, or –1.0 if x < 0.
 
-mod
+genType floor (genType x)Returns a value equal to the nearest integer that is less
+than or equal to x.genDType floor (genDType x)Returns a value equal to the nearest integer that is less
+than or equal to x.
 
-modf
+genType trunc (genType x)Returns a value equal to the nearest integer to x whose
+absolute value is not larger than the absolute value of x.
 
-min
+genDType trunc (genDType x)Returns a value equal to the nearest integer to x whose
+absolute value is not larger than the absolute value of x.
 
-max
+genType round (genType x)
+Returns a value equal to the nearest integer to x. The
+fraction 0.5 will round in a direction chosen by the
+implementation, presumably the direction that is fastest.
+This includes the possibility that round(x) returns the
+same value as roundEven(x) for all values of x.
 
-clamp
-Returns min (max (x, minVal), maxVal). Results are undefined if minVal > maxVal.
+genDType round (genDType x)
+Returns a value equal to the nearest integer to x. The
+fraction 0.5 will round in a direction chosen by the
+implementation, presumably the direction that is fastest.
+This includes the possibility that round(x) returns the
+same value as roundEven(x) for all values of x.
+
+genType roundEven (genType x)
+Returns a value equal to the nearest integer to x. A
+fractional part of 0.5 will round toward the nearest even
+integer. (Both 3.5 and 4.5 for x will return 4.0.)
+
+genDType roundEven (genDType x)
+Returns a value equal to the nearest integer to x. A
+fractional part of 0.5 will round toward the nearest even
+integer. (Both 3.5 and 4.5 for x will return 4.0.)
+
+genType ceil (genType x)
+Returns a value equal to the nearest integer that is
+greater than or equal to x.
+
+genDType ceil (genDType x)
+Returns a value equal to the nearest integer that is
+greater than or equal to x.
+
+genType fract (genType x)
+Returns x – floor (x).
+
+genDType fract (genDType x)
+Returns x – floor (x).
+
+genType mod (genType x, float y)Modulus. Returns x – y * floor (x/y).
+
+genType mod (genType x, genType y)Modulus. Returns x – y * floor (x/y).
+
+genDType mod (genDType x, double y)Modulus. Returns x – y * floor (x/y).
+
+genDType mod (genDType x, genDType y)Modulus. Returns x – y * floor (x/y).
+
+genType modf (genType x, out genType i)
+Returns the fractional part of x and sets i to the integer
+part (as a whole number floating-point value). Both the
+return value and the output parameter will have the same
+sign as x.
+
+genDType modf (genDType x, out genDType i)
+Returns the fractional part of x and sets i to the integer
+part (as a whole number floating-point value). Both the
+return value and the output parameter will have the same
+sign as x.
+
+genType min (genType x, genType y)
+Returns y if y < x; otherwise it returns x.genType min (genType x, float y)
+Returns y if y < x; otherwise it returns x.genDType min (genDType x, genDType y)
+Returns y if y < x; otherwise it returns x.genDType min (genDType x, double y)
+Returns y if y < x; otherwise it returns x.genIType min (genIType x, genIType y)
+Returns y if y < x; otherwise it returns x.genIType min (genIType x, int y)
+Returns y if y < x; otherwise it returns x.genUType min (genUType x, genUType y)
+Returns y if y < x; otherwise it returns x.genUType min (genUType x, uint y)
+Returns y if y < x; otherwise it returns x.
+
+genType max (genType x, genType y)
+Returns y if x < y; otherwise it returns x.genType max (genType x, float y)
+Returns y if x < y; otherwise it returns x.genDType max (genDType x, genDType y)
+Returns y if x < y; otherwise it returns x.genDType max (genDType x, double y)
+Returns y if x < y; otherwise it returns x.genIType max (genIType x, genIType y)
+Returns y if x < y; otherwise it returns x.genIType max (genIType x, int y)
+Returns y if x < y; otherwise it returns x.genUType max (genUType x, genUType y)
+Returns y if x < y; otherwise it returns x.genUType max (genUType x, uint y)
+Returns y if x < y; otherwise it returns x.
+
+genType clamp (genType x, genType minVal, genType maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
+
+genType clamp (genType x, float minVal, float maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
+
+genDType clamp (genDType x, genDType minVal, genDType maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
+
+genDType clamp (genDType x, double minVal, double maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
+
+genIType clamp (genIType x, genIType minVal, genIType maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
+
+genIType clamp (genIType x, int minVal, int maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
+
+genUType clamp (genUType x, genUType minVal, genUType maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
+
+genUType clamp (genUType x, uint minVal, uint maxVal)
+Returns min (max (x, minVal), maxVal).
+Results are undefined if minVal > maxVal.
 
 mix
 
