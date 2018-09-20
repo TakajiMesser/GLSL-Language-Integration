@@ -1,5 +1,4 @@
-﻿using GLSLLanguageIntegration.Tokens;
-using Microsoft.VisualStudio.Text;
+﻿using Microsoft.VisualStudio.Text;
 
 namespace GLSLLanguageIntegration.Spans
 {

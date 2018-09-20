@@ -37,15 +37,11 @@ namespace GLSLLanguageIntegration.Tokens
             {
                 if (args.After == buffer.CurrentSnapshot)
                 {
-                    // TODO - Avoid re-parsing the entire buffer by only parsing the relevant spans
-                    ParseBuffer();// args.Changes);
+                    ParseBuffer(args.Changes);
                 }
             };
 
-            _tagSpans.TagsChanged += (s, args) =>
-            {
-                TagsChanged?.Invoke(this, args);
-            };
+            _tagSpans.TagsChanged += (s, args) => TagsChanged?.Invoke(this, args);
 
             ParseBuffer();
         }
@@ -103,7 +99,7 @@ namespace GLSLLanguageIntegration.Tokens
                     return _functionTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.BuiltInConstant:
                     return _constantTagger.GetQuickInfo(token);
-                case GLSLTokenTypes.Preprocessor:
+                case GLSLTokenTypes.PreprocessorDirective:
                     return _preprocessorTagger.GetQuickInfo(token);
             }
 
@@ -112,9 +108,6 @@ namespace GLSLLanguageIntegration.Tokens
 
         private void ParseBuffer()
         {
-            ClearTaggers();
-            _statementBuilder.Clear();
-
             var textSnapshot = _buffer.CurrentSnapshot;
             _statementBuilder.Snapshot = textSnapshot;
 
@@ -130,7 +123,8 @@ namespace GLSLLanguageIntegration.Tokens
 
                 tokenBuilder.Position += spanResult.Consumed;
 
-                if (spanResult.TokenType != GLSLTokenTypes.Comment && spanResult.TokenType != GLSLTokenTypes.Preprocessor)
+                // Skip any preprocessors
+                if (!spanResult.TokenType.IsPreprocessor())
                 {
                     var token = tokenSpan.GetText();
 
@@ -151,7 +145,14 @@ namespace GLSLLanguageIntegration.Tokens
 
         private void ParseBuffer(INormalizedTextChangeCollection textChanges)
         {
+            // TODO - Avoid re-parsing the entire buffer by only parsing the relevant spans
+            ClearTaggers();
+            _statementBuilder.Clear();
+            ParseBuffer();
+            return;
+
             var textSnapshot = _buffer.CurrentSnapshot;
+            _statementBuilder.Snapshot = textSnapshot;
 
             //_tokenBuffer.Clear();
             //_tokenBuffer.Snapshot = textSnapshot;

@@ -7,8 +7,8 @@ namespace GLSLLanguageIntegration.Classification
     internal static class OrdinaryClassificationDefinition
     {
         [Export(typeof(ClassificationTypeDefinition))]
-        [Name(nameof(GLSLPreprocessor))]
-        internal static ClassificationTypeDefinition glslPreprocessor = null;
+        [Name(nameof(GLSLPreprocessorDirective))]
+        internal static ClassificationTypeDefinition glslPreprocessorDirective = null;
 
         [Export(typeof(ClassificationTypeDefinition))]
         [Name(nameof(GLSLComment))]

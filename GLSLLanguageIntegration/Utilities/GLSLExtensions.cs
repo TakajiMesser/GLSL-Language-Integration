@@ -9,8 +9,8 @@ namespace GLSLLanguageIntegration.Utilities
         {
             switch (type)
             {
-                case GLSLTokenTypes.Preprocessor:
-                    return "Preprocessor";
+                case GLSLTokenTypes.PreprocessorDirective:
+                    return "PreprocessorDirective";
                 case GLSLTokenTypes.Comment:
                     return "Comment";
                 case GLSLTokenTypes.Keyword:
@@ -83,5 +83,9 @@ namespace GLSLLanguageIntegration.Utilities
             type == GLSLTokenTypes.BuiltInConstant
             || type == GLSLTokenTypes.BuiltInFunction
             || type == GLSLTokenTypes.BuiltInVariable;
+
+        public static bool IsPreprocessor(this GLSLTokenTypes type) =>
+            type == GLSLTokenTypes.PreprocessorDirective
+            || type == GLSLTokenTypes.Comment;
     }
 }
