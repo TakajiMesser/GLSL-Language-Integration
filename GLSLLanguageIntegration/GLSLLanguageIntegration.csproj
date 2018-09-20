@@ -84,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Spans\Statement.cs" />
     <Compile Include="Spans\TokenResult.cs" />
     <Compile Include="Spans\StatementBuilder.cs" />
     <Compile Include="Taggers\GLSLConstantTagger.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="Taggers\GLSLBracketTagger.cs" />
     <Compile Include="Taggers\GLSLCommentTagger.cs" />
     <Compile Include="Taggers\GLSLTypeTagger.cs" />
-    <Compile Include="Spans\GLSLSpanResult.cs" />
+    <Compile Include="Spans\SpanResult.cs" />
     <Compile Include="Taggers\GLSLKeywordTagger.cs" />
     <Compile Include="Taggers\GLSLFunctionTagger.cs" />
     <Compile Include="Spans\SpanBuilder.cs" />

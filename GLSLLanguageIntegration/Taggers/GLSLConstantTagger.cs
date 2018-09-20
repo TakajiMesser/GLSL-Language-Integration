@@ -17,9 +17,9 @@ namespace GLSLLanguageIntegration.Taggers
 
         public object GetQuickInfo(string token) => _builtInTokens.Contains(token) ? _builtInTokens.GetInfo(token).ToQuickInfo() : null;
 
-        public GLSLSpanResult Match(SnapshotSpan span)
+        public SpanResult Match(SnapshotSpan span)
         {
-            var result = new GLSLSpanResult();
+            var result = new SpanResult();
 
             string token = span.GetText();
             int position = span.Start + token.Length;
@@ -33,17 +33,17 @@ namespace GLSLLanguageIntegration.Taggers
 
             if (_builtInTokens.Contains(token))
             {
-                result = new GLSLSpanResult(BUILT_IN_TOKEN_TYPE, span);
+                result = new SpanResult(BUILT_IN_TOKEN_TYPE, span);
                 result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
             }
             else if (IsFloatingConstant(token))
             {
-                result = new GLSLSpanResult(FLOAT_TOKEN_TYPE, span);
+                result = new SpanResult(FLOAT_TOKEN_TYPE, span);
                 result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
             }
             else if (IsIntegerConstant(token))
             {
-                result = new GLSLSpanResult(INT_TOKEN_TYPE, span);
+                result = new SpanResult(INT_TOKEN_TYPE, span);
                 result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
             }
 

@@ -17,11 +17,11 @@ namespace GLSLLanguageIntegration.Taggers
 
         public object GetQuickInfo(string token) => new TokenInfo("Preprocessor", TOKEN_TYPE).ToQuickInfo();
 
-        public GLSLSpanResult Match(SnapshotSpan span)
+        public SpanResult Match(SnapshotSpan span)
         {
             _builder.Snapshot = span.Snapshot;
 
-            var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            var result = new SpanResult(TOKEN_TYPE, span);
             string token = span.GetText();
             int position = span.Start + token.Length;
 

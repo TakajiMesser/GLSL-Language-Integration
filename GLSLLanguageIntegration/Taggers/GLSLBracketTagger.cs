@@ -1,4 +1,5 @@
-﻿using GLSLLanguageIntegration.Outlining;
+﻿using GLSLLanguageIntegration.Classification;
+using GLSLLanguageIntegration.Outlining;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
 using GLSLLanguageIntegration.Utilities;
@@ -25,23 +26,27 @@ namespace GLSLLanguageIntegration.Taggers
 
         private Scope _rootScope;
 
-        public GLSLSpanResult Match(SnapshotSpan span)
+        public SpanResult Match(SnapshotSpan span)
         {
             _parenthesisBuilder.Snapshot = span.Snapshot;
             _curlyBracketBuilder.Snapshot = span.Snapshot;
             _squareBracketBuilder.Snapshot = span.Snapshot;
 
-            var result = new GLSLSpanResult(CURLY_TOKEN_TYPE, span);
-            string token = span.GetText();
-            int position = span.Start + token.Length;
+            switch (span.GetText())
+            {
+                case "(":
+                    return MatchParentheses(span);
+                case "{":
+                    return MatchCurlyBrackets(span);
+                case "[":
+                    return MatchSquareBrackets(span);
+            }
 
-            MatchParentheses(token, position, span);
-            MatchCurlyBrackets(token, position, span);
-            MatchSquareBrackets(token, position, span);
+            var result = new SpanResult(CURLY_TOKEN_TYPE, span);
 
-            result.AddSpans(_parenthesisSpans);
-            result.AddSpans(_curlyBracketSpans);
-            result.AddSpans(_squareBracketSpans);
+            /*result.AddTagSpans(_parenthesisSpans);
+            result.AddTagSpans(_curlyBracketSpans);
+            result.AddTagSpans(_squareBracketSpans);*/
 
             return result;
         }
@@ -107,102 +112,108 @@ namespace GLSLLanguageIntegration.Taggers
             return GLSLOutlineTag.COLLAPSE_TEXT;
         }
 
-        private void MatchParentheses(string token, int position, SnapshotSpan span)
+        private SpanResult MatchParentheses(SnapshotSpan span)
         {
-            if (token.Contains("("))
+            var spanResult = new SpanResult(GLSLTokenTypes.Parenthesis, span);
+            spanResult.AddSpan<GLSLClassifierTag>(span);
+
+            int start = span.Start;
+
+            if (!_parenthesisBuilder.Start.HasValue)
             {
-                int tokenIndex = token.IndexOf("(");
-                int start = position - token.Length + tokenIndex;
+                _parenthesisBuilder.Start = start;
+                string text = span.Snapshot.GetText();
 
-                if (!_parenthesisBuilder.Start.HasValue)
+                int end = GetClosingPosition(text, start, '(', ')', _parenthesisBuilder);
+                if (end >= 0)
                 {
-                    _parenthesisBuilder.Start = start;
-                    string text = span.Snapshot.GetText();
+                    _parenthesisBuilder.End = end + 1;
+                    var parenthesisSpan = _parenthesisBuilder.ToSpan();
+                    _parenthesisBuilder.Clear();
 
-                    int end = GetClosingPosition(text, start, '(', ')', _parenthesisBuilder);
-                    if (end >= 0)
+                    int outlineEnd = _parenthesisBuilder.ConsumeUntil(text, start, "\r", "\n");
+                    if (outlineEnd >= 0 && outlineEnd < end)
                     {
-                        _parenthesisBuilder.End = end + 1;
-                        var parenthesisSpan = _parenthesisBuilder.ToSpan();
-                        _parenthesisBuilder.Clear();
+                        var collapseText = text.Substring(start, outlineEnd - start) + "...)";
 
-                        int outlineEnd = _parenthesisBuilder.ConsumeUntil(text, start, "\r", "\n");
-                        if (outlineEnd >= 0 && outlineEnd < end)
-                        {
-                            var collapseText = text.Substring(start, outlineEnd - start) + "...)";
-
-                            var tagSpan = new TagSpan<IGLSLTag>(parenthesisSpan, new GLSLOutlineTag(PARENTHESIS_TOKEN_TYPE, collapseText));
-                            _parenthesisSpans.Add(tagSpan);
-                        }
+                        var tagSpan = new TagSpan<IGLSLTag>(parenthesisSpan, new GLSLOutlineTag(PARENTHESIS_TOKEN_TYPE, collapseText));
+                        spanResult.AddTagSpan(tagSpan);
+                        _parenthesisSpans.Add(tagSpan);
                     }
                 }
             }
+
+            return spanResult;
         }
 
-        private void MatchCurlyBrackets(string token, int position, SnapshotSpan span)
+        private SpanResult MatchCurlyBrackets(SnapshotSpan span)
         {
-            if (token.Contains("{"))
+            var spanResult = new SpanResult(GLSLTokenTypes.Parenthesis, span);
+            spanResult.AddSpan<GLSLClassifierTag>(span);
+
+            int start = span.Start;
+
+            if (!_curlyBracketBuilder.Start.HasValue)
             {
-                int tokenIndex = token.IndexOf("{");
-                int start = position - token.Length + tokenIndex;
+                _curlyBracketBuilder.Start = start;
+                string text = span.Snapshot.GetText();
 
-                if (!_curlyBracketBuilder.Start.HasValue)
+                int end = GetClosingPosition(text, start, '{', '}', _curlyBracketBuilder);
+                if (end >= 0)
                 {
-                    _curlyBracketBuilder.Start = start;
-                    string text = span.Snapshot.GetText();
+                    _curlyBracketBuilder.End = end + 1;
+                    var bracketSpan = _curlyBracketBuilder.ToSpan();
+                    _curlyBracketBuilder.Clear();
 
-                    int end = GetClosingPosition(text, start, '{', '}', _curlyBracketBuilder);
-                    if (end >= 0)
+                    int outlineEnd = _curlyBracketBuilder.ConsumeUntil(text, start, "\r", "\n");
+                    if (outlineEnd >= 0 && outlineEnd < end)
                     {
-                        _curlyBracketBuilder.End = end + 1;
-                        var bracketSpan = _curlyBracketBuilder.ToSpan();
-                        _curlyBracketBuilder.Clear();
+                        var collapseText = text.Substring(start, outlineEnd - start) + "...}";
 
-                        int outlineEnd = _curlyBracketBuilder.ConsumeUntil(text, start, "\r", "\n");
-                        if (outlineEnd >= 0 && outlineEnd < end)
-                        {
-                            var collapseText = text.Substring(start, outlineEnd - start) + "...}";
+                        var tagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(CURLY_TOKEN_TYPE, collapseText));
+                        spanResult.AddTagSpan(tagSpan);
+                        _curlyBracketSpans.Add(tagSpan);
 
-                            var tagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(CURLY_TOKEN_TYPE, collapseText));
-                            _curlyBracketSpans.Add(tagSpan);
-
-                            GetRootScope(span).AddChild(bracketSpan);
-                        }
+                        GetRootScope(span).AddChild(bracketSpan);
                     }
                 }
             }
+
+            return spanResult;
         }
 
-        private void MatchSquareBrackets(string token, int position, SnapshotSpan span)
+        private SpanResult MatchSquareBrackets(SnapshotSpan span)
         {
-            if (token.Contains("["))
+            var spanResult = new SpanResult(GLSLTokenTypes.Parenthesis, span);
+            spanResult.AddSpan<GLSLClassifierTag>(span);
+
+            int start = span.Start;
+
+            if (!_squareBracketBuilder.Start.HasValue)
             {
-                int tokenIndex = token.IndexOf("[");
-                int start = position - token.Length + tokenIndex;
+                _squareBracketBuilder.Start = start;
+                string text = span.Snapshot.GetText();
 
-                if (!_squareBracketBuilder.Start.HasValue)
+                int end = GetClosingPosition(text, start, '[', ']', _squareBracketBuilder);
+                if (end >= 0)
                 {
-                    _squareBracketBuilder.Start = start;
-                    string text = span.Snapshot.GetText();
+                    _squareBracketBuilder.End = end + 1;
+                    var bracketSpan = _squareBracketBuilder.ToSpan();
+                    _squareBracketBuilder.Clear();
 
-                    int end = GetClosingPosition(text, start, '[', ']', _squareBracketBuilder);
-                    if (end >= 0)
+                    int outlineEnd = _squareBracketBuilder.ConsumeUntil(text, start, "\r", "\n");
+                    if (outlineEnd >= 0 && outlineEnd < end)
                     {
-                        _squareBracketBuilder.End = end + 1;
-                        var bracketSpan = _squareBracketBuilder.ToSpan();
-                        _squareBracketBuilder.Clear();
+                        var collapseText = text.Substring(start, outlineEnd - start) + "...]";
 
-                        int outlineEnd = _squareBracketBuilder.ConsumeUntil(text, start, "\r", "\n");
-                        if (outlineEnd >= 0 && outlineEnd < end)
-                        {
-                            var collapseText = text.Substring(start, outlineEnd - start) + "...]";
-
-                            var tagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(SQUARE_TOKEN_TYPE, collapseText));
-                            _squareBracketSpans.Add(tagSpan);
-                        }
+                        var tagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(SQUARE_TOKEN_TYPE, collapseText));
+                        spanResult.AddTagSpan(tagSpan);
+                        _squareBracketSpans.Add(tagSpan);
                     }
                 }
             }
+
+            return spanResult;
         }
 
         private int GetClosingPosition(string text, int start, char openingCharacter, char closingCharacter, SpanBuilder spanBuilder)

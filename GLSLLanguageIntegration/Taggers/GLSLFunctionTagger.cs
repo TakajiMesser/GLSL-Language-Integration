@@ -39,8 +39,11 @@ namespace GLSLLanguageIntegration.Taggers
             return null;
         }
 
-        public GLSLSpanResult AddToken(string token, string returnType, int position, SnapshotSpan span)
+        public SpanResult AddToken(SnapshotSpan span, string returnType)
         {
+            var token = span.GetText();
+            var position = span.End;
+
             var builder = new SpanBuilder()
             {
                 Snapshot = span.Snapshot,
@@ -48,7 +51,7 @@ namespace GLSLLanguageIntegration.Taggers
                 End = position
             };
 
-            var result = new GLSLSpanResult(GLSLTokenTypes.Function, span);
+            var result = new SpanResult(GLSLTokenTypes.Function, span);
             result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
 
             _localFunctions.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(GLSLTokenTypes.Function)));
@@ -61,14 +64,14 @@ namespace GLSLLanguageIntegration.Taggers
             return result;
         }
 
-        public GLSLSpanResult Match(SnapshotSpan span)
+        public SpanResult Match(SnapshotSpan span)
         {
             string token = span.GetText();
             int position = span.Start + token.Length;
 
             var matchType = MatchTokenType(token);
 
-            if (matchType.HasValue)
+            if (matchType != GLSLTokenTypes.None)
             {
                 var builder = new SpanBuilder()
                 {
@@ -77,18 +80,18 @@ namespace GLSLLanguageIntegration.Taggers
                     End = position
                 };
 
-                var result = new GLSLSpanResult(matchType.Value, span);
+                var result = new SpanResult(matchType, span);
                 result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
 
                 return result;
             }
             else
             {
-                return new GLSLSpanResult();
+                return new SpanResult();
             }
         }
 
-        public GLSLTokenTypes? MatchTokenType(string token)
+        public GLSLTokenTypes MatchTokenType(string token)
         {
             if (_tokens.Contains(token))
             {
@@ -100,7 +103,7 @@ namespace GLSLLanguageIntegration.Taggers
             }
             else
             {
-                return null;
+                return GLSLTokenTypes.None;
             }
         }
 

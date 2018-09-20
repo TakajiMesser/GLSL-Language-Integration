@@ -53,7 +53,7 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
             //await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            int hresult = HandleEditorCommands(ref pguidCmdGroup, nCmdID)
+            int hresult = HandleEditorCommands(ref pguidCmdGroup, nCmdID, pvaIn)
                 ? VSConstants.S_OK
                 : _nextCommand.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
 
@@ -87,7 +87,7 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
             }
         }
 
-        private bool HandleEditorCommands(ref Guid pguidCmdGroup, uint nCmdID)
+        private bool HandleEditorCommands(ref Guid pguidCmdGroup, uint nCmdID, IntPtr pvaIn)
         {
             if (pguidCmdGroup == VSConstants.VSStd2K)
             {
@@ -97,11 +97,19 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
                     case VSConstants.VSStd2KCmdID.COMPLETEWORD:
                         return StartSession();
                     case VSConstants.VSStd2KCmdID.RETURN:
-                        return Complete(false);
                     case VSConstants.VSStd2KCmdID.TAB:
                         return Complete(true);
                     case VSConstants.VSStd2KCmdID.CANCEL:
                         return Cancel();
+                    case VSConstants.VSStd2KCmdID.TYPECHAR:
+                        char typedChar = GetTypeChar(pvaIn);
+                        if (char.IsWhiteSpace(typedChar))
+                        {
+                            return Complete(true);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -117,8 +125,7 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
         {
             if (_completionSession != null)
             {
-                //_completionSession.Filter();
-                //_completionSession.SelectedCompletionSet.Filter();
+                _completionSession.Filter();
                 _completionSession.SelectedCompletionSet.SelectBestMatch();
                 _completionSession.SelectedCompletionSet.Recalculate();
             }

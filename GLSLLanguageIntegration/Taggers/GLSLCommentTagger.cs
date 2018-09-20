@@ -18,12 +18,12 @@ namespace GLSLLanguageIntegration.Taggers
         private SpanBuilder _singleLineCommentBuilder = new SpanBuilder();
         private SpanBuilder _multiLineCommentBuilder = new SpanBuilder();
 
-        public GLSLSpanResult Match(SnapshotSpan span)
+        public SpanResult Match(SnapshotSpan span)
         {
             _singleLineCommentBuilder.Snapshot = span.Snapshot;
             _multiLineCommentBuilder.Snapshot = span.Snapshot;
 
-            var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            var result = new SpanResult(TOKEN_TYPE, span);
             string token = span.GetText();
             int position = span.Start + token.Length;
 
@@ -84,8 +84,8 @@ namespace GLSLLanguageIntegration.Taggers
                 }
             }
 
-            result.AddSpans(_singleLineComments);
-            result.AddSpans(_multiLineComments);
+            result.AddTagSpans(_singleLineComments);
+            result.AddTagSpans(_multiLineComments);
 
             return result;
         }

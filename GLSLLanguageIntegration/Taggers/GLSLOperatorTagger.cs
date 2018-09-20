@@ -8,9 +8,9 @@ namespace GLSLLanguageIntegration.Taggers
     {
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Operator;
 
-        public GLSLSpanResult Match(SnapshotSpan span)
+        public SpanResult Match(SnapshotSpan span)
         {
-            var result = new GLSLSpanResult(TOKEN_TYPE, span);
+            var result = new SpanResult(TOKEN_TYPE, span);
 
             /*if (_tokens.Contains(token))
             {

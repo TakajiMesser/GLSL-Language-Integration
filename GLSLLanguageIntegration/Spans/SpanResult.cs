@@ -7,23 +7,22 @@ using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Spans
 {
-    public class GLSLSpanResult
+    public class SpanResult : IGLSLTag
     {
         public GLSLTokenTypes TokenType { get; private set; }
         public SnapshotSpan Span { get; private set; }
+        public List<TagSpan<IGLSLTag>> TagSpans { get; private set; } = new List<TagSpan<IGLSLTag>>();
 
         public int Consumed { get; set; } = 0;
-        public List<TagSpan<IGLSLTag>> TagSpans { get; private set; } = new List<TagSpan<IGLSLTag>>();
-        public bool IsMatch => TagSpans.Count > 0;
 
-        public GLSLSpanResult() { }
-        public GLSLSpanResult(GLSLTokenTypes tokenType, SnapshotSpan span)
+        public SpanResult() { }
+        public SpanResult(GLSLTokenTypes tokenType, SnapshotSpan span)
         {
             TokenType = tokenType;
             Span = span;
         }
 
-        public void AddSpan(TagSpan<IGLSLTag> tagSpan)
+        public void AddTagSpan(TagSpan<IGLSLTag> tagSpan)
         {
             var translatedSpan = tagSpan.Span.TranslateTo(Span.Snapshot, SpanTrackingMode.EdgeExclusive);
 
@@ -50,7 +49,7 @@ namespace GLSLLanguageIntegration.Spans
             }
         }
 
-        public void AddSpans(IEnumerable<TagSpan<IGLSLTag>> tagSpans)
+        public void AddTagSpans(IEnumerable<TagSpan<IGLSLTag>> tagSpans)
         {
             foreach (var tagSpan in tagSpans)
             {

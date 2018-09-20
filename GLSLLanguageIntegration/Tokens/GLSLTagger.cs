@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GLSLLanguageIntegration.Tokens
 {
@@ -125,22 +126,15 @@ namespace GLSLLanguageIntegration.Tokens
                 var tokenSpan = tokenBuilder.GetNextTokenSpan();
 
                 var spanResult = ProcessToken(tokenSpan);
+                tagSpans.AddRange(spanResult.TagSpans);
+
                 tokenBuilder.Position += spanResult.Consumed;
 
                 if (spanResult.TokenType != GLSLTokenTypes.Comment && spanResult.TokenType != GLSLTokenTypes.Preprocessor)
                 {
                     var token = tokenSpan.GetText();
 
-                    if (token == "{" || token == "[" || token == "(")
-                    {
-                        var bracketResult = _bracketTagger.Match(tokenSpan);
-                        tagSpans.AddRange(bracketResult.TagSpans);
-                    }
-                    
-                    if (token != "{" && token != "}")
-                    {
-                        _statementBuilder.AppendResult(spanResult);
-                    }
+                    _statementBuilder.AppendResult(spanResult);
 
                     if (spanResult.TokenType == GLSLTokenTypes.Semicolon || token == "{")
                     {
@@ -150,8 +144,6 @@ namespace GLSLLanguageIntegration.Tokens
                         }
                     }
                 }
-
-                tagSpans.AddRange(spanResult.TagSpans);
             }
 
             _tagSpans.Update(textSnapshot, tagSpans);
@@ -202,55 +194,83 @@ namespace GLSLLanguageIntegration.Tokens
             _bracketTagger.Clear();
         }
 
-        private GLSLSpanResult ProcessToken(SnapshotSpan span)
+        private SpanResult ProcessToken(SnapshotSpan span)
         {
+            // First check for token types that can consume past the current span (and stops any current processing from continuing)
+            var spanResult = _commentTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
+            {
+                return spanResult;
+            }
+
+            spanResult = _preprocessorTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
+            {
+                return spanResult;
+            }
+
             var token = span.GetText();
-            var result = _commentTagger.Match(span);
 
-            if (!result.IsMatch)
+            if (token == ";")
             {
-                result = _preprocessorTagger.Match(span);
+                return new SpanResult(GLSLTokenTypes.Semicolon, span);
             }
 
-            if (!result.IsMatch && span.GetText() == ";")
+            var bracketResult = _bracketTagger.Match(span);
+            if (bracketResult.TagSpans.Count > 0)
             {
-                return new GLSLSpanResult(GLSLTokenTypes.Semicolon, span);
+                return bracketResult;
             }
 
-            if (!result.IsMatch)
+            spanResult = GetSpanResult(span);
+            // Here we should append from the bracket result by finding overlapping bracket outline spans with this span
+
+            return spanResult;
+        }
+
+        private SpanResult GetSpanResult(SnapshotSpan span)
+        {
+            SpanResult spanResult = _keywordTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
             {
-                result = _keywordTagger.Match(span);
+                return spanResult;
             }
 
-            if (!result.IsMatch)
+            spanResult = _typeTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
             {
-                result = _typeTagger.Match(span);
+                return spanResult;
             }
 
-            if (!result.IsMatch)
+            var scope = _bracketTagger.GetScope(span);
+            spanResult = _variableTagger.Match(span, scope);
+            if (spanResult.TagSpans.Count > 0)
             {
-                var scope = _bracketTagger.GetScope(span);
-                result = _variableTagger.Match(span, scope);
+                return spanResult;
             }
 
-            if (!result.IsMatch)
+            spanResult = _structTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
             {
-                result = _structTagger.Match(span);
+                return spanResult;
             }
 
-            if (!result.IsMatch)
+            spanResult = _constantTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
             {
-                result = _constantTagger.Match(span);
+                return spanResult;
             }
 
-            if (!result.IsMatch)
+            spanResult = _functionTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
             {
-                result = _functionTagger.Match(span);
+                return spanResult;
             }
 
-            if (!result.IsMatch)
+            spanResult = _operatorTagger.Match(span);
+            if (spanResult.TagSpans.Count > 0)
             {
-                result = _operatorTagger.Match(span);
+                return spanResult;
             }
 
             /*if (!result.IsMatch)
@@ -258,7 +278,7 @@ namespace GLSLLanguageIntegration.Tokens
                 result = _statementTagger.Match(token, position, span);
             }*/
 
-            return result;
+            return new SpanResult(GLSLTokenTypes.None, span);
         }
 
         public Scope GetScope(SnapshotSpan span) => _bracketTagger.GetScope(span);
