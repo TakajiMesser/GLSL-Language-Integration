@@ -95,15 +95,8 @@ namespace GLSLLanguageIntegration.Taggers
 
             if (matchType != GLSLTokenTypes.None)
             {
-                var builder = new SpanBuilder()
-                {
-                    Snapshot = span.Snapshot,
-                    Start = position - token.Length,
-                    End = position
-                };
-
                 var result = new SpanResult(matchType, span);
-                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
+                result.AddSpan<GLSLClassifierTag>(span);
 
                 return result;
             }

@@ -23,15 +23,7 @@ namespace GLSLLanguageIntegration.Taggers
 
             if (_tokens.Contains(token))
             {
-                var builder = new SpanBuilder()
-                {
-                    Snapshot = span.Snapshot,
-                    Start = position - token.Length,
-                    End = position
-                };
-
-                result.Consumed = 0;
-                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
+                result.AddSpan<GLSLClassifierTag>(span);
             }
 
             return result;

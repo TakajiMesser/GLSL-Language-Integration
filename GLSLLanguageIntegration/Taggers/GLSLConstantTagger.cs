@@ -24,27 +24,20 @@ namespace GLSLLanguageIntegration.Taggers
             string token = span.GetText();
             int position = span.Start + token.Length;
 
-            var builder = new SpanBuilder()
-            {
-                Snapshot = span.Snapshot,
-                Start = position - token.Length,
-                End = position
-            };
-
             if (_builtInTokens.Contains(token))
             {
                 result = new SpanResult(BUILT_IN_TOKEN_TYPE, span);
-                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
+                result.AddSpan<GLSLClassifierTag>(span);
             }
             else if (IsFloatingConstant(token))
             {
                 result = new SpanResult(FLOAT_TOKEN_TYPE, span);
-                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
+                result.AddSpan<GLSLClassifierTag>(span);
             }
             else if (IsIntegerConstant(token))
             {
                 result = new SpanResult(INT_TOKEN_TYPE, span);
-                result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
+                result.AddSpan<GLSLClassifierTag>(span);
             }
 
             return result;
