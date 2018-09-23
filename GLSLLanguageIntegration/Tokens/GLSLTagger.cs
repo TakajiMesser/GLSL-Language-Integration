@@ -121,8 +121,6 @@ namespace GLSLLanguageIntegration.Tokens
 
                 var tokenTags = ProcessToken(tokenSpan);
                 tagSpans.AddRange(tokenTags.TagSpans);
-                //tagSpans.AddRange(tokenTags.ClassifierTagSpan.Yield().Cast<TagSpan<IGLSLTag>>());
-                //tagSpans.AddRange(tokenTags.OutlineTagSpans.Cast<TagSpan<IGLSLTag>>());
 
                 tokenBuilder.Position += tokenTags.Consumed;
 
@@ -138,8 +136,6 @@ namespace GLSLLanguageIntegration.Tokens
                         foreach (var statementTags in _statementBuilder.ProcessStatement(_bracketTagger, _functionTagger, _variableTagger))
                         {
                             tagSpans.AddRange(statementTags.TagSpans);
-                            //tagSpans.AddRange(statementTags.ClassifierTagSpan.Yield().Cast<TagSpan<IGLSLTag>>());
-                            //tagSpans.AddRange(statementTags.OutlineTagSpans.Cast<TagSpan<IGLSLTag>>());
                         }
                     }
                 }

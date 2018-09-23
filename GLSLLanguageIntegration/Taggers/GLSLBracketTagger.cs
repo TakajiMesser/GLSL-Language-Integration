@@ -1,5 +1,4 @@
-﻿using GLSLLanguageIntegration.Classification;
-using GLSLLanguageIntegration.Outlining;
+﻿using GLSLLanguageIntegration.Outlining;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
 using GLSLLanguageIntegration.Utilities;
