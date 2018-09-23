@@ -5,6 +5,7 @@ using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GLSLLanguageIntegration.Taggers
 {
@@ -12,18 +13,18 @@ namespace GLSLLanguageIntegration.Taggers
     {
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Comment;
 
-        private List<TagSpan<IGLSLTag>> _singleLineComments = new List<TagSpan<IGLSLTag>>();
+        private List<TagSpan<GLSLClassifierTag>> _singleLineComments = new List<TagSpan<GLSLClassifierTag>>();
         private List<TagSpan<IGLSLTag>> _multiLineComments = new List<TagSpan<IGLSLTag>>();
 
         private SpanBuilder _singleLineCommentBuilder = new SpanBuilder();
         private SpanBuilder _multiLineCommentBuilder = new SpanBuilder();
 
-        public SpanResult Match(SnapshotSpan span)
+        public TokenTagCollection Match(SnapshotSpan span)
         {
             _singleLineCommentBuilder.Snapshot = span.Snapshot;
             _multiLineCommentBuilder.Snapshot = span.Snapshot;
 
-            var result = new SpanResult(TOKEN_TYPE, span);
+            var tokenTags = new TokenTagCollection(span);
             string token = span.GetText();
             int position = span.Start + token.Length;
 
@@ -44,10 +45,10 @@ namespace GLSLLanguageIntegration.Taggers
                         var commentSpan = _singleLineCommentBuilder.ToSpan();
                         _singleLineCommentBuilder.Clear();
 
-                        var commentTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLClassifierTag(TOKEN_TYPE));
+                        var commentTagSpan = new TagSpan<GLSLClassifierTag>(commentSpan, new GLSLClassifierTag(TOKEN_TYPE));
                         _singleLineComments.Add(commentTagSpan);
 
-                        result.Consumed = commentSpan.Length - token.Length;
+                        tokenTags.Consumed = commentSpan.Length - token.Length;
                     }
                 }
             }
@@ -78,16 +79,17 @@ namespace GLSLLanguageIntegration.Taggers
                             var outlineTagSpan = new TagSpan<IGLSLTag>(commentSpan, new GLSLOutlineTag(TOKEN_TYPE, text.Substring(start, outlineEnd - start) + "...*/"));
                             _multiLineComments.Add(outlineTagSpan);
                         }
-                        
-                        result.Consumed = commentSpan.Length - token.Length;
+
+                        tokenTags.Consumed = commentSpan.Length - token.Length;
                     }
                 }
             }
 
-            result.AddTagSpans(_singleLineComments);
-            result.AddTagSpans(_multiLineComments);
+            tokenTags.SetClassifierTag(_singleLineComments);
+            tokenTags.SetClassifierTag(_multiLineComments.OfType<TagSpan<GLSLClassifierTag>>());
+            tokenTags.AddOutlineTagSpans(_multiLineComments.OfType<TagSpan<GLSLOutlineTag>>());
 
-            return result;
+            return tokenTags;
         }
 
         public void Clear()

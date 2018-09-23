@@ -5,7 +5,7 @@ namespace GLSLLanguageIntegration.Taggers
 {
     public interface IGLSLTagger
     {
-        SpanResult Match(SnapshotSpan span);
+        TokenTagCollection Match(SnapshotSpan span);
         void Clear();
     }
 }

@@ -2,6 +2,7 @@
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Taggers
@@ -17,11 +18,11 @@ namespace GLSLLanguageIntegration.Taggers
 
         public object GetQuickInfo(string token) => new TokenInfo("PreprocessorDirective", TOKEN_TYPE).ToQuickInfo();
 
-        public SpanResult Match(SnapshotSpan span)
+        public TokenTagCollection Match(SnapshotSpan span)
         {
             _builder.Snapshot = span.Snapshot;
 
-            var result = new SpanResult(TOKEN_TYPE, span);
+            var tokenTags = new TokenTagCollection(span);
             string token = span.GetText();
             int position = span.Start + token.Length;
 
@@ -43,13 +44,13 @@ namespace GLSLLanguageIntegration.Taggers
                         _builder.Clear();
                         _spans.Add(preprocessorSpan);
 
-                        result.Consumed = preprocessorSpan.Length - token.Length;
-                        result.AddSpan<GLSLClassifierTag>(preprocessorSpan);
+                        tokenTags.Consumed = preprocessorSpan.Length - token.Length;
+                        tokenTags.ClassifierTagSpan = new TagSpan<GLSLClassifierTag>(preprocessorSpan, new GLSLClassifierTag(TOKEN_TYPE));
                     }
                 }
             }
 
-            return result;
+            return tokenTags;
         }
 
         public void Clear()

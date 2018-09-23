@@ -39,49 +39,37 @@ namespace GLSLLanguageIntegration.Taggers
             return null;
         }
 
-        public SpanResult AddToken(SnapshotSpan span, string returnType)
+        public TokenTagCollection AddToken(SnapshotSpan span, string returnType)
         {
             var token = span.GetText();
             var position = span.End;
 
-            var builder = new SpanBuilder()
-            {
-                Snapshot = span.Snapshot,
-                Start = position - token.Length,
-                End = position
-            };
+            var tokenTags = new TokenTagCollection(span);
+            tokenTags.SetClassifierTag(GLSLTokenTypes.Function);
 
-            var result = new SpanResult(GLSLTokenTypes.Function, span);
-            result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
-
-            _localFunctions.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(GLSLTokenTypes.Function)));
+            _localFunctions.Add(new TagSpan<IGLSLTag>(span, new GLSLClassifierTag(GLSLTokenTypes.Function)));
 
             var functionInfo = new FunctionInfo(token, GLSLTokenTypes.Function);
             functionInfo.Overloads.Add(new FunctionOverload(returnType));
 
             _functionInfos.Add(functionInfo);
 
-            return result;
+            return tokenTags;
         }
 
-        public SpanResult Match(SnapshotSpan span)
+        public TokenTagCollection Match(SnapshotSpan span)
         {
-            string token = span.GetText();
-            int position = span.Start + token.Length;
+            var tokenTags = new TokenTagCollection(span);
 
+            string token = span.GetText();
             var matchType = MatchTokenType(token);
 
             if (matchType != GLSLTokenTypes.None)
             {
-                var result = new SpanResult(matchType, span);
-                result.AddSpan<GLSLClassifierTag>(span);
+                tokenTags.SetClassifierTag(matchType);
+            }
 
-                return result;
-            }
-            else
-            {
-                return new SpanResult();
-            }
+            return tokenTags;
         }
 
         public GLSLTokenTypes MatchTokenType(string token)

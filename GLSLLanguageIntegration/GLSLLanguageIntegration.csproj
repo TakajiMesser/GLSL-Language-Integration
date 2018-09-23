@@ -102,7 +102,7 @@
     <Compile Include="Taggers\GLSLBracketTagger.cs" />
     <Compile Include="Taggers\GLSLCommentTagger.cs" />
     <Compile Include="Taggers\GLSLTypeTagger.cs" />
-    <Compile Include="Spans\SpanResult.cs" />
+    <Compile Include="Spans\TokenTagCollection.cs" />
     <Compile Include="Taggers\GLSLKeywordTagger.cs" />
     <Compile Include="Taggers\GLSLFunctionTagger.cs" />
     <Compile Include="Spans\SpanBuilder.cs" />

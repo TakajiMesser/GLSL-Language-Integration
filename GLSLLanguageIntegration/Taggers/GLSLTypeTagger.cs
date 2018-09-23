@@ -3,6 +3,7 @@ using GLSLLanguageIntegration.Properties;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Tagging;
 
 namespace GLSLLanguageIntegration.Taggers
 {
@@ -14,18 +15,18 @@ namespace GLSLLanguageIntegration.Taggers
 
         public object GetQuickInfo(string token) => _tokens.Contains(token)? _tokens.GetInfo(token).ToQuickInfo() : "Type";
 
-        public SpanResult Match(SnapshotSpan span)
+        public TokenTagCollection Match(SnapshotSpan span)
         {
-            var result = new SpanResult(TOKEN_TYPE, span);
+            var tokenTags = new TokenTagCollection(span);
+
             string token = span.GetText();
-            int position = span.Start + token.Length;
 
             if (_tokens.Contains(token))
             {
-                result.AddSpan<GLSLClassifierTag>(span);
+                tokenTags.SetClassifierTag(TOKEN_TYPE);
             }
 
-            return result;
+            return tokenTags;
         }
 
         public void Clear() { }

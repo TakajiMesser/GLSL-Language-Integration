@@ -23,21 +23,20 @@ namespace GLSLLanguageIntegration.Spans
 
         public TagSpan<IGLSLTag> GetTokenAt(int index) => _tokens[index];
 
-        public void AppendResult(SpanResult result)
+        public void AppendTokenTags(TokenTagCollection tokenTags)
         {
-            if (result.TokenType != GLSLTokenTypes.CurlyBracket)
+            if (tokenTags.ClassifierTagSpan == null || tokenTags.ClassifierTagSpan.Tag.TokenType != GLSLTokenTypes.CurlyBracket)
             {
-                var tokenType = result.TagSpans.Count > 0
-                ? result.TokenType
+                var tokenType = tokenTags.ClassifierTagSpan != null
+                ? tokenTags.ClassifierTagSpan.Tag.TokenType
                 : GLSLTokenTypes.None;
 
-                var token = new TagSpan<IGLSLTag>(result.Span, new GLSLClassifierTag(tokenType));
-                _tokens.Add(token);
+                _tokens.Add(new TagSpan<IGLSLTag>(tokenTags.Span, new GLSLClassifierTag(tokenType)));
             }
         }
 
         // TODO - Still need to move parameter variables to their child scope. They are currently defined at the parent method scope, which is technically incorrect
-        public IEnumerable<SpanResult> ProcessStatement(GLSLBracketTagger bracketTagger, GLSLFunctionTagger functionTagger, GLSLVariableTagger variableTagger)
+        public IEnumerable<TokenTagCollection> ProcessStatement(GLSLBracketTagger bracketTagger, GLSLFunctionTagger functionTagger, GLSLVariableTagger variableTagger)
         {
             //var tokenScope = bracketTagger.GetScope(_tokens.First().Span);
             //File.AppendAllLines(@"C:\Users\Takaji\Desktop\testlog.txt", new[] { tokenScope.Level + " - " + string.Join(" ", _tokens.Select(t => t.Span.GetText())) });

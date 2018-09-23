@@ -49,61 +49,49 @@ namespace GLSLLanguageIntegration.Taggers
 
         public IEnumerable<VariableInfo> GetVariables(Scope scope) => _variableInfos.GetVariables(scope);
 
-        public SpanResult AddToken(SnapshotSpan span, Scope scope, string variableType, GLSLTokenTypes tokenType)
+        public TokenTagCollection AddToken(SnapshotSpan span, Scope scope, string variableType, GLSLTokenTypes tokenType)
         {
-            var token = span.GetText();
-            var position = span.End;
-
-            var builder = new SpanBuilder()
+            var tokenTags = new TokenTagCollection(span)
             {
-                Snapshot = span.Snapshot,
-                Start = position - token.Length,
-                End = position
+                ClassifierTagSpan = new TagSpan<GLSLClassifierTag>(span, new GLSLClassifierTag(tokenType))
             };
-
-            var result = new SpanResult(tokenType, span);
-            result.AddSpan<GLSLClassifierTag>(builder.ToSpan());
             
             switch (tokenType)
             {
                 case GLSLTokenTypes.InputVariable:
-                    _inputVariables.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(tokenType)));
+                    _inputVariables.Add(new TagSpan<IGLSLTag>(span, new GLSLClassifierTag(tokenType)));
                     break;
                 case GLSLTokenTypes.OutputVariable:
-                    _outputVariables.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(tokenType)));
+                    _outputVariables.Add(new TagSpan<IGLSLTag>(span, new GLSLClassifierTag(tokenType)));
                     break;
                 case GLSLTokenTypes.UniformVariable:
-                    _uniformVariables.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(tokenType)));
+                    _uniformVariables.Add(new TagSpan<IGLSLTag>(span, new GLSLClassifierTag(tokenType)));
                     break;
                 case GLSLTokenTypes.LocalVariable:
-                    _localVariables.Add(new TagSpan<IGLSLTag>(builder.ToSpan(), new GLSLClassifierTag(tokenType)));
+                    _localVariables.Add(new TagSpan<IGLSLTag>(span, new GLSLClassifierTag(tokenType)));
                     break;
             }
 
+            var token = span.GetText();
             _variableInfos.Add(new VariableInfo(token, scope, variableType, tokenType));
             //_variableInfoByToken[token] = new VariableInfo(token, scope, variableType, type);
 
-            return result;
+            return tokenTags;
         }
 
-        public SpanResult Match(SnapshotSpan span, Scope scope)
+        public TokenTagCollection Match(SnapshotSpan span, Scope scope)
         {
-            string token = span.GetText();
-            int position = span.Start + token.Length;
+            var tokenTags = new TokenTagCollection(span);
 
+            string token = span.GetText();
             var matchType = MatchTokenType(token, scope);
 
             if (matchType != GLSLTokenTypes.None)
             {
-                var result = new SpanResult(matchType, span);
-                result.AddSpan<GLSLClassifierTag>(span);
+                tokenTags.SetClassifierTag(matchType);
+            }
 
-                return result;
-            }
-            else
-            {
-                return new SpanResult();
-            }
+            return tokenTags;
         }
 
         public GLSLTokenTypes MatchTokenType(string token, Scope scope)

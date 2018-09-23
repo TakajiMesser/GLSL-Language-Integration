@@ -16,9 +16,9 @@ namespace GLSLLanguageIntegration.Taggers
         public const GLSLTokenTypes CURLY_TOKEN_TYPE = GLSLTokenTypes.CurlyBracket;
         public const GLSLTokenTypes SQUARE_TOKEN_TYPE = GLSLTokenTypes.SquareBracket;
 
-        private List<TagSpan<IGLSLTag>> _parenthesisSpans = new List<TagSpan<IGLSLTag>>();
-        private List<TagSpan<IGLSLTag>> _curlyBracketSpans = new List<TagSpan<IGLSLTag>>();
-        private List<TagSpan<IGLSLTag>> _squareBracketSpans = new List<TagSpan<IGLSLTag>>();
+        private List<TagSpan<GLSLOutlineTag>> _parenthesisSpans = new List<TagSpan<GLSLOutlineTag>>();
+        private List<TagSpan<GLSLOutlineTag>> _curlyBracketSpans = new List<TagSpan<GLSLOutlineTag>>();
+        private List<TagSpan<GLSLOutlineTag>> _squareBracketSpans = new List<TagSpan<GLSLOutlineTag>>();
 
         private SpanBuilder _parenthesisBuilder = new SpanBuilder();
         private SpanBuilder _curlyBracketBuilder = new SpanBuilder();
@@ -26,7 +26,7 @@ namespace GLSLLanguageIntegration.Taggers
 
         private Scope _rootScope;
 
-        public SpanResult Match(SnapshotSpan span)
+        public TokenTagCollection Match(SnapshotSpan span)
         {
             _parenthesisBuilder.Snapshot = span.Snapshot;
             _curlyBracketBuilder.Snapshot = span.Snapshot;
@@ -42,13 +42,13 @@ namespace GLSLLanguageIntegration.Taggers
                     return MatchSquareBrackets(span);
             }
 
-            var result = new SpanResult(CURLY_TOKEN_TYPE, span);
+            var tokenTags = new TokenTagCollection(span);
 
             /*result.AddTagSpans(_parenthesisSpans);
             result.AddTagSpans(_curlyBracketSpans);
             result.AddTagSpans(_squareBracketSpans);*/
 
-            return result;
+            return tokenTags;
         }
 
         public Scope GetScope(SnapshotSpan span) => GetRootScope(span).GetMatchingScope(span);
@@ -112,10 +112,10 @@ namespace GLSLLanguageIntegration.Taggers
             return GLSLOutlineTag.COLLAPSE_TEXT;
         }
 
-        private SpanResult MatchParentheses(SnapshotSpan span)
+        private TokenTagCollection MatchParentheses(SnapshotSpan span)
         {
-            var spanResult = new SpanResult(GLSLTokenTypes.Parenthesis, span);
-            spanResult.AddSpan<GLSLClassifierTag>(span);
+            var tokenTags = new TokenTagCollection(span);
+            tokenTags.SetClassifierTag(GLSLTokenTypes.Parenthesis);
 
             int start = span.Start;
 
@@ -136,20 +136,20 @@ namespace GLSLLanguageIntegration.Taggers
                     {
                         var collapseText = text.Substring(start, outlineEnd - start) + "...)";
 
-                        var tagSpan = new TagSpan<IGLSLTag>(parenthesisSpan, new GLSLOutlineTag(PARENTHESIS_TOKEN_TYPE, collapseText));
-                        spanResult.AddTagSpan(tagSpan);
+                        var tagSpan = new TagSpan<GLSLOutlineTag>(parenthesisSpan, new GLSLOutlineTag(PARENTHESIS_TOKEN_TYPE, collapseText));
+                        tokenTags.AddOutlineTagSpan(tagSpan);
                         _parenthesisSpans.Add(tagSpan);
                     }
                 }
             }
 
-            return spanResult;
+            return tokenTags;
         }
 
-        private SpanResult MatchCurlyBrackets(SnapshotSpan span)
+        private TokenTagCollection MatchCurlyBrackets(SnapshotSpan span)
         {
-            var spanResult = new SpanResult(GLSLTokenTypes.Parenthesis, span);
-            spanResult.AddSpan<GLSLClassifierTag>(span);
+            var tokenTags = new TokenTagCollection(span);
+            tokenTags.SetClassifierTag(GLSLTokenTypes.CurlyBracket);
 
             int start = span.Start;
 
@@ -170,8 +170,8 @@ namespace GLSLLanguageIntegration.Taggers
                     {
                         var collapseText = text.Substring(start, outlineEnd - start) + "...}";
 
-                        var tagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(CURLY_TOKEN_TYPE, collapseText));
-                        spanResult.AddTagSpan(tagSpan);
+                        var tagSpan = new TagSpan<GLSLOutlineTag>(bracketSpan, new GLSLOutlineTag(CURLY_TOKEN_TYPE, collapseText));
+                        tokenTags.AddOutlineTagSpan(tagSpan);
                         _curlyBracketSpans.Add(tagSpan);
 
                         GetRootScope(span).AddChild(bracketSpan);
@@ -179,13 +179,13 @@ namespace GLSLLanguageIntegration.Taggers
                 }
             }
 
-            return spanResult;
+            return tokenTags;
         }
 
-        private SpanResult MatchSquareBrackets(SnapshotSpan span)
+        private TokenTagCollection MatchSquareBrackets(SnapshotSpan span)
         {
-            var spanResult = new SpanResult(GLSLTokenTypes.Parenthesis, span);
-            spanResult.AddSpan<GLSLClassifierTag>(span);
+            var tokenTags = new TokenTagCollection(span);
+            tokenTags.SetClassifierTag(GLSLTokenTypes.SquareBracket);
 
             int start = span.Start;
 
@@ -206,14 +206,14 @@ namespace GLSLLanguageIntegration.Taggers
                     {
                         var collapseText = text.Substring(start, outlineEnd - start) + "...]";
 
-                        var tagSpan = new TagSpan<IGLSLTag>(bracketSpan, new GLSLOutlineTag(SQUARE_TOKEN_TYPE, collapseText));
-                        spanResult.AddTagSpan(tagSpan);
+                        var tagSpan = new TagSpan<GLSLOutlineTag>(bracketSpan, new GLSLOutlineTag(SQUARE_TOKEN_TYPE, collapseText));
+                        tokenTags.AddOutlineTagSpan(tagSpan);
                         _squareBracketSpans.Add(tagSpan);
                     }
                 }
             }
 
-            return spanResult;
+            return tokenTags;
         }
 
         private int GetClosingPosition(string text, int start, char openingCharacter, char closingCharacter, SpanBuilder spanBuilder)
