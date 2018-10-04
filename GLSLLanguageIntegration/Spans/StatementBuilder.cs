@@ -10,85 +10,91 @@ namespace GLSLLanguageIntegration.Spans
 {
     public class StatementBuilder
     {
-        public ITextSnapshot Snapshot { get; set; }
+        public ITextSnapshot Snapshot { get; }
 
         public int StartPosition => _tokens.First().Span.Start;
         public int EndPosition => _tokens.Last().Span.End;
         public int Length => EndPosition - StartPosition;
         public int TokenCount => _tokens.Count;
-        public SnapshotSpan? Span => new SnapshotSpan(Snapshot, StartPosition, Length);
+        public SnapshotSpan Span => new SnapshotSpan(Snapshot, StartPosition, Length);
+
         public IEnumerable<TagSpan<IGLSLTag>> Tokens => _tokens;
 
         private List<TagSpan<IGLSLTag>> _tokens = new List<TagSpan<IGLSLTag>>();
+        private List<TagSpan<IGLSLTag>> _tagSpans = new List<TagSpan<IGLSLTag>>();
+
+        public StatementBuilder(ITextSnapshot snapshot) => Snapshot = snapshot;
 
         public TagSpan<IGLSLTag> GetTokenAt(int index) => _tokens[index];
 
         public void AppendTokenTags(TokenTagCollection tokenTags)
         {
+            // Collect all processed TagSpans so that we can associate it with this statement
+            _tagSpans.AddRange(tokenTags.TagSpans);
+
             if (tokenTags.ClassifierTagSpan == null || tokenTags.ClassifierTagSpan.Tag.TokenType != GLSLTokenTypes.CurlyBracket)
             {
                 var tokenType = tokenTags.ClassifierTagSpan != null
-                ? tokenTags.ClassifierTagSpan.Tag.TokenType
-                : GLSLTokenTypes.None;
+                    ? tokenTags.ClassifierTagSpan.Tag.TokenType
+                    : GLSLTokenTypes.None;
 
                 _tokens.Add(new TagSpan<IGLSLTag>(tokenTags.Span, new GLSLClassifierTag(tokenType)));
             }
         }
 
         // TODO - Still need to move parameter variables to their child scope. They are currently defined at the parent method scope, which is technically incorrect
-        public IEnumerable<TokenTagCollection> ProcessStatement(GLSLBracketTagger bracketTagger, GLSLFunctionTagger functionTagger, GLSLVariableTagger variableTagger)
+        public Statement ProcessStatement(GLSLBracketTagger bracketTagger, GLSLFunctionTagger functionTagger, GLSLVariableTagger variableTagger)
         {
-            //var tokenScope = bracketTagger.GetScope(_tokens.First().Span);
-            //File.AppendAllLines(@"C:\Users\Takaji\Desktop\testlog.txt", new[] { tokenScope.Level + " - " + string.Join(" ", _tokens.Select(t => t.Span.GetText())) });
+            var statement = new Statement(Span);
+            statement.TagSpans.AddRange(_tagSpans);
 
-            if (Length > 0)
+            // Process the constructed statement
+            bool isFunctionDefinition = false;
+
+            for (var i = 0; i < TokenCount; i++)
             {
-                // Process the constructed statement
-                bool isFunctionDefinition = false;
+                var token = GetTokenAt(i);
 
-                for (var i = 0; i < TokenCount; i++)
+                if (token.Tag.TokenType == GLSLTokenTypes.None)
                 {
-                    var token = GetTokenAt(i);
-
-                    if (token.Tag.TokenType == GLSLTokenTypes.None)
+                    if (i > 0)
                     {
-                        if (i > 0)
+                        var previousToken = GetTokenAt(i - 1);
+                        if (previousToken.Tag.TokenType == GLSLTokenTypes.Type)
                         {
-                            var previousToken = GetTokenAt(i - 1);
-                            if (previousToken.Tag.TokenType == GLSLTokenTypes.Type)
+                            // We need to determine the scope of this variable
+                            var scope = bracketTagger.GetScope(previousToken.Span);
+
+                            // This could be a variable OR a function definition.
+                            // For it to be a function, the scope must be zero AND the token must be followed by parentheses
+                            if (i > 1)
                             {
-                                // We need to determine the scope of this variable
-                                var scope = bracketTagger.GetScope(previousToken.Span);
-
                                 // This is a variable. Check for preceding keyword
-                                if (i > 1)
+                                /*if (isFunctionDefinition)
                                 {
-                                    var tokenType = GetVariableType(i, isFunctionDefinition);
-                                    yield return variableTagger.AddToken(token.Span, scope, previousToken.Span.GetText(), tokenType);
-                                }
-                                else
-                                {
-                                    // In this case, this could be a variable OR a function definition
-                                    // For it to be a function, the scope must be zero AND the token must be followed by parentheses
-                                    if (scope.Level == 0 && i < TokenCount - 1 && GetTokenAt(i + 1).Span.GetText() == "(")
-                                    {
-                                        // We can now confirm that this is a function definition. Any variables defined within the definition are now parameters
-                                        isFunctionDefinition = true;
-                                        yield return functionTagger.AddToken(token.Span, previousToken.Span.GetText());
-                                    }
-                                    else
-                                    {
-                                        yield return variableTagger.AddToken(token.Span, scope, previousToken.Span.GetText(), GLSLTokenTypes.LocalVariable);
-                                    }
+                                    // In this case, we KNOW that this should be a parameter variable. Look ahead until we get the bracket
+                                }*/
 
-                                }
+                                var tokenType = GetVariableType(i, isFunctionDefinition);
+                                statement.TagSpans.AddRange(variableTagger.AddToken(token.Span, scope, previousToken.Span.GetText(), tokenType).TagSpans);
+                            }
+                            else if (scope.Level == 0 && i < TokenCount - 1 && GetTokenAt(i + 1).Span.GetText() == "(")
+                            {
+                                // We can now confirm that this is a function definition. Any variables defined within the definition are now parameters
+                                isFunctionDefinition = true;
+                                statement.TagSpans.AddRange(functionTagger.AddToken(token.Span, previousToken.Span.GetText()).TagSpans);
+                            }
+                            else
+                            {
+                                statement.TagSpans.AddRange(variableTagger.AddToken(token.Span, scope, previousToken.Span.GetText(), GLSLTokenTypes.LocalVariable).TagSpans);
                             }
                         }
                     }
                 }
-
-                Clear();
             }
+
+            Clear();
+            return statement;
         }
 
         private GLSLTokenTypes GetVariableType(int iteration, bool isFunctionDefinition)
@@ -120,7 +126,7 @@ namespace GLSLLanguageIntegration.Spans
         public void Clear()
         {
             _tokens.Clear();
-            //File.WriteAllText(@"C:\Users\Takaji\Desktop\testlog.txt", "");
+            _tagSpans.Clear();
         }
 
         /*switch (character)

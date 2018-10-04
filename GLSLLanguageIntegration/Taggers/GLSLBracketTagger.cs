@@ -31,6 +31,8 @@ namespace GLSLLanguageIntegration.Taggers
             _curlyBracketBuilder.Snapshot = span.Snapshot;
             _squareBracketBuilder.Snapshot = span.Snapshot;
 
+            var tokenTags = new TokenTagCollection(span);
+
             switch (span.GetText())
             {
                 case "(":
@@ -39,9 +41,16 @@ namespace GLSLLanguageIntegration.Taggers
                     return MatchCurlyBrackets(span);
                 case "[":
                     return MatchSquareBrackets(span);
+                case ")":
+                    tokenTags.SetClassifierTag(GLSLTokenTypes.Parenthesis);
+                    break;
+                case "}":
+                    tokenTags.SetClassifierTag(GLSLTokenTypes.CurlyBracket);
+                    break;
+                case "]":
+                    tokenTags.SetClassifierTag(GLSLTokenTypes.SquareBracket);
+                    break;
             }
-
-            var tokenTags = new TokenTagCollection(span);
 
             /*result.AddTagSpans(_parenthesisSpans);
             result.AddTagSpans(_curlyBracketSpans);

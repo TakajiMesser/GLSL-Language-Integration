@@ -84,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Spans\StatementCollection.cs" />
     <Compile Include="Spans\Statement.cs" />
     <Compile Include="Spans\TokenResult.cs" />
     <Compile Include="Spans\StatementBuilder.cs" />
