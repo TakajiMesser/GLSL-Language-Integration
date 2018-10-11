@@ -9,14 +9,12 @@ namespace GLSLLanguageIntegration.Taggers
 {
     public class GLSLPreprocessorTagger : IGLSLTagger
     {
-        public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.PreprocessorDirective;
-
-        //private static SpanSet _spans = new SpanSet(Resources.Directives);
+        public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Directive;
 
         private List<SnapshotSpan> _spans = new List<SnapshotSpan>();
         private SpanBuilder _builder = new SpanBuilder();
 
-        public object GetQuickInfo(string token) => new TokenInfo("PreprocessorDirective", TOKEN_TYPE).ToQuickInfo();
+        public object GetQuickInfo(string token) => new TokenInfo("Directive", TOKEN_TYPE).ToQuickInfo();
 
         public TokenTagCollection Match(SnapshotSpan span)
         {

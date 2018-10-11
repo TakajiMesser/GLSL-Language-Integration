@@ -63,8 +63,8 @@ namespace GLSLLanguageIntegration.Tokens
         {
             switch (GLSLType)
             {
-                case GLSLTokenTypes.PreprocessorDirective:
-                    return "PreprocessorDirective";
+                case GLSLTokenTypes.Directive:
+                    return "Directive";
                 default:
                     return "(" + GLSLType.GetDisplayName() + ") " + Token;
             }
@@ -74,7 +74,7 @@ namespace GLSLLanguageIntegration.Tokens
         {
             switch (GLSLType)
             {
-                case GLSLTokenTypes.PreprocessorDirective:
+                case GLSLTokenTypes.Directive:
                     return Resources.data_number_on_16x.ToBitmapImage();
                 case GLSLTokenTypes.Keyword:
                     return Resources.Constant_16x.ToBitmapImage();

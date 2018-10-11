@@ -39,7 +39,7 @@ namespace GLSLLanguageIntegration.Classification
 
             _glslTypes = new Dictionary<GLSLTokenTypes, IClassificationType>
             {
-                [GLSLTokenTypes.PreprocessorDirective] = typeService.GetClassificationType(nameof(GLSLPreprocessorDirective)),
+                [GLSLTokenTypes.Directive] = typeService.GetClassificationType(nameof(GLSLDirective)),
                 [GLSLTokenTypes.Comment] = typeService.GetClassificationType(nameof(GLSLComment)),
                 [GLSLTokenTypes.Keyword] = typeService.GetClassificationType(nameof(GLSLKeyword)),
                 [GLSLTokenTypes.Type] = typeService.GetClassificationType(nameof(GLSLType)),

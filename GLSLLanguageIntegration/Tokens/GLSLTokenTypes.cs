@@ -3,7 +3,7 @@
     public enum GLSLTokenTypes
     {
         None,
-        PreprocessorDirective,
+        Directive,
         Comment,
         Keyword,
         Type,

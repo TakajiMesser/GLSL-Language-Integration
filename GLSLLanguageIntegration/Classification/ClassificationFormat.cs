@@ -6,15 +6,15 @@ using System.Windows.Media;
 namespace GLSLLanguageIntegration.Classification
 {
     [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = nameof(GLSLPreprocessorDirective))]
-    [Name(nameof(GLSLPreprocessorDirective))]
+    [ClassificationType(ClassificationTypeNames = nameof(GLSLDirective))]
+    [Name(nameof(GLSLDirective))]
     [UserVisible(true)]
     [Order(Before = Priority.High, After = Priority.Default)]
-    internal sealed class GLSLPreprocessorDirective : ClassificationFormatDefinition
+    internal sealed class GLSLDirective : ClassificationFormatDefinition
     {
-        public GLSLPreprocessorDirective()
+        public GLSLDirective()
         {
-            DisplayName = nameof(GLSLPreprocessorDirective);
+            DisplayName = nameof(GLSLDirective);
             ForegroundColor = Colors.BlueViolet;
         }
     }

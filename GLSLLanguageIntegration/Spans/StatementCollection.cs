@@ -96,6 +96,16 @@ namespace GLSLLanguageIntegration.Spans
             return statementMatch;
         }
 
+        public TagSpan<IGLSLTag> GetPreprocessorForPosition(int position)
+        {
+            foreach (var preprocessor in Preprocessors)
+            {
+
+            }
+
+            return null;
+        }
+
         public void Clear()
         {
             Statements.Clear();

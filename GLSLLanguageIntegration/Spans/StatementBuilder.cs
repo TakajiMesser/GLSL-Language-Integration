@@ -28,7 +28,6 @@ namespace GLSLLanguageIntegration.Spans
         public StatementBuilder(ITextSnapshot snapshot)
         {
             Snapshot = snapshot;
-            File.WriteAllText(@"C:\Users\Takaji\Desktop\Statements.txt", "");
         }
 
         public TagSpan<IGLSLTag> GetTokenAt(int index) => _tokens[index];
@@ -51,8 +50,6 @@ namespace GLSLLanguageIntegration.Spans
         // TODO - Still need to move parameter variables to their child scope. They are currently defined at the parent method scope, which is technically incorrect
         public Statement ProcessStatement(GLSLBracketTagger bracketTagger, GLSLFunctionTagger functionTagger, GLSLVariableTagger variableTagger)
         {
-            File.AppendAllLines(@"C:\Users\Takaji\Desktop\Statements.txt", string.Join(" ", Tokens.Select(t => t.Span.GetText())).Yield());
-
             var statement = new Statement(Span);
             statement.TagSpans.AddRange(_tagSpans);
 

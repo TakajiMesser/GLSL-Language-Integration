@@ -101,7 +101,7 @@ namespace GLSLLanguageIntegration.Tokens
                     return _functionTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.BuiltInConstant:
                     return _constantTagger.GetQuickInfo(token);
-                case GLSLTokenTypes.PreprocessorDirective:
+                case GLSLTokenTypes.Directive:
                     return _preprocessorTagger.GetQuickInfo(token);
             }
 
