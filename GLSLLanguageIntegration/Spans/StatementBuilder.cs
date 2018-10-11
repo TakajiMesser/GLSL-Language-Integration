@@ -1,9 +1,11 @@
 ﻿using GLSLLanguageIntegration.Classification;
 using GLSLLanguageIntegration.Taggers;
 using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace GLSLLanguageIntegration.Spans
@@ -23,7 +25,11 @@ namespace GLSLLanguageIntegration.Spans
         private List<TagSpan<IGLSLTag>> _tokens = new List<TagSpan<IGLSLTag>>();
         private List<TagSpan<IGLSLTag>> _tagSpans = new List<TagSpan<IGLSLTag>>();
 
-        public StatementBuilder(ITextSnapshot snapshot) => Snapshot = snapshot;
+        public StatementBuilder(ITextSnapshot snapshot)
+        {
+            Snapshot = snapshot;
+            File.WriteAllText(@"C:\Users\Takaji\Desktop\Statements.txt", "");
+        }
 
         public TagSpan<IGLSLTag> GetTokenAt(int index) => _tokens[index];
 
@@ -32,7 +38,7 @@ namespace GLSLLanguageIntegration.Spans
             // Collect all processed TagSpans so that we can associate it with this statement
             _tagSpans.AddRange(tokenTags.TagSpans);
 
-            if (tokenTags.ClassifierTagSpan == null || tokenTags.ClassifierTagSpan.Tag.TokenType != GLSLTokenTypes.CurlyBracket)
+            if (tokenTags.Span.GetText() != "}")//tokenTags.ClassifierTagSpan == null || tokenTags.ClassifierTagSpan.Tag.TokenType != GLSLTokenTypes.CurlyBracket)
             {
                 var tokenType = tokenTags.ClassifierTagSpan != null
                     ? tokenTags.ClassifierTagSpan.Tag.TokenType
@@ -45,6 +51,8 @@ namespace GLSLLanguageIntegration.Spans
         // TODO - Still need to move parameter variables to their child scope. They are currently defined at the parent method scope, which is technically incorrect
         public Statement ProcessStatement(GLSLBracketTagger bracketTagger, GLSLFunctionTagger functionTagger, GLSLVariableTagger variableTagger)
         {
+            File.AppendAllLines(@"C:\Users\Takaji\Desktop\Statements.txt", string.Join(" ", Tokens.Select(t => t.Span.GetText())).Yield());
+
             var statement = new Statement(Span);
             statement.TagSpans.AddRange(_tagSpans);
 
@@ -70,10 +78,11 @@ namespace GLSLLanguageIntegration.Spans
                             if (i > 1)
                             {
                                 // This is a variable. Check for preceding keyword
-                                /*if (isFunctionDefinition)
+                                if (isFunctionDefinition)
                                 {
-                                    // In this case, we KNOW that this should be a parameter variable. Look ahead until we get the bracket
-                                }*/
+                                    // In this case, we KNOW that this should be a parameter variable. Look ahead until we get the bracket and find the child scope
+                                    //scope = bracketTagger.GetScope(_tokens.Last().Span);
+                                }
 
                                 var tokenType = GetVariableType(i, isFunctionDefinition);
                                 statement.TagSpans.AddRange(variableTagger.AddToken(token.Span, scope, previousToken.Span.GetText(), tokenType).TagSpans);

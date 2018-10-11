@@ -110,16 +110,12 @@ namespace GLSLLanguageIntegration.Tokens
 
         private void ParseBuffer()
         {
-            File.WriteAllText(@"C:\Users\Takaji\Desktop\Testlog3.txt", "");
-
             var textSnapshot = _buffer.CurrentSnapshot;
             var statementBuilder = new StatementBuilder(textSnapshot);
             var tokenBuilder = new TokenBuilder(_buffer);
 
             foreach (var tokenSpan in tokenBuilder.GetTokenSpans())
             {
-                File.AppendAllLines(@"C:\Users\Takaji\Desktop\Testlog3.txt", tokenSpan.GetText().Yield());
-
                 var tokenTags = ProcessToken(tokenSpan);
                 tokenBuilder.Position += tokenTags.Consumed;
 
@@ -144,60 +140,32 @@ namespace GLSLLanguageIntegration.Tokens
             }
 
             _tagSpans.Update(textSnapshot, _statements.TagSpans);
-
-            /*while (tokenBuilder.TryGetNextTokenSpan(out SnapshotSpan tokenSpan))
-            {
-                var tokenTags = ProcessToken(tokenSpan);
-                tokenBuilder.Position += tokenTags.Consumed;
-
-                // Skip any preprocessors
-                if (tokenTags.ClassifierTagSpan == null || !tokenTags.ClassifierTagSpan.Tag.TokenType.IsPreprocessor())
-                {
-                    var token = tokenSpan.GetText();
-                    statementBuilder.AppendTokenTags(tokenTags);
-                    
-                    // Process the statement once we encounter either a ';' or '{' character
-                    if ((tokenTags.ClassifierTagSpan != null && tokenTags.ClassifierTagSpan.Tag.TokenType == GLSLTokenTypes.Semicolon) || token == "{")
-                    {
-                        var statement = statementBuilder.ProcessStatement(_bracketTagger, _functionTagger, _variableTagger);
-                        _statements.Append(statement);
-                    }
-                }
-            }*/
         }
 
         private void ParseBuffer(INormalizedTextChangeCollection textChanges)
         {
-            ClearTaggers();
-            _statements.Clear();
-            ParseBuffer();
-            return;
-
             // Avoid re-parsing the entire buffer by only parsing the relevant spans
             var textSnapshot = _buffer.CurrentSnapshot;
             var statementBuilder = new StatementBuilder(textSnapshot);
 
             // Returns any tagspans from our original set (before the text changed) that intersects in any way with our text changes
-            /*var tagSpans = _tagSpans.GetOverlapping(textChanges, textSnapshot);
+            _statements.Purge(textChanges, textSnapshot);
 
-            foreach (var textChange in textChanges)
-            {
-                //textChange.OldSpan;
-                //textChange.NewSpan;
-            }*/
-
-            // TODO - Need to figure out which statements are NOT affected by any of the textChanges
-            // In these cases, we can go ahead and add any tagSpans that correspond to these unaffected statements
-            // What we feed the GLSLTagSpanCollection should be ALL tagSpans, old and new
+            // We must feed the GLSLTagSpanCollection ALL tagSpans, old and new, and it will determine what the appropriate differences are
             var tokenBuilder = new TokenBuilder(_buffer, _statements, textChanges);
 
-            while (tokenBuilder.TryGetNextTokenSpan(out SnapshotSpan tokenSpan))
+            foreach (var tokenSpan in tokenBuilder.GetTokenSpansForTextChanges())
             {
                 var tokenTags = ProcessToken(tokenSpan);
                 tokenBuilder.Position += tokenTags.Consumed;
 
-                // Skip any preprocessors
-                if (tokenTags.ClassifierTagSpan == null || !tokenTags.ClassifierTagSpan.Tag.TokenType.IsPreprocessor())
+                // Track preprocessors, but don't process them in our statements
+                if (tokenTags.ClassifierTagSpan != null && tokenTags.ClassifierTagSpan.Tag.TokenType.IsPreprocessor())
+                {
+                    var preprocessorTagSpan = new TagSpan<IGLSLTag>(tokenTags.ClassifierTagSpan.Span, tokenTags.ClassifierTagSpan.Tag);
+                    _statements.Append(preprocessorTagSpan);
+                }
+                else
                 {
                     var token = tokenSpan.GetText();
                     statementBuilder.AppendTokenTags(tokenTags);

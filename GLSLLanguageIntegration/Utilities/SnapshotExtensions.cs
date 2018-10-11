@@ -12,5 +12,11 @@ namespace GLSLLanguageIntegration.Utilities
 
         public static SnapshotSpan Extended(this SnapshotSpan span, int amount) =>
             new SnapshotSpan(span.Snapshot, span.Start, span.Length + amount);
+
+        public static SnapshotSpan Prepended(this SnapshotSpan span, int amount) =>
+            new SnapshotSpan(span.Snapshot, span.Start - amount, span.Length + amount);
+
+        public static SnapshotSpan Shifted(this SnapshotSpan span, int amount) =>
+            new SnapshotSpan(span.Snapshot, span.Start + amount, span.Length + amount);
     }
 }

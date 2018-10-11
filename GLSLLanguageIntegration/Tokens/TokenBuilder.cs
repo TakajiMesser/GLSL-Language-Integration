@@ -74,6 +74,85 @@ namespace GLSLLanguageIntegration.Tokens
             }
         }
 
+        public IEnumerable<SnapshotSpan> GetTokenSpansForTextChanges()
+        {
+            foreach (var textChange in _textChanges)
+            {
+                // We can use NewPosition to determine if this textChange is starting in the middle of a statement, or in the middle of a token
+                // We at least have to store all statement spans in the document to determine what position we need to start over from (start processing at start of current statement)
+                // TODO - Check preprocessors as well
+                var statement = _statements.GetStatementForPosition(textChange.NewPosition);
+
+                // If we end up matching with NO matching statement for this textChange position, we must be inserting text into previous white space
+                // In this case, we want to continue feeding token spans until 
+                var statementStart = statement != null ? statement.Span.Start : textChange.NewPosition;
+                var statementEnd = statement != null ? statement.Span.End : textChange.NewEnd;
+
+                // For now, we can just determine to RE-PARSE the entirety of the current statement that we are in
+                // This is easy enough, but we ALSO need to remove any tag spans that relate to this statement, since we don't want to end up re-adding those tag spans
+                if (Position <= statementStart)
+                {
+                    Position = statementStart;
+
+                    // Now we generate token spans until
+                    //  1) we have parsed at least the full textChange.NewLength amount, and
+                    //  2) we finish whatever statement we are currently on
+                    var tokenStart = Position;
+
+                    while (Position - tokenStart < textChange.NewLength && Position < statementEnd)
+                    {
+                        char character = _textSnapshot[Position];
+                        Position++;
+
+                        if (char.IsWhiteSpace(character))
+                        {
+                            if (Position > tokenStart + 1)
+                            {
+                                yield return new SnapshotSpan(_textSnapshot, tokenStart, Position - 1 - tokenStart);
+                            }
+
+                            tokenStart = Position;
+                        }
+                        else if (IsTokenTerminator(character))
+                        {
+                            if (Position > tokenStart + 1)
+                            {
+                                Position--;
+                            }
+                            else if (Position < _textSnapshot.Length && IsOperatorToken(_textSnapshot.GetText(Position - 1, 2)))
+                            {
+                                Position++;
+                            }
+
+                            yield return new SnapshotSpan(_textSnapshot, tokenStart, Position - tokenStart);
+                            tokenStart = Position;
+                        }
+
+                        if (Position - tokenStart < textChange.NewLength && Position > statementEnd)
+                        {
+                            statement = _statements.GetStatementForPosition(Position);
+                            statementStart = statement != null ? statement.Span.Start : Position;
+                            statementEnd = statement != null ? statement.Span.End : textChange.NewEnd;
+                        }
+                    }
+
+                    if (Position > tokenStart)
+                    {
+                        if (!_textSnapshot.GetText(tokenStart, Position - tokenStart).All(t => char.IsWhiteSpace(t)))
+                        {
+                            yield return new SnapshotSpan(_textSnapshot, tokenStart, Position - tokenStart);
+                        }
+                    }
+                }
+                
+
+                // We need to process this specific textChange span for new token spans
+                // HOWEVER, we first need to check to see what statement this textChange span falls into
+                // We don't currently store statements, so how should we go about doing this?
+                // FIRST, we want to check to see if this text change falls inside of a comment or a preprocessor
+            }
+        }
+
         public bool TryGetNextTokenSpan(out SnapshotSpan span)
         {
             if (_textChanges != null)

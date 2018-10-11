@@ -126,8 +126,13 @@ namespace GLSLLanguageIntegration.Intellisense.Completions
             if (_completionSession != null)
             {
                 _completionSession.Filter();
-                _completionSession.SelectedCompletionSet.SelectBestMatch();
-                _completionSession.SelectedCompletionSet.Recalculate();
+
+                // Filtering can dismmiss the completion session, if nothing matches
+                if (_completionSession != null)
+                {
+                    _completionSession.SelectedCompletionSet.SelectBestMatch();
+                    _completionSession.SelectedCompletionSet.Recalculate();
+                }
             }
         }
 
