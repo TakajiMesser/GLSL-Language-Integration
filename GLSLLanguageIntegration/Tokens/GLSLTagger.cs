@@ -149,7 +149,7 @@ namespace GLSLLanguageIntegration.Tokens
             var statementBuilder = new StatementBuilder(textSnapshot);
 
             // Returns any tagspans from our original set (before the text changed) that intersects in any way with our text changes
-            _statements.Purge(textChanges, textSnapshot);
+            _statements.PurgeAndUpdate(textChanges, textSnapshot);
 
             // We must feed the GLSLTagSpanCollection ALL tagSpans, old and new, and it will determine what the appropriate differences are
             var tokenBuilder = new TokenBuilder(_buffer, _statements, textChanges);
@@ -278,11 +278,6 @@ namespace GLSLLanguageIntegration.Tokens
             {
                 return spanResult;
             }
-
-            /*if (!result.IsMatch)
-            {
-                result = _statementTagger.Match(token, position, span);
-            }*/
 
             return new TokenTagCollection(span);
         }

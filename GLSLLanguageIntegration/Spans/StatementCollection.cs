@@ -1,4 +1,5 @@
 ﻿using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
@@ -34,33 +35,14 @@ namespace GLSLLanguageIntegration.Spans
             Preprocessors.Add(preprocessorTagSpan);
         }
 
-        public void Purge(INormalizedTextChangeCollection textChanges, ITextSnapshot textSnapshot)
+        /// <summary>
+        /// Purge all statements of any TagSpans that intersect in any way with the text changes
+        /// </summary>
+        public void PurgeAndUpdate(INormalizedTextChangeCollection textChanges, ITextSnapshot textSnapshot)
         {
-            // Returns any tagspans from our original set (before the text changed) that intersects in any way with our text changes
-            // Purge all statements of any TagSpans that intersect in any way with the text changes
             foreach (var statement in Statements)
             {
-                var fullSpan = new Span(textChanges.First().NewSpan.Start, textChanges.Last().NewSpan.End);
-
-                for (var i = statement.TagSpans.Count - 1; i >= 0; i--)
-                {
-                    var tagSpan = statement.TagSpans[i];
-                    var translatedSpan = tagSpan.Span.TranslateTo(textSnapshot, SpanTrackingMode.EdgeExclusive);
-
-                    if (translatedSpan.IntersectsWith(fullSpan))
-                    {
-                        // Now check more incrementally
-                        foreach (var textChange in textChanges)
-                        {
-                            if (translatedSpan.IntersectsWith(textChange.NewSpan))
-                            {
-                                // Remove this tagspan!
-                                statement.TagSpans.RemoveAt(i);
-                                break;
-                            }
-                        }
-                    }
-                }
+                statement.PurgeAndUpdate(textChanges, textSnapshot);
             }
         }
 
@@ -70,30 +52,20 @@ namespace GLSLLanguageIntegration.Spans
         /// </summary>
         public Statement GetStatementForPosition(int position)
         {
-            Statement statementMatch = null;
-
             foreach (var statement in Statements)
             {
-                if (statementMatch != null)
-                {
-                    statement.Shift(1);
-                }
-                else if (position < statement.Span.End)
+                if (position < statement.Span.End)
                 {
                     if (position < statement.Span.Start)
                     {
                         statement.Prepend(statement.Span.Start - position);
                     }
-                    else
-                    {
-                        statement.Extend(1);
-                    }
 
-                    statementMatch = statement;
+                    return statement;
                 }
             }
 
-            return statementMatch;
+            return null;
         }
 
         public TagSpan<IGLSLTag> GetPreprocessorForPosition(int position)
