@@ -9,5 +9,10 @@ namespace GLSLLanguageIntegration.Utilities
         {
             tagSpan = new TagSpan<T>(tagSpan.Span.TranslateTo(snapshot, SpanTrackingMode.EdgeExclusive), tagSpan.Tag);
         }
+
+        public static TagSpan<T> Translated<T>(this TagSpan<T> tagSpan, ITextSnapshot snapshot) where T : ITag
+        {
+            return new TagSpan<T>(tagSpan.Span.TranslateTo(snapshot, SpanTrackingMode.EdgeExclusive), tagSpan.Tag);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GLSLLanguageIntegration.Spans;
 using Microsoft.VisualStudio.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -74,32 +75,52 @@ namespace GLSLLanguageIntegration.Tokens
             }
         }
 
+        private Tuple<int, int> GetStatementRange(int position, int end)
+        {
+            // We can use NewPosition to determine if this textChange is starting in the middle of a statement, or in the middle of a token
+            // We at least have to store all statement spans in the document to determine what position we need to start over from (start processing at start of current statement)
+            // TODO - Check preprocessors as well
+            var preprocessor = _statements.GetPreprocessorForPosition(position);
+            if (preprocessor != null)
+            {
+                return Tuple.Create(preprocessor.Span.Start.Position, preprocessor.Span.End.Position);
+            }
+            else
+            {
+                // If we end up matching with NO matching statement for this textChange position, we must be inserting text into previous white space
+                // In this case, we want to continue feeding token spans until 
+                var statement = _statements.GetStatementForPosition(position);
+
+                if (statement != null)
+                {
+                    return Tuple.Create(statement.Span.Start.Position, statement.Span.End.Position);
+                }
+                else
+                {
+                    return Tuple.Create(position, end);
+                }
+            }
+        }
+
         public IEnumerable<SnapshotSpan> GetTokenSpansForTextChanges()
         {
             foreach (var textChange in _textChanges)
             {
-                // We can use NewPosition to determine if this textChange is starting in the middle of a statement, or in the middle of a token
-                // We at least have to store all statement spans in the document to determine what position we need to start over from (start processing at start of current statement)
-                // TODO - Check preprocessors as well
-                var statement = _statements.GetStatementForPosition(textChange.NewPosition);
-
-                // If we end up matching with NO matching statement for this textChange position, we must be inserting text into previous white space
-                // In this case, we want to continue feeding token spans until 
-                var statementStart = statement != null ? statement.Span.Start : textChange.NewPosition;
-                var statementEnd = statement != null ? statement.Span.End : textChange.NewEnd;
+                // Get the statement/preprocessor that matches this position, 
+                var span = _statements.Reprocess(textChange.NewPosition, textChange.NewEnd);
 
                 // For now, we can just determine to RE-PARSE the entirety of the current statement that we are in
                 // This is easy enough, but we ALSO need to remove any tag spans that relate to this statement, since we don't want to end up re-adding those tag spans
-                if (Position <= statementStart)
+                if (Position <= span.Start)
                 {
-                    Position = statementStart;
+                    Position = span.Start;
 
                     // Now we generate token spans until
                     //  1) we have parsed at least the full textChange.NewLength amount, and
                     //  2) we finish whatever statement we are currently on
                     var tokenStart = Position;
 
-                    while (Position - tokenStart < textChange.NewLength && Position < statementEnd)
+                    while (Position - span.Start < textChange.NewLength || Position < span.End)//Position - tokenStart < textChange.NewLength && Position < statementEnd)
                     {
                         char character = _textSnapshot[Position];
                         Position++;
@@ -128,12 +149,10 @@ namespace GLSLLanguageIntegration.Tokens
                             tokenStart = Position;
                         }
 
-                        if (Position - tokenStart < textChange.NewLength && Position > statementEnd)
+                        /*if (Position - tokenStart < textChange.NewLength && Position > span.End)
                         {
-                            statement = _statements.GetStatementForPosition(Position);
-                            statementStart = statement != null ? statement.Span.Start : Position;
-                            statementEnd = statement != null ? statement.Span.End : textChange.NewEnd;
-                        }
+                            span = _statements.Reprocess(Position, textChange.NewEnd);
+                        }*/
                     }
 
                     if (Position > tokenStart)
@@ -144,12 +163,6 @@ namespace GLSLLanguageIntegration.Tokens
                         }
                     }
                 }
-                
-
-                // We need to process this specific textChange span for new token spans
-                // HOWEVER, we first need to check to see what statement this textChange span falls into
-                // We don't currently store statements, so how should we go about doing this?
-                // FIRST, we want to check to see if this text change falls inside of a comment or a preprocessor
             }
         }
 

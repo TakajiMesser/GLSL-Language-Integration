@@ -33,6 +33,17 @@ namespace GLSLLanguageIntegration.Spans
             Span = Span.Shifted(amount);
         }
 
+        public void Translate(ITextSnapshot textSnapshot)
+        {
+            Span = Span.Translated(SpanTrackingMode.EdgeExclusive, textSnapshot);
+
+            for (var i = 0; i < TagSpans.Count; i++)
+            {
+                var tagSpan = TagSpans[i];
+                TagSpans[i] = tagSpan.Translated(textSnapshot);
+            }
+        }
+
         /// <summary>
         /// Purge any TagSpans that intersect in any way with the text changes, then update all spans
         /// </summary>
@@ -40,14 +51,24 @@ namespace GLSLLanguageIntegration.Spans
         {
             Span = Span.Translated(SpanTrackingMode.EdgeExclusive, textSnapshot);
 
-            var fullSpan = new Span(textChanges.First().NewSpan.Start, textChanges.Last().NewSpan.End);
+            var fullChangeSpan = new Span(textChanges.First().NewSpan.Start, textChanges.Last().NewSpan.End);
 
-            for (var i = TagSpans.Count - 1; i >= 0; i--)
+            // Purge ALL TagSpans from any statements that intersect with these text changes
+            if (Span.IntersectsWith(fullChangeSpan))
+            {
+                // Now check more incrementally
+                if (textChanges.Any(t => Span.IntersectsWith(t.NewSpan)))
+                {
+                    TagSpans.Clear();
+                }
+            }
+
+            /*for (var i = TagSpans.Count - 1; i >= 0; i--)
             {
                 var tagSpan = TagSpans[i];
                 tagSpan.Translate(textSnapshot);
 
-                if (tagSpan.Span.IntersectsWith(fullSpan))
+                if (tagSpan.Span.IntersectsWith(fullChangeSpan))
                 {
                     // Now check more incrementally
                     if (textChanges.Any(t => tagSpan.Span.IntersectsWith(t.NewSpan)))
@@ -56,19 +77,7 @@ namespace GLSLLanguageIntegration.Spans
                         TagSpans.RemoveAt(i);
                     }
                 }
-
-                /*var translatedSpan = tagSpan.Span.TranslateTo(textSnapshot, SpanTrackingMode.EdgeExclusive);
-
-                if (translatedSpan.IntersectsWith(fullSpan))
-                {
-                    // Now check more incrementally
-                    if (textChanges.Any(t => translatedSpan.IntersectsWith(t.NewSpan)))
-                    {
-                        // Remove this tagspan!
-                        TagSpans.RemoveAt(i);
-                    }
-                }*/
-            }
+            }*/
         }
     }
 }
