@@ -1,11 +1,9 @@
 ﻿using GLSLLanguageIntegration.Classification;
 using GLSLLanguageIntegration.Taggers;
 using GLSLLanguageIntegration.Tokens;
-using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace GLSLLanguageIntegration.Spans

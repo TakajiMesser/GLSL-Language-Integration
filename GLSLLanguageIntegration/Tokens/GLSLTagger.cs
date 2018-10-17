@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace GLSLLanguageIntegration.Tokens
@@ -18,7 +17,7 @@ namespace GLSLLanguageIntegration.Tokens
         private StatementCollection _statements = new StatementCollection();
         private GLSLTagSpanCollection _tagSpans = new GLSLTagSpanCollection();
 
-        private GLSLPreprocessorTagger _preprocessorTagger = new GLSLPreprocessorTagger();
+        private GLSLDirectiveTagger _directiveTagger = new GLSLDirectiveTagger();
         private GLSLCommentTagger _commentTagger = new GLSLCommentTagger();
         private GLSLKeywordTagger _keywordTagger = new GLSLKeywordTagger();
         private GLSLTypeTagger _typeTagger = new GLSLTypeTagger();
@@ -102,7 +101,7 @@ namespace GLSLLanguageIntegration.Tokens
                 case GLSLTokenTypes.BuiltInConstant:
                     return _constantTagger.GetQuickInfo(token);
                 case GLSLTokenTypes.Directive:
-                    return _preprocessorTagger.GetQuickInfo(token);
+                    return _directiveTagger.GetQuickInfo(token);
             }
 
             return null;
@@ -185,7 +184,7 @@ namespace GLSLLanguageIntegration.Tokens
 
         private void ClearTaggers()
         {
-            _preprocessorTagger.Clear();
+            _directiveTagger.Clear();
             _commentTagger.Clear();
             _keywordTagger.Clear();
             _typeTagger.Clear();
@@ -207,7 +206,7 @@ namespace GLSLLanguageIntegration.Tokens
                 return tokenTags;
             }
 
-            tokenTags = _preprocessorTagger.Match(span);
+            tokenTags = _directiveTagger.Match(span);
             if (tokenTags.ClassifierTagSpan != null)
             {
                 return tokenTags;

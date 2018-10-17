@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace GLSLLanguageIntegration.Taggers
 {
-    public class GLSLPreprocessorTagger : IGLSLTagger
+    public class GLSLDirectiveTagger : IGLSLTagger
     {
         public const GLSLTokenTypes TOKEN_TYPE = GLSLTokenTypes.Directive;
 
