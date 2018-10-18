@@ -79,7 +79,11 @@ namespace GLSLLanguageIntegration.Spans
             return Span.FromBounds(Math.Min(preprocessorSpan.Start, statementSpan.Start), Math.Max(preprocessorSpan.End, statementSpan.End));
         }
 
-        private Span ReprocessPreprocessors(int start, int end)
+        // TODO - Determine how to handle reprocessing Preprocessors
+        // 1) Do I even want to store Preprocessors here? Maybe they should be left stored in the CommentTagger and DirectiveTagger
+        // 2) Unlike Statements, we DO NOT need to consider ourselves as part of the next available Preprocessor
+            // SO, we only need to remove Preprocessors that overlap with our range, and we should have these Preprocessors affect our return Span
+        public Span ReprocessPreprocessors(int start, int end)
         {
             var nPreprocessorsToRemove = 0;
 
@@ -112,7 +116,16 @@ namespace GLSLLanguageIntegration.Spans
             return Span.FromBounds(start, end);
         }
 
-        private Span ReprocessStatements(int start, int end)
+        // TODO - Determine how to handle Statements that are removed
+        // The issue is that what Statements we remove ALSO affects the other Taggers and what they carry
+        // What am I actually doing in this method?
+        // Given a range, I am going to:
+            // 1) Remove statements that fall within this range
+            // 2) Remove statements that overlap with this range, and expand our range to cover this overlap
+            // 3) Remove the statement that directly follows our range, and expand our range to cover this statement
+        // I need to return:
+            // 1) The expanded Span range
+        public Span ReprocessStatements(int start, int end)
         {
             var nStatementsToRemove = 0;
 

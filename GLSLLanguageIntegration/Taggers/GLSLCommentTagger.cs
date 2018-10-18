@@ -2,6 +2,7 @@
 using GLSLLanguageIntegration.Outlining;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
@@ -90,6 +91,40 @@ namespace GLSLLanguageIntegration.Taggers
             tokenTags.AddOutlineTagSpans(_multiLineComments.OfType<TagSpan<GLSLOutlineTag>>());
 
             return tokenTags;
+        }
+
+        public void Translate(ITextSnapshot textSnapshot)
+        {
+            for (var i = 0; i < _singleLineComments.Count; i++)
+            {
+                var tagSpan = _singleLineComments[i];
+                _singleLineComments[i] = tagSpan.Translated(textSnapshot);
+            }
+
+            for (var i = 0; i < _multiLineComments.Count; i++)
+            {
+                var tagSpan = _multiLineComments[i];
+                _multiLineComments[i] = tagSpan.Translated(textSnapshot);
+            }
+        }
+
+        public void Remove(Span span)
+        {
+            for (var i = _singleLineComments.Count - 1; i >= 0; i--)
+            {
+                if (_singleLineComments[i].Span.OverlapsWith(span))
+                {
+                    _singleLineComments.RemoveAt(i);
+                }
+            }
+
+            for (var i = _multiLineComments.Count - 1; i >= 0; i--)
+            {
+                if (_multiLineComments[i].Span.OverlapsWith(span))
+                {
+                    _multiLineComments.RemoveAt(i);
+                }
+            }
         }
 
         public void Clear()
