@@ -26,7 +26,6 @@ namespace GLSLLanguageIntegration.Tokens
         private GLSLConstantTagger _constantTagger = new GLSLConstantTagger();
         private GLSLFunctionTagger _functionTagger = new GLSLFunctionTagger();
         private GLSLOperatorTagger _operatorTagger = new GLSLOperatorTagger();
-        private GLSLStatementTagger _statementTagger = new GLSLStatementTagger();
         private GLSLBracketTagger _bracketTagger = new GLSLBracketTagger();
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
@@ -130,17 +129,21 @@ namespace GLSLLanguageIntegration.Tokens
             // Returns any tagspans from our original set (before the text changed) that intersects in any way with our text changes
             _statements.Translate(textSnapshot);
             _commentTagger.Translate(textSnapshot);
+            //_bracketTagger.Translate(textSnapshot);
+            _variableTagger.Translate(textSnapshot);
+            _functionTagger.Translate(textSnapshot);
 
             foreach (var textChange in textChanges)
             {
-                // TODO - "Reprocess" statement here instead, so we can track which statements and spans we are removing
-                //var span = _statements.Reprocess(textChange.NewPosition, textChange.NewEnd);
+                // "Reprocess" statement here instead, so we can track which statements and spans we are removing
                 var preprocessorSpan = _statements.ReprocessPreprocessors(textChange.NewPosition, textChange.NewEnd);
                 _commentTagger.Remove(preprocessorSpan);
 
-                var statementSpan = _statements.ReprocessStatements(textChange.NewPosition, textChange.NewEnd);
                 // Need to translate and remove redundant spans from VariableTagger, FunctionTagger
-
+                var statementSpan = _statements.ReprocessStatements(textChange.NewPosition, textChange.NewEnd);
+                _variableTagger.Remove(statementSpan);
+                _functionTagger.Remove(statementSpan);
+                
                 var span = Span.FromBounds(Math.Min(preprocessorSpan.Start, statementSpan.Start), Math.Max(preprocessorSpan.End, statementSpan.End));
 
                 // For now, we can just determine to RE-PARSE the entirety of the current statement that we are in
@@ -283,7 +286,6 @@ namespace GLSLLanguageIntegration.Tokens
             _constantTagger.Clear();
             _functionTagger.Clear();
             _operatorTagger.Clear();
-            _statementTagger.Clear();
             _bracketTagger.Clear();
         }
     }

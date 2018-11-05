@@ -2,6 +2,7 @@
 using GLSLLanguageIntegration.Properties;
 using GLSLLanguageIntegration.Spans;
 using GLSLLanguageIntegration.Tokens;
+using GLSLLanguageIntegration.Utilities;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.Collections.Generic;
@@ -86,6 +87,25 @@ namespace GLSLLanguageIntegration.Taggers
             {
                 return GLSLTokenTypes.None;
             }
+        }
+
+        public void Translate(ITextSnapshot textSnapshot)
+        {
+            for (var i = 0; i < _localFunctions.Count; i++)
+            {
+                var tagSpan = _localFunctions[i];
+                _localFunctions[i] = tagSpan.Translated(textSnapshot);
+            }
+
+            for (var i = 0; i < _functionInfos.Count; i++)
+            {
+                
+            }
+        }
+
+        public void Remove(Span span)
+        {
+
         }
 
         public void Clear() { }

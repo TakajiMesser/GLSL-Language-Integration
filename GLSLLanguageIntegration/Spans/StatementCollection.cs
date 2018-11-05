@@ -89,18 +89,21 @@ namespace GLSLLanguageIntegration.Spans
 
             for (var i = 0; i < Preprocessors.Count; i++)
             {
+                // Skip any Preprocessors that end before our range starts
                 if (start < Preprocessors[i].Span.End)
                 {
                     if (start > Preprocessors[i].Span.Start)
                     {
+                        // This Preprocessor started before our range, so extend our range start backwards
                         start = Preprocessors[i].Span.Start;
                     }
                     else if (end > Preprocessors[i].Span.End)
                     {
+                        // This Preprocessor ends before our range does, so it must be marked for removal
                         nPreprocessorsToRemove++;
                     }
 
-                    if (end < Preprocessors[i].Span.End)
+                    if (end > Preprocessors[i].Span.Start && end < Preprocessors[i].Span.End)
                     {
                         end = Preprocessors[i].Span.End;
                         nPreprocessorsToRemove++;
@@ -131,6 +134,12 @@ namespace GLSLLanguageIntegration.Spans
 
             for (var i = 0; i < Statements.Count; i++)
             {
+                int a = 3;
+                if (i == 30)
+                {
+                    a = 4;
+                }
+
                 if (start < Statements[i].Span.End)
                 {
                     if (start > Statements[i].Span.Start)

@@ -25,7 +25,7 @@ namespace GLSLLanguageIntegration.Tokens
                     if (lines.Count > 0)
                     {
                         var match = Regex.Match(lines.First(),
-                            @"^(?<returnType>[a-zA-Z]+) (?<name>[a-zA-Z]+) \(((?<parameterType>[a-zA-Z]+) (?<parameterName>[a-zA-Z_]+)(, )?)*\)( )*$");
+                            @"^(?<returnType>[a-zA-Z0-9]+) (?<name>[a-zA-Z0-9]+) \(((?<parameterType>[a-zA-Z0-9]+) (?<parameterName>[a-zA-Z_0-9]+)(, )?)*\)( )*$");
 
                         if (match.Success)
                         {

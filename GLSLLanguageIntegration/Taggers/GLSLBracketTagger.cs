@@ -61,6 +61,8 @@ namespace GLSLLanguageIntegration.Taggers
 
         public Scope GetScope(SnapshotSpan span) => GetRootScope(span).GetMatchingScope(span);
 
+        public void Translate(ITextSnapshot textSnapshot) => _rootScope.Translate(textSnapshot);
+
         public void Clear()
         {
             _parenthesisSpans.Clear();

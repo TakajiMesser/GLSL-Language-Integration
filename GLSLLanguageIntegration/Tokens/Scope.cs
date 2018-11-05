@@ -17,6 +17,16 @@ namespace GLSLLanguageIntegration.Tokens
             Span = span;
         }
 
+        public void Translate(ITextSnapshot textSnapshot)
+        {
+            Span = Span.Translated(textSnapshot);
+
+            foreach (var child in Children)
+            {
+                child.Translate(textSnapshot);
+            }
+        }
+
         public void AddChild(SnapshotSpan span)
         {
             var scope = GetScope(this, span);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.Text;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GLSLLanguageIntegration.Tokens
@@ -15,6 +16,28 @@ namespace GLSLLanguageIntegration.Tokens
             }
 
             _variablesByScope[variableInfo.Scope].Add(variableInfo);
+        }
+
+        public void Translate(ITextSnapshot textSnapshot)
+        {
+            foreach (var variableInfo in _variablesByScope.Values.SelectMany(v => v))
+            {
+                variableInfo.Translate(textSnapshot);
+            }
+        }
+
+        public void Remove(Span span)
+        {
+            foreach (var variables in _variablesByScope.Values)
+            {
+                for (var i = variables.Count - 1; i >= 0; i--)
+                {
+                    if (variables[i].DefinitionSpan.OverlapsWith(span))
+                    {
+                        variables.RemoveAt(i);
+                    }
+                }
+            }
         }
 
         public void Clear() => _variablesByScope.Clear();

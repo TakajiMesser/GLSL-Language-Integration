@@ -91,7 +91,8 @@ genType inversesqrt (genType x)
 Returns 1 / √x.
 Results are undefined if x <= 0.
 
-genDType inversesqrt (genDType x)Returns 1 / √x.
+genDType inversesqrt (genDType x)
+Returns 1 / √x.
 Results are undefined if x <= 0.
 
 genType abs (genType x)
@@ -112,14 +113,20 @@ Returns 1.0 if x > 0, 0.0 if x = 0, or –1.0 if x < 0.
 genDType sign (genDType x)
 Returns 1.0 if x > 0, 0.0 if x = 0, or –1.0 if x < 0.
 
-genType floor (genType x)Returns a value equal to the nearest integer that is less
-than or equal to x.genDType floor (genDType x)Returns a value equal to the nearest integer that is less
+genType floor (genType x)
+Returns a value equal to the nearest integer that is less
 than or equal to x.
 
-genType trunc (genType x)Returns a value equal to the nearest integer to x whose
+genDType floor (genDType x)
+Returns a value equal to the nearest integer that is less
+than or equal to x.
+
+genType trunc (genType x)
+Returns a value equal to the nearest integer to x whose
 absolute value is not larger than the absolute value of x.
 
-genDType trunc (genDType x)Returns a value equal to the nearest integer to x whose
+genDType trunc (genDType x)
+Returns a value equal to the nearest integer to x whose
 absolute value is not larger than the absolute value of x.
 
 genType round (genType x)
@@ -160,13 +167,17 @@ Returns x – floor (x).
 genDType fract (genDType x)
 Returns x – floor (x).
 
-genType mod (genType x, float y)Modulus. Returns x – y * floor (x/y).
+genType mod (genType x, float y)
+Modulus. Returns x – y * floor (x/y).
 
-genType mod (genType x, genType y)Modulus. Returns x – y * floor (x/y).
+genType mod (genType x, genType y)
+Modulus. Returns x – y * floor (x/y).
 
-genDType mod (genDType x, double y)Modulus. Returns x – y * floor (x/y).
+genDType mod (genDType x, double y)
+Modulus. Returns x – y * floor (x/y).
 
-genDType mod (genDType x, genDType y)Modulus. Returns x – y * floor (x/y).
+genDType mod (genDType x, genDType y)
+Modulus. Returns x – y * floor (x/y).
 
 genType modf (genType x, out genType i)
 Returns the fractional part of x and sets i to the integer
@@ -181,23 +192,51 @@ return value and the output parameter will have the same
 sign as x.
 
 genType min (genType x, genType y)
-Returns y if y < x; otherwise it returns x.genType min (genType x, float y)
-Returns y if y < x; otherwise it returns x.genDType min (genDType x, genDType y)
-Returns y if y < x; otherwise it returns x.genDType min (genDType x, double y)
-Returns y if y < x; otherwise it returns x.genIType min (genIType x, genIType y)
-Returns y if y < x; otherwise it returns x.genIType min (genIType x, int y)
-Returns y if y < x; otherwise it returns x.genUType min (genUType x, genUType y)
-Returns y if y < x; otherwise it returns x.genUType min (genUType x, uint y)
+Returns y if y < x; otherwise it returns x.
+
+genType min (genType x, float y)
+Returns y if y < x; otherwise it returns x.
+
+genDType min (genDType x, genDType y)
+Returns y if y < x; otherwise it returns x.
+
+genDType min (genDType x, double y)
+Returns y if y < x; otherwise it returns x.
+
+genIType min (genIType x, genIType y)
+Returns y if y < x; otherwise it returns x.
+
+genIType min (genIType x, int y)
+Returns y if y < x; otherwise it returns x.
+
+genUType min (genUType x, genUType y)
+Returns y if y < x; otherwise it returns x.
+
+genUType min (genUType x, uint y)
 Returns y if y < x; otherwise it returns x.
 
 genType max (genType x, genType y)
-Returns y if x < y; otherwise it returns x.genType max (genType x, float y)
-Returns y if x < y; otherwise it returns x.genDType max (genDType x, genDType y)
-Returns y if x < y; otherwise it returns x.genDType max (genDType x, double y)
-Returns y if x < y; otherwise it returns x.genIType max (genIType x, genIType y)
-Returns y if x < y; otherwise it returns x.genIType max (genIType x, int y)
-Returns y if x < y; otherwise it returns x.genUType max (genUType x, genUType y)
-Returns y if x < y; otherwise it returns x.genUType max (genUType x, uint y)
+Returns y if x < y; otherwise it returns x.
+
+genType max (genType x, float y)
+Returns y if x < y; otherwise it returns x.
+
+genDType max (genDType x, genDType y)
+Returns y if x < y; otherwise it returns x.
+
+genDType max (genDType x, double y)
+Returns y if x < y; otherwise it returns x.
+
+genIType max (genIType x, genIType y)
+Returns y if x < y; otherwise it returns x.
+
+genIType max (genIType x, int y)
+Returns y if x < y; otherwise it returns x.
+
+genUType max (genUType x, genUType y)
+Returns y if x < y; otherwise it returns x.
+
+genUType max (genUType x, uint y)
 Returns y if x < y; otherwise it returns x.
 
 genType clamp (genType x, genType minVal, genType maxVal)
@@ -232,304 +271,4542 @@ genUType clamp (genUType x, uint minVal, uint maxVal)
 Returns min (max (x, minVal), maxVal).
 Results are undefined if minVal > maxVal.
 
-mix
-
-step
-
-smoothstep
-
-isnan
-
-isinf
-
-floatBitsToInt
-
-floatBitsToUint
-
-intBitsToFloat
-
-uintBitsToFloat
-
-fma
-
-frexp
-
-ldexp
-
-packUnorm2x16
-
-packSnorm2x16
-
-packUnorm4x8
-
-packSnorm4x8
-
-unpackUnorm2x16
-
-unpackSnorm2x16
-
-unpackUnorm4x8
-
-unpackSnorm4x8
-
-packDouble2x32
-
-unpackDouble2x32
-
-packHalf2x16
-
-unpackHalf2x16
-
-length
-
-distance
-
-dot
-
-cross
-
-normalize
-
-ftransform
-
-faceforward
-
-reflect
-
-refract
-
-matrixCompMult
-
-outerProduct
-
-transpose
-
-determinant
-
-inverse
-
-lessThan
-
-lessThanEqual
-
-greaterThan
-
-greaterThanEqual
-
-equal
-
-notEqual
-
-any
-
-all
-
-not
-
-uaddCarry
-
-usubBorrow
-
-umulExtended
-
-imulExtended
-
-bitfieldExtract
-
-bitfieldInsert
-
-bitfieldReverse
-
-bitCount
-
-findLSB
-
-findMSB
-
-textureSize
-
-textureQueryLod
-
-textureQueryLevels
-
-textureSamples
-
-texture
-
-textureProj
-
-textureLod
-
-textureOffset
-
-texelFetch
-
-texelFetchOffset
-
-textureProjOffset
-
-textureLodOffset
-
-textureProjLod
-
-textureProjLodOffset
-
-textureGrad
-
-textureGradOffset
-
-textureProjGrad
-
-textureProjGradOffset
-
-textureGather
-
-textureGatherOffset
-
-textureGatherOffsets
-
-texture1D
-
-texture1DProj
-
-texture1DLod
-
-texture1DProjLod
-
-texture2D
-
-texture2DProj
-
-texture2DLod
-
-texture2DProjLod
-
-texture3D
-
-texture3DProj
-
-texture3DLod
-
-texture3DProjLod
-
-textureCube
-
-textureCubeLod
-
-shadow1D
-
-shadow2D
-
-shadow1DProj
-
-shadow2DProj
-
-shadow1DLod
-
-shadow2DLod
-
-shadow1DProjLod
-
-shadow2DProjLod
-
-atomicCounterIncrement
-
-atomicCounterDecrement
-
-atomicCounter
-
-atomicAdd
-
-atomicMin
-
-atomicMax
-
-atomicAnd
-
-atomicOr
-
-atomicXor
-
-atomicExchange
-
-atomicCompSwap
-
-imageSize
-
-imageSamples
-
-imageLoad
-
-imageStore
-
-imageAtomicAdd
-
-imageAtomicMin
-
-imageAtomicMax
-
-imageAtomicAnd
-
-imageAtomicOr
-
-imageAtomicXor
-
-imageAtomicExchange
-
-imageAtomicCompSwap
-
-dFdx
-
-dFdy
-
-dFdxFine
-
-dFdyFine
-
-dFdxCoarse
-
-dFdyCoarse
-
-fwidth
-
-fwidthFine
-
-fwidthCoarse
-
-interpolateAtCentroid
-
-interpolateAtSample
-
-interpolateAtOffset
-
-noise1
-
-noise2
-
-noise3
-
-noise4
-
-EmitStreamVertex
-
-EndStreamPrimitive
-
-EmitVertex
-
-EndPrimitive
-
-barrier
-
-memoryBarrier
-
-memoryBarrierAtomicCounter
-
-memoryBarrierBuffer
-
-memoryBarrierShared
-
-memoryBarrierImage
-
-groupMemoryBarrier
-
-subpassLoad
+genType mix (genType x, genType y, genType a)
+Returns the linear blend of x and y, i.e.,
+x * (1 − a) + y * a
+
+genType mix (genType x, genType y, float a)
+Returns the linear blend of x and y, i.e.,
+x * (1 − a) + y * a
+
+genDType mix (genDType x, genDType y, genDType a)
+Returns the linear blend of x and y, i.e.,
+x * (1 − a) + y * a
+
+genDType mix (genDType x, genDType y, double a)
+Returns the linear blend of x and y, i.e.,
+x * (1 − a) + y * a
+
+genType mix (genType x, genType y, genBType a)
+Selects which vector each returned component comes
+from. For a component of a that is false, the
+corresponding component of x is returned. For a
+component of a that is true, the corresponding
+component of y is returned. Components of x and y that
+are not selected are allowed to be invalid floating-point
+values and will have no effect on the results. Thus, this
+provides different functionality than, for example,
+genType mix(genType x, genType y, genType(a))
+where a is a Boolean vector.
+
+genDType mix (genDType x, genDType y, genBType a)
+Selects which vector each returned component comes
+from. For a component of a that is false, the
+corresponding component of x is returned. For a
+component of a that is true, the corresponding
+component of y is returned. Components of x and y that
+are not selected are allowed to be invalid floating-point
+values and will have no effect on the results. Thus, this
+provides different functionality than, for example,
+genType mix(genType x, genType y, genType(a))
+where a is a Boolean vector.
+
+genIType mix (genIType x, genIType y, genBType a)
+Selects which vector each returned component comes
+from. For a component of a that is false, the
+corresponding component of x is returned. For a
+component of a that is true, the corresponding
+component of y is returned. Components of x and y that
+are not selected are allowed to be invalid floating-point
+values and will have no effect on the results. Thus, this
+provides different functionality than, for example,
+genType mix(genType x, genType y, genType(a))
+where a is a Boolean vector.
+
+genUType mix (genUType x, genUType y, genBType a)
+Selects which vector each returned component comes
+from. For a component of a that is false, the
+corresponding component of x is returned. For a
+component of a that is true, the corresponding
+component of y is returned. Components of x and y that
+are not selected are allowed to be invalid floating-point
+values and will have no effect on the results. Thus, this
+provides different functionality than, for example,
+genType mix(genType x, genType y, genType(a))
+where a is a Boolean vector.
+
+genBType mix (genBType x, genBType y, genBType a)
+Selects which vector each returned component comes
+from. For a component of a that is false, the
+corresponding component of x is returned. For a
+component of a that is true, the corresponding
+component of y is returned. Components of x and y that
+are not selected are allowed to be invalid floating-point
+values and will have no effect on the results. Thus, this
+provides different functionality than, for example,
+genType mix(genType x, genType y, genType(a))
+where a is a Boolean vector.
+
+genType step (genType edge, genType x)
+Returns 0.0 if x < edge; otherwise it returns 1.0.
+
+genType step (float edge, genType x)
+Returns 0.0 if x < edge; otherwise it returns 1.0.
+
+genDType step (genDType edge, genDType x)
+Returns 0.0 if x < edge; otherwise it returns 1.0.
+
+genDType step (double edge, genDType x)
+Returns 0.0 if x < edge; otherwise it returns 1.0.
+
+genType smoothstep (genType edge0, genType edge1, genType x)
+Returns 0.0 if x <= edge0 and 1.0 if x >= edge1 and
+performs smooth Hermite interpolation between 0 and 1
+when edge0 < x < edge1. This is useful in cases where
+you would want a threshold function with a smooth
+transition. This is equivalent to:
+ genType t;
+ t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
+ return t * t * (3 – 2 * t);
+(And similarly for doubles.)
+Results are undefined if edge0 >= edge1
+
+genType smoothstep (float edge0, float edge1, genType x)
+Returns 0.0 if x <= edge0 and 1.0 if x >= edge1 and
+performs smooth Hermite interpolation between 0 and 1
+when edge0 < x < edge1. This is useful in cases where
+you would want a threshold function with a smooth
+transition. This is equivalent to:
+ genType t;
+ t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
+ return t * t * (3 – 2 * t);
+(And similarly for doubles.)
+Results are undefined if edge0 >= edge1
+
+genDType smoothstep (genDType edge0, genDType edge1, genDType x)
+Returns 0.0 if x <= edge0 and 1.0 if x >= edge1 and
+performs smooth Hermite interpolation between 0 and 1
+when edge0 < x < edge1. This is useful in cases where
+you would want a threshold function with a smooth
+transition. This is equivalent to:
+ genType t;
+ t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
+ return t * t * (3 – 2 * t);
+(And similarly for doubles.)
+Results are undefined if edge0 >= edge1
+
+genDType smoothstep (double edge0, double edge1, genDType x)
+Returns 0.0 if x <= edge0 and 1.0 if x >= edge1 and
+performs smooth Hermite interpolation between 0 and 1
+when edge0 < x < edge1. This is useful in cases where
+you would want a threshold function with a smooth
+transition. This is equivalent to:
+ genType t;
+ t = clamp ((x – edge0) / (edge1 – edge0), 0, 1);
+ return t * t * (3 – 2 * t);
+(And similarly for doubles.)
+Results are undefined if edge0 >= edge1
+
+genBType isnan (genType x)
+Returns true if x holds a NaN. Returns false otherwise.
+Always returns false if NaNs are not implemented.
+
+genBType isnan (genDType x)
+Returns true if x holds a NaN. Returns false otherwise.
+Always returns false if NaNs are not implemented.
+
+genBType isinf (genType x)
+Returns true if x holds a positive infinity or negative
+infinity. Returns false otherwise.
+
+genBType isinf (genDType x)
+Returns true if x holds a positive infinity or negative
+infinity. Returns false otherwise.
+
+genIType floatBitsToInt (genType value)
+Returns a signed or unsigned integer value representing
+the encoding of a float. The float value's bit-level
+representation is preserved.
+
+genUType floatBitsToUint (genType value)
+Returns a signed or unsigned integer value representing
+the encoding of a float. The float value's bit-level
+representation is preserved.
+
+genType intBitsToFloat (genIType value)
+Returns a float value corresponding to a signed or
+unsigned integer encoding of a float. If a NaN is passed
+in, it will not signal, and the resulting value is
+unspecified. If an Inf is passed in, the resulting value is
+the corresponding Inf.
+
+genType uintBitsToFloat (genUType value)
+Returns a float value corresponding to a signed or
+unsigned integer encoding of a float. If a NaN is passed
+in, it will not signal, and the resulting value is
+unspecified. If an Inf is passed in, the resulting value is
+the corresponding Inf.
+
+genType fma (genType a, genType b, genType c)
+Computes and returns a*b + c.
+In uses where the return value is eventually consumed by
+a variable declared as precise:
+• fma() is considered a single operation, whereas the
+expression “a*b + c” consumed by a variable
+declared precise is considered two operations.
+• The precision of fma() can differ from the precision
+of the expression “a*b + c”.
+• fma() will be computed with the same precision as
+any other fma() consumed by a precise variable,
+giving invariant results for the same input values of
+a, b, and c.
+Otherwise, in the absence of precise consumption, there
+are no special constraints on the number of operations or
+difference in precision between fma() and the expression
+“a*b + c”.
+
+genDType fma (genDType a, genDType b, genDType c)
+Computes and returns a*b + c.
+In uses where the return value is eventually consumed by
+a variable declared as precise:
+• fma() is considered a single operation, whereas the
+expression “a*b + c” consumed by a variable
+declared precise is considered two operations.
+• The precision of fma() can differ from the precision
+of the expression “a*b + c”.
+• fma() will be computed with the same precision as
+any other fma() consumed by a precise variable,
+giving invariant results for the same input values of
+a, b, and c.
+Otherwise, in the absence of precise consumption, there
+are no special constraints on the number of operations or
+difference in precision between fma() and the expression
+“a*b + c”.
+
+genType frexp (genType x, out genIType exp)
+Splits x into a floating-point significand in the range
+[0.5, 1.0) and an integral exponent of two, such that:
+x = significand ⋅ 2 ^ exponent
+The significand is returned by the function and the
+exponent is returned in the parameter exp. For a
+floating-point value of zero, the significand and
+exponent are both zero. For a floating-point value that is
+an infinity or is not a number, the results are undefined.
+If an implementation supports negative 0, frexp(-0)
+should return -0; otherwise it will return 0.
+
+genDType frexp (genDType x, out genIType exp)
+Splits x into a floating-point significand in the range
+[0.5, 1.0) and an integral exponent of two, such that:
+x = significand ⋅ 2 ^ exponent
+The significand is returned by the function and the
+exponent is returned in the parameter exp. For a
+floating-point value of zero, the significand and
+exponent are both zero. For a floating-point value that is
+an infinity or is not a number, the results are undefined.
+If an implementation supports negative 0, frexp(-0)
+should return -0; otherwise it will return 0.
+
+genType ldexp (genType x, genIType exp)
+Builds a floating-point number from x and the
+corresponding integral exponent of two in exp, returning:
+significand⋅2 ^ exponent
+If this product is too large to be represented in the
+floating-point type, the result is undefined.
+If exp is greater than +128 (single-precision) or +1024
+(double-precision), the value returned is undefined. If
+exp is less than -126 (single-precision) or -1022 (doubleprecision),
+the value returned may be flushed to zero.
+Additionally, splitting the value into a significand and
+exponent using frexp() and then reconstructing a
+floating-point value using ldexp() should yield the
+original input for zero and all finite non-denormized
+values
+
+genDType ldexp (genDType x, genIType exp)
+Builds a floating-point number from x and the
+corresponding integral exponent of two in exp, returning:
+significand⋅2 ^ exponent
+If this product is too large to be represented in the
+floating-point type, the result is undefined.
+If exp is greater than +128 (single-precision) or +1024
+(double-precision), the value returned is undefined. If
+exp is less than -126 (single-precision) or -1022 (doubleprecision),
+the value returned may be flushed to zero.
+Additionally, splitting the value into a significand and
+exponent using frexp() and then reconstructing a
+floating-point value using ldexp() should yield the
+original input for zero and all finite non-denormized
+values
+
+uint packUnorm2x16 (vec2 v)
+First, converts each component of the normalized
+floating-point value v into 8- or 16-bit integer values.
+Then, the results are packed into the returned 32-bit
+unsigned integer.
+The conversion for component c of v to fixed point is
+done as follows:
+packUnorm2x16: round(clamp(c, 0, +1) * 65535.0)
+packSnorm2x16: round(clamp(c, -1, +1) * 32767.0)
+packUnorm4x8: round(clamp(c, 0, +1) * 255.0)
+packSnorm4x8: round(clamp(c, -1, +1) * 127.0)
+The first component of the vector will be written to the
+least significant bits of the output; the last component
+will be written to the most significant bits.
+
+uint packSnorm2x16 (vec2 v)
+First, converts each component of the normalized
+floating-point value v into 8- or 16-bit integer values.
+Then, the results are packed into the returned 32-bit
+unsigned integer.
+The conversion for component c of v to fixed point is
+done as follows:
+packUnorm2x16: round(clamp(c, 0, +1) * 65535.0)
+packSnorm2x16: round(clamp(c, -1, +1) * 32767.0)
+packUnorm4x8: round(clamp(c, 0, +1) * 255.0)
+packSnorm4x8: round(clamp(c, -1, +1) * 127.0)
+The first component of the vector will be written to the
+least significant bits of the output; the last component
+will be written to the most significant bits.
+
+uint packUnorm4x8 (vec4 v)
+First, converts each component of the normalized
+floating-point value v into 8- or 16-bit integer values.
+Then, the results are packed into the returned 32-bit
+unsigned integer.
+The conversion for component c of v to fixed point is
+done as follows:
+packUnorm2x16: round(clamp(c, 0, +1) * 65535.0)
+packSnorm2x16: round(clamp(c, -1, +1) * 32767.0)
+packUnorm4x8: round(clamp(c, 0, +1) * 255.0)
+packSnorm4x8: round(clamp(c, -1, +1) * 127.0)
+The first component of the vector will be written to the
+least significant bits of the output; the last component
+will be written to the most significant bits.
+
+uint packSnorm4x8 (vec4 v)
+First, converts each component of the normalized
+floating-point value v into 8- or 16-bit integer values.
+Then, the results are packed into the returned 32-bit
+unsigned integer.
+The conversion for component c of v to fixed point is
+done as follows:
+packUnorm2x16: round(clamp(c, 0, +1) * 65535.0)
+packSnorm2x16: round(clamp(c, -1, +1) * 32767.0)
+packUnorm4x8: round(clamp(c, 0, +1) * 255.0)
+packSnorm4x8: round(clamp(c, -1, +1) * 127.0)
+The first component of the vector will be written to the
+least significant bits of the output; the last component
+will be written to the most significant bits.
+
+vec2 unpackUnorm2x16 (uint p)
+First, unpacks a single 32-bit unsigned integer p into a
+pair of 16-bit unsigned integers, a pair of 16-bit signed
+integers, four 8-bit unsigned integers, or four 8-bit
+signed integers. Then, each component is converted to a
+normalized floating-point value to generate the returned
+two- or four-component vector.
+The conversion for unpacked fixed-point value f to
+floating point is done as follows:
+unpackUnorm2x16: f / 65535.0
+unpackSnorm2x16: clamp(f / 32767.0, -1, +1)
+unpackUnorm4x8: f / 255.0
+unpackSnorm4x8: clamp(f / 127.0, -1, +1)
+The first component of the returned vector will be
+extracted from the least significant bits of the input; the
+last component will be extracted from the most
+significant bits.
+
+vec2 unpackSnorm2x16 (uint p)
+First, unpacks a single 32-bit unsigned integer p into a
+pair of 16-bit unsigned integers, a pair of 16-bit signed
+integers, four 8-bit unsigned integers, or four 8-bit
+signed integers. Then, each component is converted to a
+normalized floating-point value to generate the returned
+two- or four-component vector.
+The conversion for unpacked fixed-point value f to
+floating point is done as follows:
+unpackUnorm2x16: f / 65535.0
+unpackSnorm2x16: clamp(f / 32767.0, -1, +1)
+unpackUnorm4x8: f / 255.0
+unpackSnorm4x8: clamp(f / 127.0, -1, +1)
+The first component of the returned vector will be
+extracted from the least significant bits of the input; the
+last component will be extracted from the most
+significant bits.
+
+vec4 unpackUnorm4x8 (uint p)
+First, unpacks a single 32-bit unsigned integer p into a
+pair of 16-bit unsigned integers, a pair of 16-bit signed
+integers, four 8-bit unsigned integers, or four 8-bit
+signed integers. Then, each component is converted to a
+normalized floating-point value to generate the returned
+two- or four-component vector.
+The conversion for unpacked fixed-point value f to
+floating point is done as follows:
+unpackUnorm2x16: f / 65535.0
+unpackSnorm2x16: clamp(f / 32767.0, -1, +1)
+unpackUnorm4x8: f / 255.0
+unpackSnorm4x8: clamp(f / 127.0, -1, +1)
+The first component of the returned vector will be
+extracted from the least significant bits of the input; the
+last component will be extracted from the most
+significant bits.
+
+vec4 unpackSnorm4x8 (uint p)
+First, unpacks a single 32-bit unsigned integer p into a
+pair of 16-bit unsigned integers, a pair of 16-bit signed
+integers, four 8-bit unsigned integers, or four 8-bit
+signed integers. Then, each component is converted to a
+normalized floating-point value to generate the returned
+two- or four-component vector.
+The conversion for unpacked fixed-point value f to
+floating point is done as follows:
+unpackUnorm2x16: f / 65535.0
+unpackSnorm2x16: clamp(f / 32767.0, -1, +1)
+unpackUnorm4x8: f / 255.0
+unpackSnorm4x8: clamp(f / 127.0, -1, +1)
+The first component of the returned vector will be
+extracted from the least significant bits of the input; the
+last component will be extracted from the most
+significant bits.
+
+double packDouble2x32 (uvec2 v)
+Returns a double-precision value obtained by packing
+the components of v into a 64-bit value. If an IEEE 754
+Inf or NaN is created, it will not signal, and the resulting
+floating-point value is unspecified. Otherwise, the bitlevel
+representation of v is preserved. The first vector
+component specifies the 32 least significant bits; the
+second component specifies the 32 most significant bits.
+
+uvec2 unpackDouble2x32 (double v)
+Returns a two-component unsigned integer vector
+representation of v. The bit-level representation of v is
+preserved. The first component of the vector contains
+the 32 least significant bits of the double; the second
+component consists of the 32 most significant bits.
+
+uint packHalf2x16 (vec2 v)
+Returns an unsigned integer obtained by converting the
+components of a two-component floating-point vector to
+the 16-bit floating-point representation found in the
+OpenGL Specification, and then packing these two 16-
+bit integers into a 32-bit unsigned integer.
+The first vector component specifies the 16 leastsignificant
+bits of the result; the second component
+specifies the 16 most-significant bits.
+
+vec2 unpackHalf2x16 (uint v)
+Returns a two-component floating-point vector with
+components obtained by unpacking a 32-bit unsigned
+integer into a pair of 16-bit values, interpreting those
+values as 16-bit floating-point numbers according to the
+OpenGL Specification, and converting them to 32-bit
+floating-point values.
+The first component of the vector is obtained from the
+16 least-significant bits of v; the second component is
+obtained from the 16 most-significant bits of v.
+It is preferred that when denormalized values are
+unpacked that their values are preserved, however it is
+allowed that they can also be flushed to zero.
+
+float length (genType x)
+Returns the length of vector x, i.e.,
+sqrt(x[0] ^ 2 + x[1] ^ 2 + ...)
+
+double length (genDType x)
+Returns the length of vector x, i.e.,
+sqrt(x[0] ^ 2 + x[1] ^ 2 + ...)
+
+float distance (genType p0, genType p1)
+Returns the distance between p0 and p1, i.e.,
+length (p0 – p1)
+
+double distance (genDType p0, genDType p1)
+Returns the distance between p0 and p1, i.e.,
+length (p0 – p1)
+
+float dot (genType x, genType y)
+Returns the dot product of x and y, i.e.,
+x[0]⋅y [0]+ x[1]⋅y [1]+ ...
+
+double dot (genDType x, genDType y)
+Returns the dot product of x and y, i.e.,
+x[0]⋅y [0]+ x[1]⋅y [1]+ ...
+
+vec3 cross (vec3 x, vec3 y)
+Returns the cross product of x and y, i.e.,
+[
+x[1]⋅y [2]− y[1]⋅x[2]
+x[2]⋅y[0]− y[2]⋅x [0]
+x [0]⋅y[1]− y[0]⋅x[1]
+]
+
+dvec3 cross (dvec3 x, dvec3 y)
+Returns the cross product of x and y, i.e.,
+[
+x[1]⋅y [2]− y[1]⋅x[2]
+x[2]⋅y[0]− y[2]⋅x [0]
+x [0]⋅y[1]− y[0]⋅x[1]
+]
+
+genType normalize (genType x)
+Returns a vector in the same direction as x but with a
+length of 1.
+
+genDType normalize (genDType x)
+Returns a vector in the same direction as x but with a
+length of 1.
+
+
+vec4 ftransform ()
+(compatibility profile only)
+Available only when using the compatibility profile. For
+core OpenGL, use invariant.
+For vertex shaders only. This function will ensure that
+the incoming vertex value will be transformed in a way
+that produces exactly the same result as would be
+produced by OpenGL’s fixed functionality transform. It
+is intended to be used to compute gl_Position, e.g.,
+ gl_Position = ftransform()
+This function should be used, for example, when an
+application is rendering the same geometry in separate
+passes, and one pass uses the fixed functionality path to
+render and another pass uses programmable shaders.
+
+genType faceforward (genType N, genType I, genType Nref)
+If dot(Nref, I) < 0 return N, otherwise return –N
+
+genDType faceforward (genDType N, genDType I, genDType Nref)
+If dot(Nref, I) < 0 return N, otherwise return –N
+
+genType reflect (genType I, genType N)
+For the incident vector I and surface orientation N,
+returns the reflection direction:
+I – 2 * dot(N, I) * N
+N must already be normalized in order to achieve the
+desired result
+
+genDType reflect (genDType I, genDType N)
+For the incident vector I and surface orientation N,
+returns the reflection direction:
+I – 2 * dot(N, I) * N
+N must already be normalized in order to achieve the
+desired result
+
+genType refract (genType I, genType N, float eta)
+For the incident vector I and surface normal N, and the
+ratio of indices of refraction eta, return the refraction
+vector. The result is computed by
+k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I))
+if (k < 0.0)
+ return genType(0.0) // or genDType(0.0)
+else
+ return eta * I - (eta * dot(N, I) + sqrt(k)) * N
+The input parameters for the incident vector I and the
+surface normal N must already be normalized to get the
+desired results.
+
+genDType refract (genDType I, genDType N, float eta)
+For the incident vector I and surface normal N, and the
+ratio of indices of refraction eta, return the refraction
+vector. The result is computed by
+k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I))
+if (k < 0.0)
+ return genType(0.0) // or genDType(0.0)
+else
+ return eta * I - (eta * dot(N, I) + sqrt(k)) * N
+The input parameters for the incident vector I and the
+surface normal N must already be normalized to get the
+desired results.
+
+mat matrixCompMult (mat x, mat y)
+Multiply matrix x by matrix y component-wise, i.e.,
+result[i][j] is the scalar product of x[i][j] and y[i][j].
+Note: to get linear algebraic matrix multiplication, use
+the multiply operator (*).
+
+mat2 outerProduct (vec2 c, vec2 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat3 outerProduct (vec3 c, vec3 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat4 outerProduct (vec4 c, vec4 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat2x3 outerProduct (vec3 c, vec2 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat3x2 outerProduct (vec2 c, vec3 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat2x4 outerProduct (vec4 c, vec2 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat4x2 outerProduct (vec2 c, vec4 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat3x4 outerProduct (vec4 c, vec3 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat4x3 outerProduct (vec3 c, vec4 r)
+Treats the first parameter c as a column vector (matrix
+with one column) and the second parameter r as a row
+vector (matrix with one row) and does a linear algebraic
+matrix multiply c * r, yielding a matrix whose number of
+rows is the number of components in c and whose
+number of columns is the number of components in r
+
+mat2 transpose (mat2 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat3 transpose (mat3 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat4 transpose (mat4 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat2x3 transpose (mat3x2 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat3x2 transpose (mat2x3 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat2x4 transpose (mat4x2 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat4x2 transpose (mat2x4 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat3x4 transpose (mat4x3 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+mat4x3 transpose (mat3x4 m)
+Returns a matrix that is the transpose of m. The input
+matrix m is not modified.
+
+float determinant (mat2 m)
+Returns the determinant of m.
+
+float determinant (mat3 m)
+Returns the determinant of m.
+
+float determinant (mat4 m)
+Returns the determinant of m.
+
+mat2 inverse (mat2 m)
+Returns a matrix that is the inverse of m. The input
+matrix m is not modified. The values in the returned
+matrix are undefined if m is singular or poorlyconditioned
+(nearly singular).
+
+mat3 inverse (mat3 m)
+Returns a matrix that is the inverse of m. The input
+matrix m is not modified. The values in the returned
+matrix are undefined if m is singular or poorlyconditioned
+(nearly singular).
+
+mat4 inverse (mat4 m)
+Returns a matrix that is the inverse of m. The input
+matrix m is not modified. The values in the returned
+matrix are undefined if m is singular or poorlyconditioned
+(nearly singular).
+
+bvec lessThan (vec x, vec y)
+Returns the component-wise compare of x < y.
+
+bvec lessThan (ivec x, ivec y)
+Returns the component-wise compare of x < y.
+
+bvec lessThan (uvec x, uvec y)
+Returns the component-wise compare of x < y.
+
+bvec lessThanEqual (vec x, vec y)
+Returns the component-wise compare of x <= y.
+
+bvec lessThanEqual (ivec x, ivec y)
+Returns the component-wise compare of x <= y.
+
+bvec lessThanEqual (uvec x, uvec y)
+Returns the component-wise compare of x <= y.
+
+bvec greaterThan (vec x, vec y)
+Returns the component-wise compare of x > y.
+
+bvec greaterThan (ivec x, ivec y)
+Returns the component-wise compare of x > y.
+
+bvec greaterThan (uvec x, uvec y)
+Returns the component-wise compare of x > y.
+
+bvec greaterThanEqual (vec x, vec y)
+Returns the component-wise compare of x >= y.
+
+bvec greaterThanEqual (ivec x, ivec y)
+Returns the component-wise compare of x >= y.
+
+bvec greaterThanEqual (uvec x, uvec y)
+Returns the component-wise compare of x >= y.
+
+bvec equal (vec x, vec y)
+Returns the component-wise compare of x == y.
+
+bvec equal (ivec x, ivec y)
+Returns the component-wise compare of x == y.
+
+bvec equal (uvec x, uvec y)
+Returns the component-wise compare of x == y.
+
+bvec equal (bvec x, bvec y)
+Returns the component-wise compare of x == y.
+
+bvec notEqual (vec x, vec y)
+Returns the component-wise compare of x != y.
+
+bvec notEqual (ivec x, ivec y)
+Returns the component-wise compare of x != y.
+
+bvec notEqual (uvec x, uvec y)
+Returns the component-wise compare of x != y.
+
+bvec notEqual (bvec x, bvec y)
+Returns the component-wise compare of x != y.
+
+bool any (bvec x)
+Returns true if any component of x is true.
+
+bool all (bvec x)
+Returns true only if all components of x are true.
+
+bvec not (bvec x)
+Returns the component-wise logical complement of x.
+
+genUType uaddCarry (genUType x, genUType y, out genUType carry)
+Adds 32-bit unsigned integer x and y, returning the sum
+modulo 232. The value carry is set to 0 if the sum was
+less than 232, or to 1 otherwise.
+
+genUType usubBorrow (genUType x, genUType y, out genUType borrow)
+Subtracts the 32-bit unsigned integer y from x, returning
+the difference if non-negative, or 232 plus the difference
+otherwise. The value borrow is set to 0 if x >= y, or to
+1 otherwise.
+
+void umulExtended (genUType x, genUType y, out genUType msb, out genUType lsb)
+Multiplies 32-bit integers x and y, producing a 64-bit
+result. The 32 least-significant bits are returned in lsb.
+The 32 most-significant bits are returned in msb.
+
+void imulExtended (genIType x, genIType y, out genIType msb, out genIType lsb)
+Multiplies 32-bit integers x and y, producing a 64-bit
+result. The 32 least-significant bits are returned in lsb.
+The 32 most-significant bits are returned in msb.
+
+genIType bitfieldExtract (genIType value, int offset, int bits)
+Extracts bits [offset, offset + bits - 1] from value,
+returning them in the least significant bits of the result.
+For unsigned data types, the most significant bits of the
+result will be set to zero. For signed data types, the
+most significant bits will be set to the value of bit offset
++ bits – 1.
+If bits is zero, the result will be zero. The result will be
+undefined if offset or bits is negative, or if the sum of
+offset and bits is greater than the number of bits used
+to store the operand.
+
+genUType bitfieldExtract (genUType value, int offset, int bits)
+Extracts bits [offset, offset + bits - 1] from value,
+returning them in the least significant bits of the result.
+For unsigned data types, the most significant bits of the
+result will be set to zero. For signed data types, the
+most significant bits will be set to the value of bit offset
++ bits – 1.
+If bits is zero, the result will be zero. The result will be
+undefined if offset or bits is negative, or if the sum of
+offset and bits is greater than the number of bits used
+to store the operand.
+
+genIType bitfieldInsert (genIType base, genIType insert, int offset, int bits)
+Returns the insertion of the bits least-significant bits of
+insert into base.
+The result will have bits [offset, offset + bits - 1] taken
+from bits [0, bits – 1] of insert, and all other bits taken
+directly from the corresponding bits of base. If bits is
+zero, the result will simply be base. The result will be
+undefined if offset or bits is negative, or if the sum of
+offset and bits is greater than the number of bits used to
+store the operand.
+
+genUType bitfieldInsert (genUType base, genUType insert, int offset, int bits)
+Returns the insertion of the bits least-significant bits of
+insert into base.
+The result will have bits [offset, offset + bits - 1] taken
+from bits [0, bits – 1] of insert, and all other bits taken
+directly from the corresponding bits of base. If bits is
+zero, the result will simply be base. The result will be
+undefined if offset or bits is negative, or if the sum of
+offset and bits is greater than the number of bits used to
+store the operand.
+
+genIType bitfieldReverse (genIType value)
+Returns the reversal of the bits of value. The bit
+numbered n of the result will be taken from bit (bits - 1)
+- n of value, where bits is the total number of bits used
+to represent value.
+
+genUType bitfieldReverse (genUType value)
+Returns the reversal of the bits of value. The bit
+numbered n of the result will be taken from bit (bits - 1)
+- n of value, where bits is the total number of bits used
+to represent value.
+
+genIType bitCount (genIType value)
+Returns the number of bits set to 1 in the binary
+representation of value.
+
+genIType bitCount (genUType value)
+Returns the number of bits set to 1 in the binary
+representation of value.
+
+genIType findLSB (genIType value)
+Returns the bit number of the least significant bit set to
+1 in the binary representation of value. If value is zero,
+-1will be returned.
+
+genIType findLSB (genUType value)
+Returns the bit number of the least significant bit set to
+1 in the binary representation of value. If value is zero,
+-1will be returned.
+
+genIType findMSB (genIType value)
+Returns the bit number of the most significant bit in the
+binary representation of value.
+For positive integers, the result will be the bit number of
+the most significant bit set to 1. For negative integers,
+the result will be the bit number of the most significant
+bit set to 0. For a value of zero or negative one, -1 will
+be returned.
+
+genIType findMSB (genUType value)
+Returns the bit number of the most significant bit in the
+binary representation of value.
+For positive integers, the result will be the bit number of
+the most significant bit set to 1. For negative integers,
+the result will be the bit number of the most significant
+bit set to 0. For a value of zero or negative one, -1 will
+be returned.
+
+int textureSize (gsampler1D sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (gsampler2D sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec3 textureSize (gsampler3D sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (gsamplerCube sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+int textureSize (sampler1DShadow sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (sampler2DShadow sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (samplerCubeShadow sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec3 textureSize (gsamplerCubeArray sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec3 textureSize (samplerCubeArrayShadow sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (gsampler2DRect sampler)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (sampler2DRectShadow sampler)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (gsampler1DArray sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec3 textureSize (gsampler2DArray sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (sampler1DArrayShadow sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec3 textureSize (sampler2DArrayShadow sampler, int lod)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+int textureSize (gsamplerBuffer sampler)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec2 textureSize (gsampler2DMS sampler)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+ivec3 textureSize (gsampler2DMSArray sampler)
+Returns the dimensions of level
+lod (if present) for the texture
+bound to sampler, as described
+in section 11.1.3.4 “Texture
+Queries” of the OpenGL
+Graphics System Specification.
+The components in the return
+value are filled in, in order, with
+the width, height, and depth of
+the texture.
+For the array forms, the last
+component of the return value is
+the number of layers in the
+texture array, or the number of
+cubes in the texture cube map
+array.
+
+vec2 textureQueryLod(gsampler1D sampler, float P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(gsampler2D sampler, vec2 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(gsampler3D sampler, vec3 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(gsamplerCube sampler, vec3 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(gsampler1DArray sampler, float P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(gsampler2DArray sampler, vec2 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(gsamplerCubeArray sampler, vec3 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(sampler1DShadow sampler, float P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(sampler2DShadow sampler, vec2 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(samplerCubeShadow sampler, vec3 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(sampler1DArrayShadow sampler, float P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(sampler2DArrayShadow sampler, vec2 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+vec2 textureQueryLod(samplerCubeArrayShadow sampler, vec3 P)
+Returns the mipmap array(s)
+that would be accessed in the x
+component of the return value.
+Returns the computed level of
+detail relative to the base level
+in the y component of the return
+value.
+If called on an incomplete
+texture, the results are
+undefined.
+
+int textureQueryLevels(gsampler1D sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(gsampler2D sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(gsampler3D sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(gsamplerCube sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(gsampler1DArray sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(gsampler2DArray sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(gsamplerCubeArray sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(sampler1DShadow sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(sampler2DShadow sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(samplerCubeShadow sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(sampler1DArrayShadow sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(sampler2DArrayShadow sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureQueryLevels(samplerCubeArrayShadow sampler)
+Returns the number of mipmap
+levels accessible in the texture
+associated with sampler, as
+defined in the OpenGL
+Specification.
+The value zero will be returned
+if no texture or an incomplete
+texture is associated with
+sampler.
+Available in all shader stages.
+
+int textureSamples(gsampler2DMS sampler)
+Returns the number of samples
+of the texture or textures bound
+to sampler.
+
+int textureSamples(gsampler2DMSArray sampler)
+Returns the number of samples
+of the texture or textures bound
+to sampler.
+
+gvec4 texture (gsampler1D sampler, float P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 texture (gsampler2D sampler, vec2 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 texture (gsampler3D sampler, vec3 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 texture (gsamplerCube sampler, vec3 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+float texture (sampler1DShadow sampler, vec3 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+float texture (sampler2DShadow sampler, vec3 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+float texture (samplerCubeShadow sampler, vec4 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 texture (gsampler1DArray sampler, vec2 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 texture (gsampler2DArray sampler, vec3 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 texture (gsamplerCubeArray sampler, vec4 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+float texture (sampler1DArrayShadow sampler, vec3 P [, float bias] )
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+float texture (sampler2DArrayShadow sampler, vec4 P)
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 texture (gsampler2DRect sampler, vec2 P)
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+float texture (sampler2DRectShadow sampler, vec3 P)
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+float texture (gsamplerCubeArrayShadow sampler, vec4 P, float compare)
+Use the texture coordinate P to
+do a texture lookup in the
+texture currently bound to
+sampler.
+For shadow forms: When
+compare is present, it is used as
+Dref and the array layer comes
+from P.w. When compare is not
+present, the last component of
+P is used as Dref and the array
+layer comes from the second to
+last component of P. (The
+second component of P is
+unused for 1D shadow lookups.)
+For non-shadow forms: the array
+layer comes from the last
+component of P.
+
+gvec4 textureProj (gsampler1D sampler, vec2 P [, float bias] )
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+gvec4 textureProj (gsampler1D sampler, vec4 P [, float bias] )
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+gvec4 textureProj (gsampler2D sampler, vec3 P [, float bias] )
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+gvec4 textureProj (gsampler2D sampler, vec4 P [, float bias] )
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+gvec4 textureProj (gsampler3D sampler, vec4 P [, float bias] )
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+float textureProj (sampler1DShadow sampler, vec4 P [, float bias] )
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+float textureProj (sampler2DShadow sampler, vec4 P [, float bias] )
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+gvec4 textureProj (gsampler2DRect sampler, vec3 P)
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+gvec4 textureProj (gsampler2DRect sampler, vec4 P)
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+float textureProj (sampler2DRectShadow sampler, vec4 P)
+Do a texture lookup with
+projection. The texture
+coordinates consumed from P,
+not including the last component
+of P, are divided by the last
+component of P. The resulting
+3rd component of P in the
+shadow forms is used as Dref.
+After these values are computed,
+texture lookup proceeds as in
+texture.
+
+gvec4 textureLod (gsampler1D sampler, float P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+gvec4 textureLod (gsampler2D sampler, vec2 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+gvec4 textureLod (gsampler3D sampler, vec3 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+gvec4 textureLod (gsamplerCube sampler, vec3 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+float textureLod (sampler1DShadow sampler, vec3 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+float textureLod (sampler2DShadow sampler, vec3 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+gvec4 textureLod (gsampler1DArray sampler, vec2 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+gvec4 textureLod (gsampler2DArray sampler, vec3 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+float textureLod (sampler1DArrayShadow sampler, vec3 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+gvec4 textureLod (gsamplerCubeArray sampler, vec4 P, float lod)
+Do a texture lookup as in
+texture but with explicit LOD;
+lod specifies λbase and sets the
+partial derivatives as follows.
+(See section 8.14“Texture
+Minification” and equations 8.4-
+8.6 in the OpenGL Graphics
+System Specification.)
+∂u / ∂x = 0
+∂v / ∂x = 0
+∂w / ∂x = 0
+∂u / ∂y = 0
+∂v / ∂y = 0
+∂w / ∂y = 0
+
+gvec4 textureOffset (gsampler1D sampler, float P, int offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+gvec4 textureOffset (gsampler2D sampler, vec2 P, ivec2 offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+gvec4 textureOffset (gsampler3D sampler, vec3 P, ivec3 offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+gvec4 textureOffset (gsampler2DRect sampler, vec2 P, ivec2 offset)
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+float textureOffset (sampler2DRectShadow sampler, vec3 P, ivec2 offset)
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+float textureOffset (sampler1DShadow sampler, vec3 P, int offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+float textureOffset (sampler2DShadow sampler, vec3 P, ivec2 offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+gvec4 textureOffset (gsampler1DArray sampler, vec2 P, int offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+gvec4 textureOffset (gsampler2DArray sampler, vec3 P, ivec2 offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+float textureOffset (sampler1DArrayShadow sampler, vec3 P, int offset [, float bias])
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+float textureOffset (sampler2DArrayShadow sampler, vec4 P, ivec2 offset)
+Do a texture lookup as in
+texture but with offset added to
+the (u,v,w) texel coordinates
+before looking up each texel.
+The offset value must be a
+constant expression. A limited
+range of offset values are
+supported; the minimum and
+maximum offset values are
+implementation-dependent and
+given by
+gl_MinProgramTexelOffset and
+gl_MaxProgramTexelOffset,
+respectively.
+Note that offset does not apply
+to the layer coordinate for
+texture arrays. This is explained
+in detail in section 8.14.2
+“Coordinate Wrapping and
+Texel Selection” of the OpenGL
+Graphics System Specification,
+where offset is (δu, δv, δw).
+Note that texel offsets are also
+not supported for cube maps.
+
+gvec4 texelFetch (gsampler1D sampler, int P, int lod)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsampler2D sampler, ivec2 P, int lod)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsampler3D sampler, ivec3 P, int lod)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsampler2DRect sampler, ivec2 P)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsampler1DArray sampler, ivec2 P, int lod)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsampler2DArray sampler, ivec3 P, int lod)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsamplerBuffer sampler, int P)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsampler2DMS sampler, ivec2 P, int sample)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetch (gsampler2DMSArray sampler, ivec3 P, int sample)
+Use integer texture coordinate P
+to lookup a single texel from
+sampler. The array layer comes
+from the last component of P for
+the array forms. The level-ofdetail
+lod (if present) is as
+described in sections 11.1.3.2
+“Texel Fetches” and 8.14.1
+“Scale Factor and Level of
+Detail” of the OpenGL Graphics
+System Specification.
+
+gvec4 texelFetchOffset (gsampler1D sampler, int P, int lod, int offset)
+Fetch a single texel as in
+texelFetch offset by offset as
+described in textureOffset.
+
+gvec4 texelFetchOffset (gsampler2D sampler, ivec2 P, int lod, ivec2 offset)
+Fetch a single texel as in
+texelFetch offset by offset as
+described in textureOffset.
+
+gvec4 texelFetchOffset (gsampler3D sampler, ivec3 P, int lod, ivec3 offset)
+Fetch a single texel as in
+texelFetch offset by offset as
+described in textureOffset.
+
+gvec4 texelFetchOffset (gsampler2DRect sampler, ivec2 P, ivec2 offset)
+Fetch a single texel as in
+texelFetch offset by offset as
+described in textureOffset.
+
+gvec4 texelFetchOffset (gsampler1DArray sampler, ivec2 P, int lod, int offset)
+Fetch a single texel as in
+texelFetch offset by offset as
+described in textureOffset.
+
+gvec4 texelFetchOffset (gsampler2DArray sampler, ivec3 P, int lod, ivec2 offset)
+Fetch a single texel as in
+texelFetch offset by offset as
+described in textureOffset.
+
+gvec4 textureProjOffset (gsampler1D sampler, vec2 P, int offset [, float bias])
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+gvec4 textureProjOffset (gsampler1D sampler, vec4 P, int offset [, float bias])
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+gvec4 textureProjOffset (gsampler2D sampler, vec3 P, ivec2 offset [, float bias])
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+gvec4 textureProjOffset (gsampler2D sampler, vec4 P, ivec2 offset [, float bias])
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+gvec4 textureProjOffset (gsampler3D sampler, vec4 P, ivec3 offset [, float bias])
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+gvec4 textureProjOffset (gsampler2DRect sampler, vec3 P, ivec2 offset)
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+gvec4 textureProjOffset (gsampler2DRect sampler, vec4 P, ivec2 offset)
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+float textureProjOffset (sampler2DRectShadow sampler, vec4 P, ivec2 offset)
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+float textureProjOffset (sampler1DShadow sampler, vec4 P, int offset [, float bias])
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+float textureProjOffset (sampler2DShadow sampler, vec4 P, ivec2 offset [, float bias])
+Do a projective texture lookup
+as described in textureProj
+offset by offset as described in
+textureOffset.
+
+gvec4 textureLodOffset (gsampler1D sampler, float P, float lod, int offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+and textureOffset.
+
+gvec4 textureLodOffset (gsampler2D sampler, vec2 P, float lod, ivec2 offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+and textureOffset.
+
+gvec4 textureLodOffset (gsampler3D sampler, vec3 P, float lod, ivec3 offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+and textureOffset.
+
+float textureLodOffset (sampler1DShadow sampler, vec3 P, float lod, int offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+and textureOffset.
+
+float textureLodOffset (sampler2DShadow sampler, vec3 P, float lod, ivec2 offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+and textureOffset.
+
+gvec4 textureLodOffset (gsampler1DArray sampler, vec2 P, float lod, int offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+and textureOffset.
+
+gvec4 textureLodOffset (gsampler2DArray sampler, vec3 P, float lod, ivec2 offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+
+and textureOffset.
+float textureLodOffset (sampler1DArrayShadow sampler, vec3 P, float lod, int offset)
+Do an offset texture lookup with
+explicit LOD. See textureLod
+and textureOffset.
+
+gvec4 textureProjLod (gsampler1D sampler, vec2 P, float lod)
+Do a projective texture lookup
+with explicit LOD. See
+textureProj and textureLod.
+
+gvec4 textureProjLod (gsampler1D sampler, vec4 P, float lod)
+Do a projective texture lookup
+with explicit LOD. See
+textureProj and textureLod.
+
+gvec4 textureProjLod (gsampler2D sampler, vec3 P, float lod)
+Do a projective texture lookup
+with explicit LOD. See
+textureProj and textureLod.
+
+gvec4 textureProjLod (gsampler2D sampler, vec4 P, float lod)
+Do a projective texture lookup
+with explicit LOD. See
+textureProj and textureLod.
+
+gvec4 textureProjLod (gsampler3D sampler, vec4 P, float lod)
+Do a projective texture lookup
+with explicit LOD. See
+textureProj and textureLod.
+
+float textureProjLod (sampler1DShadow sampler, vec4 P, float lod)
+Do a projective texture lookup
+with explicit LOD. See
+textureProj and textureLod.
+
+float textureProjLod (sampler2DShadow sampler, vec4 P, float lod)
+Do a projective texture lookup
+with explicit LOD. See
+textureProj and textureLod.
+
+gvec4 textureProjLodOffset (gsampler1D sampler, vec2 P, float lod, int offset)
+Do an offset projective texture
+lookup with explicit LOD. See
+textureProj, textureLod, and
+textureOffset.
+
+gvec4 textureProjLodOffset (gsampler1D sampler, vec4 P, float lod, int offset)
+Do an offset projective texture
+lookup with explicit LOD. See
+textureProj, textureLod, and
+textureOffset.
+
+gvec4 textureProjLodOffset (gsampler2D sampler, vec3 P, float lod, ivec2 offset)
+Do an offset projective texture
+lookup with explicit LOD. See
+textureProj, textureLod, and
+textureOffset.
+
+gvec4 textureProjLodOffset (gsampler2D sampler, vec4 P, float lod, ivec2 offset)
+Do an offset projective texture
+lookup with explicit LOD. See
+textureProj, textureLod, and
+textureOffset.
+
+gvec4 textureProjLodOffset (gsampler3D sampler, vec4 P, float lod, ivec3 offset)
+Do an offset projective texture
+lookup with explicit LOD. See
+textureProj, textureLod, and
+textureOffset.
+
+float textureProjLodOffset (sampler1DShadow sampler, vec4 P, float lod, int offset)
+Do an offset projective texture
+lookup with explicit LOD. See
+textureProj, textureLod, and
+textureOffset.
+
+float textureProjLodOffset (sampler2DShadow sampler, vec4 P, float lod, ivec2 offset)
+Do an offset projective texture
+lookup with explicit LOD. See
+textureProj, textureLod, and
+textureOffset.
+
+gvec4 textureGrad (gsampler1D sampler, float P, float dPdx, float dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGrad (gsampler2D sampler, vec2 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGrad (gsampler3D sampler, vec3 P, vec3 dPdx, vec3 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGrad (gsamplerCube sampler, vec3 P, vec3 dPdx, vec3 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGrad (gsampler2DRect sampler, vec2 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+float textureGrad (sampler2DRectShadow sampler, vec3 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+float textureGrad (sampler1DShadow sampler, vec3 P, float dPdx, float dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+float textureGrad (sampler2DShadow sampler, vec3 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+float textureGrad (samplerCubeShadow sampler, vec4 P, vec3 dPdx, vec3 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGrad (gsampler1DArray sampler, vec2 P, float dPdx, float dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGrad (gsampler2DArray sampler, vec3 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+float textureGrad (sampler1DArrayShadow sampler, vec3 P, float dPdx, float dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+float textureGrad (sampler2DArrayShadow sampler, vec4 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGrad (gsamplerCubeArray sampler, vec4 P, vec3 dPdx, vec3 dPdy)
+Do a texture lookup as in
+texture but with explicit
+gradients. The partial
+derivatives of P are with respect
+to window x and window y. Set
+∂s / ∂x =
+{
+∂P / ∂x for a 1D texture
+∂P.s / ∂x otherwise
+}
+∂s / ∂y =
+{
+∂P / ∂y for a 1D texture
+∂P.s / ∂y otherwise
+}
+∂t / ∂x =
+{
+0.0 for a 1D texture
+∂P.t / ∂x otherwise
+}
+∂t / ∂y =
+{
+0.0 for a 1D texture
+∂P.t / ∂y otherwise
+}
+∂r / ∂x =
+{
+0.0 for 1D or 2D
+∂P.p / ∂x cube, other
+}
+∂r / ∂y =
+{
+0.0 for 1D or 2D
+∂P.p / ∂y cube, other
+}
+For the cube version, the partial
+derivatives of P are assumed to
+be in the coordinate system used
+before texture coordinates are
+projected onto the appropriate
+cube face.
+
+gvec4 textureGradOffset (gsampler1D sampler, float P, float dPdx, float dPdy, int offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+gvec4 textureGradOffset (gsampler2D sampler, vec2 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+gvec4 textureGradOffset (gsampler3D sampler, vec3 P, vec3 dPdx, vec3 dPdy, ivec3 offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+gvec4 textureGradOffset (gsampler2DRect sampler, vec2 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+float textureGradOffset (sampler2DRectShadow sampler, vec3 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+float textureGradOffset (sampler1DShadow sampler, vec3 P, float dPdx, float dPdy, int offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+float textureGradOffset (sampler2DShadow sampler, vec3 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+gvec4 textureGradOffset (gsampler1DArray sampler, vec2 P, float dPdx, float dPdy, int offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+
+textureOffset.
+gvec4 textureGradOffset (gsampler2DArray sampler, vec3 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+float textureGradOffset (sampler1DArrayShadow sampler, vec3 P, float dPdx, float dPdy, int offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+float textureGradOffset (sampler2DArrayShadow sampler, vec4 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup with both
+explicit gradient and offset, as
+described in textureGrad and
+textureOffset.
+
+gvec4 textureProjGrad (gsampler1D sampler, vec2 P, float dPdx, float dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+gvec4 textureProjGrad (gsampler1D sampler, vec4 P, float dPdx, float dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+gvec4 textureProjGrad (gsampler2D sampler, vec3 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+gvec4 textureProjGrad (gsampler2D sampler, vec4 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+gvec4 textureProjGrad (gsampler3D sampler, vec4 P, vec3 dPdx, vec3 dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+gvec4 textureProjGrad (gsampler2DRect sampler, vec3 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+gvec4 textureProjGrad (gsampler2DRect sampler, vec4 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+float textureProjGrad (sampler2DRectShadow sampler, vec4 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+float textureProjGrad (sampler1DShadow sampler, vec4 P, float dPdx, float dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+float textureProjGrad (sampler2DShadow sampler, vec4 P, vec2 dPdx, vec2 dPdy)
+Do a texture lookup both
+projectively, as described in
+textureProj, and with explicit
+gradient as described in
+textureGrad. The partial
+derivatives dPdx and dPdy are
+assumed to be already projected.
+
+gvec4 textureProjGradOffset (gsampler1D sampler, vec2 P, float dPdx, float dPdy, int offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+gvec4 textureProjGradOffset (gsampler1D sampler, vec4 P, float dPdx, float dPdy, int offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+gvec4 textureProjGradOffset (gsampler2D sampler, vec3 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+gvec4 textureProjGradOffset (gsampler2D sampler, vec4 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+gvec4 textureProjGradOffset (gsampler2DRect sampler, vec3 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+gvec4 textureProjGradOffset (gsampler2DRect sampler, vec4 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+float textureProjGradOffset (sampler2DRectShadow sampler, vec4 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+gvec4 textureProjGradOffset (gsampler3D sampler, vec4 P, vec3 dPdx, vec3 dPdy, ivec3 offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+float textureProjGradOffset (sampler1DShadow sampler, vec4 P, float dPdx, float dPdy, int offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+float textureProjGradOffset (sampler2DShadow sampler, vec4 P, vec2 dPdx, vec2 dPdy, ivec2 offset)
+Do a texture lookup projectively
+and with explicit gradient as
+described in textureProjGrad,
+as well as with offset, as
+described in textureOffset.
+
+gvec4 textureGather (gsampler2D sampler, vec2 P [, int comp])
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+gvec4 textureGather (gsampler2DArray sampler, vec3 P [, int comp])
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+gvec4 textureGather (gsamplerCube sampler, vec3 P [, int comp])
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+gvec4 textureGather (gsamplerCubeArray sampler, vec4 P[, int comp])
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+gvec4 textureGather (gsampler2DRect sampler, vec2 P[, int comp])
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+vec4 textureGather (sampler2DShadow sampler, vec2 P, float refZ)
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+vec4 textureGather (sampler2DArrayShadow sampler, vec3 P, float refZ)
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+vec4 textureGather (samplerCubeShadow sampler, vec3 P, float refZ)
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+vec4 textureGather (samplerCubeArrayShadow sampler, vec4 P, float refZ)
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+vec4 textureGather (sampler2DRectShadow sampler, vec2 P, float refZ)
+Returns the value
+vec4(Sample_i0_j1(P, base).comp,
+ Sample_i1_j1(P, base).comp,
+ Sample_i1_j0(P, base).comp,
+ Sample_i0_j0(P, base).comp)
+If specified, the value of comp must be a
+constant integer expression with a value of 0,
+1, 2, or 3, identifying the x, y, z, or w postswizzled
+component of the four-component
+vector lookup result for each texel,
+respectively. If comp is not specified, it is
+treated as 0, selecting the x component of
+each texel to generate the result.
+
+gvec4 textureGatherOffset (gsampler2D sampler, vec2 P, ivec2 offset [, int comp])
+Perform a texture gather operation as in
+textureGather by offset as described in
+textureOffset except that the offset can be
+variable (non constant) and the
+implementation-dependent minimum and
+maximum offset values are given by
+MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+and
+MAX_PROGRAM_TEXTURE_GATHER_OFFSET,
+respectively.
+
+gvec4 textureGatherOffset (gsampler2DArray sampler, vec3 P, ivec2 offset [, int comp])
+Perform a texture gather operation as in
+textureGather by offset as described in
+textureOffset except that the offset can be
+variable (non constant) and the
+implementation-dependent minimum and
+maximum offset values are given by
+MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+and
+MAX_PROGRAM_TEXTURE_GATHER_OFFSET,
+respectively.
+
+gvec4 textureGatherOffset (gsampler2DRect sampler, vec2 P, ivec2 offset [, int comp])
+Perform a texture gather operation as in
+textureGather by offset as described in
+textureOffset except that the offset can be
+variable (non constant) and the
+implementation-dependent minimum and
+maximum offset values are given by
+MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+and
+MAX_PROGRAM_TEXTURE_GATHER_OFFSET,
+respectively.
+
+vec4 textureGatherOffset (sampler2DShadow sampler, vec2 P, float refZ, ivec2 offset)
+Perform a texture gather operation as in
+textureGather by offset as described in
+textureOffset except that the offset can be
+variable (non constant) and the
+implementation-dependent minimum and
+maximum offset values are given by
+MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+and
+MAX_PROGRAM_TEXTURE_GATHER_OFFSET,
+respectively.
+
+vec4 textureGatherOffset (sampler2DArrayShadow sampler, vec3 P, float refZ, ivec2 offset)
+Perform a texture gather operation as in
+textureGather by offset as described in
+textureOffset except that the offset can be
+variable (non constant) and the
+implementation-dependent minimum and
+maximum offset values are given by
+MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+and
+MAX_PROGRAM_TEXTURE_GATHER_OFFSET,
+respectively.
+
+vec4 textureGatherOffset (sampler2DRectShadow sampler, vec2 P, float refZ, ivec2 offset)
+Perform a texture gather operation as in
+textureGather by offset as described in
+textureOffset except that the offset can be
+variable (non constant) and the
+implementation-dependent minimum and
+maximum offset values are given by
+MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+and
+MAX_PROGRAM_TEXTURE_GATHER_OFFSET,
+respectively.
+
+gvec4 textureGatherOffsets (gsampler2D sampler, vec2 P, ivec2 offsets[4] [, int comp])
+Operate identically to textureGatherOffset
+except that offsets is used to determine the
+location of the four texels to sample. Each
+of the four texels is obtained by applying the
+corresponding offset in offsets as a (u, v)
+coordinate offset to P, identifying the fourtexel
+LINEAR footprint, and then selecting
+the texel i0j0 of that footprint. The specified
+values in offsets must be constant
+expressions.
+
+gvec4 textureGatherOffsets (gsampler2DArray sampler, vec3 P, ivec2 offsets[4] [, int comp])
+Operate identically to textureGatherOffset
+except that offsets is used to determine the
+location of the four texels to sample. Each
+of the four texels is obtained by applying the
+corresponding offset in offsets as a (u, v)
+coordinate offset to P, identifying the fourtexel
+LINEAR footprint, and then selecting
+the texel i0j0 of that footprint. The specified
+values in offsets must be constant
+expressions.
+
+gvec4 textureGatherOffsets (gsampler2DRect sampler, vec2 P, ivec2 offsets[4] [, int comp])
+Operate identically to textureGatherOffset
+except that offsets is used to determine the
+location of the four texels to sample. Each
+of the four texels is obtained by applying the
+corresponding offset in offsets as a (u, v)
+coordinate offset to P, identifying the fourtexel
+LINEAR footprint, and then selecting
+the texel i0j0 of that footprint. The specified
+values in offsets must be constant
+expressions.
+
+vec4 textureGatherOffsets (sampler2DShadow sampler, vec2 P, float refZ, ivec2 offsets[4])
+Operate identically to textureGatherOffset
+except that offsets is used to determine the
+location of the four texels to sample. Each
+of the four texels is obtained by applying the
+corresponding offset in offsets as a (u, v)
+coordinate offset to P, identifying the fourtexel
+LINEAR footprint, and then selecting
+the texel i0j0 of that footprint. The specified
+values in offsets must be constant
+expressions.
+
+vec4 textureGatherOffsets (sampler2DArrayShadow sampler, vec3 P, float refZ, ivec2 offsets[4])
+Operate identically to textureGatherOffset
+except that offsets is used to determine the
+location of the four texels to sample. Each
+of the four texels is obtained by applying the
+corresponding offset in offsets as a (u, v)
+coordinate offset to P, identifying the fourtexel
+LINEAR footprint, and then selecting
+the texel i0j0 of that footprint. The specified
+values in offsets must be constant
+expressions.
+
+vec4 textureGatherOffsets (sampler2DRectShadow sampler, vec2 P, float refZ, ivec2 offsets[4])
+Operate identically to textureGatherOffset
+except that offsets is used to determine the
+location of the four texels to sample. Each
+of the four texels is obtained by applying the
+corresponding offset in offsets as a (u, v)
+coordinate offset to P, identifying the fourtexel
+LINEAR footprint, and then selecting
+the texel i0j0 of that footprint. The specified
+values in offsets must be constant
+expressions.
+
+vec4 texture1D (sampler1D sampler, float coord [, float bias] )
+See corresponding signature above without
+“1D” in the name.
+
+vec4 texture1DProj (sampler1D sampler, vec2 coord [, float bias] )
+See corresponding signature above without
+“1D” in the name.
+
+vec4 texture1DProj (sampler1D sampler, vec4 coord [, float bias] )
+See corresponding signature above without
+“1D” in the name.
+
+vec4 texture1DLod (sampler1D sampler, float coord, float lod)
+See corresponding signature above without
+“1D” in the name.
+
+vec4 texture1DProjLod (sampler1D sampler, vec2 coord, float lod)
+See corresponding signature above without
+“1D” in the name.
+
+vec4 texture1DProjLod (sampler1D sampler, vec4 coord, float lod)
+See corresponding signature above without
+“1D” in the name.
+
+vec4 texture2D (sampler2D sampler, vec2 coord [, float bias] )
+See corresponding signature above without
+“2D” in the name.
+
+vec4 texture2DProj (sampler2D sampler, vec3 coord [, float bias] )
+See corresponding signature above without
+“2D” in the name.
+
+vec4 texture2DProj (sampler2D sampler, vec4 coord [, float bias] )
+See corresponding signature above without
+“2D” in the name.
+
+vec4 texture2DLod (sampler2D sampler, vec2 coord, float lod)
+See corresponding signature above without
+“2D” in the name.
+
+vec4 texture2DProjLod (sampler2D sampler, vec3 coord, float lod)
+See corresponding signature above without
+“2D” in the name.
+
+vec4 texture2DProjLod (sampler2D sampler, vec4 coord, float lod)
+See corresponding signature above without
+“2D” in the name.
+
+vec4 texture3D (sampler3D sampler, vec3 coord [, float bias] )
+See corresponding signature above without
+“3D” in the name.
+Use the texture coordinate coord to do a
+texture lookup in the 3D texture currently
+bound to sampler. For the projective
+(“Proj”) versions, the texture coordinate is
+divided by coord.q.
+
+vec4 texture3DProj (sampler3D sampler, vec4 coord [, float bias] )
+See corresponding signature above without
+“3D” in the name.
+Use the texture coordinate coord to do a
+texture lookup in the 3D texture currently
+bound to sampler. For the projective
+(“Proj”) versions, the texture coordinate is
+divided by coord.q.
+
+vec4 texture3DLod (sampler3D sampler, vec3 coord, float lod)
+See corresponding signature above without
+“3D” in the name.
+Use the texture coordinate coord to do a
+texture lookup in the 3D texture currently
+bound to sampler. For the projective
+(“Proj”) versions, the texture coordinate is
+divided by coord.q.
+
+vec4 texture3DProjLod (sampler3D sampler, vec4 coord, float lod)
+See corresponding signature above without
+“3D” in the name.
+Use the texture coordinate coord to do a
+texture lookup in the 3D texture currently
+bound to sampler. For the projective
+(“Proj”) versions, the texture coordinate is
+divided by coord.q.
+
+vec4 textureCube (samplerCube sampler, vec3 coord [, float bias] )
+See corresponding signature above without
+“Cube” in the name.
+
+vec4 textureCubeLod (samplerCube sampler, vec3 coord, float lod)
+See corresponding signature above without
+“Cube” in the name.
+
+vec4 shadow1D (sampler1DShadow sampler, vec3 coord [, float bias] )
+Same functionality as the “texture” based
+names above with the same signature.
+
+vec4 shadow2D (sampler2DShadow sampler, vec3 coord [, float bias] )
+Same functionality as the “texture” based
+names above with the same signature.
+
+vec4 shadow1DProj (sampler1DShadow sampler, vec4 coord [, float bias] )
+Same functionality as the “texture” based
+names above with the same signature.
+
+vec4 shadow2DProj (sampler2DShadow sampler, vec4 coord [, float bias] )
+Same functionality as the “texture” based
+names above with the same signature.
+
+vec4 shadow1DLod (sampler1DShadow sampler, vec3 coord, float lod)
+Same functionality as the “texture” based
+names above with the same signature.
+
+vec4 shadow2DLod (sampler2DShadow sampler, vec3 coord, float lod)
+Same functionality as the “texture” based
+names above with the same signature.
+
+vec4 shadow1DProjLod(sampler1DShadow sampler, vec4 coord, float lod)
+Same functionality as the “texture” based
+names above with the same signature.
+
+vec4 shadow2DProjLod(sampler2DShadow sampler, vec4 coord, float lod)
+Same functionality as the “texture” based
+names above with the same signature.
+
+uint atomicCounterIncrement (atomic_uint c) 
+Atomically
+1. increments the counter for c, and
+2. returns its value prior to the increment
+operation.
+These two steps are done atomically with respect to
+the atomic counter functions in this table.
+
+uint atomicCounterDecrement (atomic_uint c)
+Atomically
+1. decrements the counter for c, and
+2. returns the value resulting from the
+decrement operation.
+These two steps are done atomically with respect to
+the atomic counter functions in this table.
+
+uint atomicCounter (atomic_uint c) 
+Returns the counter value for c.
+
+uint atomicAdd (inout uint mem, uint data)
+Computes a new value by adding the value
+of data to the contents mem.
+
+int atomicAdd (inout int mem, int data)
+Computes a new value by adding the value
+of data to the contents mem.
+
+uint atomicMin (inout uint mem, uint data)
+Computes a new value by taking the
+minimum of the value of data and the
+contents of mem.
+
+int atomicMin (inout int mem, int data)
+Computes a new value by taking the
+minimum of the value of data and the
+contents of mem.
+
+uint atomicMax (inout uint mem, uint data)
+Computes a new value by taking the
+maximum of the value of data and the
+contents of mem.
+
+int atomicMax (inout int mem, int data)
+Computes a new value by taking the
+maximum of the value of data and the
+contents of mem.
+
+uint atomicAnd (inout uint mem, uint data)
+Computes a new value by performing a bitwise
+AND of the value of data and the
+contents of mem.
+
+int atomicAnd (inout int mem, int data)
+Computes a new value by performing a bitwise
+AND of the value of data and the
+contents of mem.
+
+uint atomicOr (inout uint mem, uint data)
+Computes a new value by performing a bitwise
+OR of the value of data and the
+contents of mem.
+
+int atomicOr (inout int mem, int data)
+Computes a new value by performing a bitwise
+OR of the value of data and the
+contents of mem.
+
+uint atomicXor (inout uint mem, uint data)
+Computes a new value by performing a bitwise
+EXCLUSIVE OR of the value of data
+and the contents of mem.
+
+int atomicXor (inout int mem, int data)
+Computes a new value by performing a bitwise
+EXCLUSIVE OR of the value of data
+and the contents of mem.
+
+uint atomicExchange (inout uint mem, uint data)
+Computes a new value by simply copying
+the value of data.
+
+int atomicExchange (inout int mem, int data)
+Computes a new value by simply copying
+the value of data.
+
+uint atomicCompSwap (inout uint mem, uint compare, uint data)
+Compares the value of compare and the
+contents of mem. If the values are equal,
+the new value is given by data; otherwise,
+it is taken from the original contents of
+mem.
+
+int atomicCompSwap (inout int mem, int compare, int data)
+Compares the value of compare and the
+contents of mem. If the values are equal,
+the new value is given by data; otherwise,
+it is taken from the original contents of
+mem.
+
+int imageSize (readonly writeonly gimage1D image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec2 imageSize (readonly writeonly gimage2D image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec3 imageSize (readonly writeonly gimage3D image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec2 imageSize (readonly writeonly gimageCube image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec3 imageSize (readonly writeonly gimageCubeArray image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec2 imageSize (readonly writeonly gimageRect image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec2 imageSize (readonly writeonly gimage1DArray image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec3 imageSize (readonly writeonly gimage2DArray image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+int imageSize (readonly writeonly gimageBuffer image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec2 imageSize (readonly writeonly gimage2DMS image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+ivec3 imageSize (readonly writeonly gimage2DMSArray image)
+Returns the dimensions of the image or images
+bound to image. For arrayed images, the last
+component of the return value will hold the size of
+the array. Cube images only return the dimensions of
+one face, and the number of cubes in the cube map
+array, if arrayed.
+Note: The qualification readonly writeonly accepts
+a variable qualified with readonly, writeonly, both,
+or neither. It means the formal argument will be used
+for neither reading nor writing to the underlying
+memory.
+
+int imageSamples (readonly writeonly gimage2DMS image)
+Returns the number of samples of the image or
+images bound to image.
+
+int imageSamples (readonly writeonly gimage2DMSArray image)
+Returns the number of samples of the image or
+images bound to image.
+
+gvec4 imageLoad (readonly IMAGE_PARAMS)
+Loads the texel at the coordinate P from the image
+unit image (in IMAGE_PARAMS). For multi-sample
+loads, the sample number is given by sample. When
+image, P, sample identify a valid texel, the bits used
+to represent the selected texel in memory are
+converted to a vec4, ivec4, or uvec4 in the manner
+described in section 8.25 “Texture Image Loads and
+Stores” of the OpenGL Specification and returned.
+
+void imageStore (writeonly IMAGE_PARAMS, gvec4 data)
+Stores data into the texel at the coordinate P from
+the image specified by image. For multi-sample
+stores, the sample number is given by sample. When
+image, P, and sample identify a valid texel, the bits
+used to represent data are converted to the format of
+the image unit in the manner described in section
+8.25 “Texture Image Loads and Stores” of the
+OpenGL Specification and stored to the specified
+texel.
+
+uint imageAtomicAdd (IMAGE_PARAMS, uint data)
+Computes a new value by adding the value of data
+to the contents of the selected texel.
+
+int imageAtomicAdd (IMAGE_PARAMS, int data)
+Computes a new value by adding the value of data
+to the contents of the selected texel.
+
+uint imageAtomicMin (IMAGE_PARAMS, uint data)
+Computes a new value by taking the minimum of the
+value of data and the contents of the selected texel.
+
+int imageAtomicMin (IMAGE_PARAMS, int data)
+Computes a new value by taking the minimum of the
+value of data and the contents of the selected texel.
+
+uint imageAtomicMax (IMAGE_PARAMS, uint data)
+Computes a new value by taking the maximum of the
+value data and the contents of the selected texel.
+
+int imageAtomicMax (IMAGE_PARAMS, int data)
+Computes a new value by taking the maximum of the
+value data and the contents of the selected texel.
+
+uint imageAtomicAnd (IMAGE_PARAMS, uint data)
+Computes a new value by performing a bit-wise
+AND of the value of data and the contents of the
+selected texel.
+
+int imageAtomicAnd (IMAGE_PARAMS, int data)
+Computes a new value by performing a bit-wise
+AND of the value of data and the contents of the
+selected texel.
+
+uint imageAtomicOr (IMAGE_PARAMS, uint data)
+Computes a new value by performing a bit-wise OR
+of the value of data and the contents of the selected
+texel.
+
+int imageAtomicOr (IMAGE_PARAMS, int data)
+Computes a new value by performing a bit-wise OR
+of the value of data and the contents of the selected
+texel.
+
+uint imageAtomicXor (IMAGE_PARAMS, uint data)
+Computes a new value by performing a bit-wise
+EXCLUSIVE OR of the value of data and the
+contents of the selected texel.
+
+int imageAtomicXor (IMAGE_PARAMS, int data)
+Computes a new value by performing a bit-wise
+EXCLUSIVE OR of the value of data and the
+contents of the selected texel.
+
+uint imageAtomicExchange (IMAGE_PARAMS, uint data)
+Computes a new value by simply copying the value
+of data. These functions support 32-bit signed and
+unsigned operands, and 32-bit floating-point
+operands.
+
+int imageAtomicExchange (IMAGE_PARAMS, int data)
+Computes a new value by simply copying the value
+of data. These functions support 32-bit signed and
+unsigned operands, and 32-bit floating-point
+operands.
+
+int imageAtomicExchange (IMAGE_PARAMS, float data)
+Computes a new value by simply copying the value
+of data. These functions support 32-bit signed and
+unsigned operands, and 32-bit floating-point
+operands.
+
+uint imageAtomicCompSwap (IMAGE_PARAMS, uint compare, uint data)
+Compares the value of compare and the contents of
+the selected texel. If the values are equal, the new
+value is given by data; otherwise, it is taken from the
+original value loaded from the texel.
+
+int imageAtomicCompSwap (IMAGE_PARAMS, int compare, int data)
+Compares the value of compare and the contents of
+the selected texel. If the values are equal, the new
+value is given by data; otherwise, it is taken from the
+original value loaded from the texel.
+
+genType dFdx (genType p) 
+Returns either dFdxFine(p) or dFdxCoarse(p), based
+on implementation choice, presumably whichever is the
+faster, or by whichever is selected in the API through
+quality-versus-speed hints.
+
+genType dFdy (genType p) 
+Returns either dFdyFine(p) or dFdyCoarse(p), based
+on implementation choice, presumably whichever is the
+faster, or by whichever is selected in the API through
+quality-versus-speed hints.
+
+genType dFdxFine (genType p)
+Returns the partial derivative of p with respect to the
+window x coordinate. Will use local differencing based
+on the value of p for the current fragment and its
+immediate neighbor(s).
+
+genType dFdyFine (genType p) 
+Returns the partial derivative of p with respect to the
+window y coordinate. Will use local differencing based
+on the value of p for the current fragment and its
+immediate neighbor(s).
+
+genType dFdxCoarse (genType p) 
+Returns the partial derivative of p with respect to the
+window x coordinate. Will use local differencing based
+on the value of p for the current fragment's neighbors,
+and will possibly, but not necessarily, include the value
+of p for the current fragment. That is, over a given area,
+the implementation can x compute derivatives in fewer
+unique locations than would be allowed for
+dFdxFine(p).
+
+genType dFdyCoarse (genType p) 
+Returns the partial derivative of p with respect to the
+window y coordinate. Will use local differencing based
+on the value of p for the current fragment's neighbors,
+and will possibly, but not necessarily, include the value
+of p for the current fragment. That is, over a given area,
+the implementation can compute y derivatives in fewer
+unique locations than would be allowed for
+dFdyFine(p).
+
+genType fwidth (genType p)
+Returns abs (dFdx (p)) + abs (dFdy (p)).
+
+genType fwidthFine (genType p) 
+Returns abs(dFdxFine(p)) + abs(dFdyFine(p)).
+
+genType fwidthCoarse (genType p)
+Returns abs(dFdxCoarse(p)) + abs(dFdyCoarse(p)).
+
+float interpolateAtCentroid (float interpolant)
+Returns the value of the input interpolant sampled at
+a location inside both the pixel and the primitive
+being processed. The value obtained would be the
+same value assigned to the input variable if declared
+with the centroid qualifier.
+
+vec2 interpolateAtCentroid (vec2 interpolant)
+Returns the value of the input interpolant sampled at
+a location inside both the pixel and the primitive
+being processed. The value obtained would be the
+same value assigned to the input variable if declared
+with the centroid qualifier.
+
+vec3 interpolateAtCentroid (vec3 interpolant)
+Returns the value of the input interpolant sampled at
+a location inside both the pixel and the primitive
+being processed. The value obtained would be the
+same value assigned to the input variable if declared
+with the centroid qualifier.
+
+vec4 interpolateAtCentroid (vec4 interpolant)
+Returns the value of the input interpolant sampled at
+a location inside both the pixel and the primitive
+being processed. The value obtained would be the
+same value assigned to the input variable if declared
+with the centroid qualifier.
+
+float interpolateAtSample (float interpolant, int sample)
+Returns the value of the input interpolant variable at
+the location of sample number sample. If
+multisample buffers are not available, the input
+variable will be evaluated at the center of the pixel.
+If sample sample does not exist, the position used to
+interpolate the input variable is undefined.
+
+vec2 interpolateAtSample (vec2 interpolant, int sample)
+Returns the value of the input interpolant variable at
+the location of sample number sample. If
+multisample buffers are not available, the input
+variable will be evaluated at the center of the pixel.
+If sample sample does not exist, the position used to
+interpolate the input variable is undefined.
+
+vec3 interpolateAtSample (vec3 interpolant, int sample)
+Returns the value of the input interpolant variable at
+the location of sample number sample. If
+multisample buffers are not available, the input
+variable will be evaluated at the center of the pixel.
+If sample sample does not exist, the position used to
+interpolate the input variable is undefined.
+
+vec4 interpolateAtSample (vec4 interpolant, int sample)
+Returns the value of the input interpolant variable at
+the location of sample number sample. If
+multisample buffers are not available, the input
+variable will be evaluated at the center of the pixel.
+If sample sample does not exist, the position used to
+interpolate the input variable is undefined.
+
+float interpolateAtOffset (float interpolant, vec2 offset)
+Returns the value of the input interpolant variable
+sampled at an offset from the center of the pixel
+specified by offset. The two floating-point
+components of offset, give the offset in pixels in the x
+and y directions, respectively. An offset of (0, 0)
+identifies the center of the pixel. The range and
+granularity of offsets supported by this function is
+implementation-dependent.
+
+vec2 interpolateAtOffset (vec2 interpolant, vec2 offset)
+Returns the value of the input interpolant variable
+sampled at an offset from the center of the pixel
+specified by offset. The two floating-point
+components of offset, give the offset in pixels in the x
+and y directions, respectively. An offset of (0, 0)
+identifies the center of the pixel. The range and
+granularity of offsets supported by this function is
+implementation-dependent.
+
+vec3 interpolateAtOffset (vec3 interpolant, vec2 offset)
+Returns the value of the input interpolant variable
+sampled at an offset from the center of the pixel
+specified by offset. The two floating-point
+components of offset, give the offset in pixels in the x
+and y directions, respectively. An offset of (0, 0)
+identifies the center of the pixel. The range and
+granularity of offsets supported by this function is
+implementation-dependent.
+
+vec4 interpolateAtOffset (vec4 interpolant, vec2 offset)
+Returns the value of the input interpolant variable
+sampled at an offset from the center of the pixel
+specified by offset. The two floating-point
+components of offset, give the offset in pixels in the x
+and y directions, respectively. An offset of (0, 0)
+identifies the center of the pixel. The range and
+granularity of offsets supported by this function is
+implementation-dependent.
+
+Returns the value of the input interpolant variable
+sampled at an offset from the center of the pixel
+specified by offset. The two floating-point
+components of offset, give the offset in pixels in the x
+and y directions, respectively. An offset of (0, 0)
+identifies the center of the pixel. The range and
+granularity of offsets supported by this function is
+implementation-dependent.
+
+float noise1 (genType x) 
+Returns a 1D noise value based on the input value x. 
+
+vec2 noise2 (genType x) 
+Returns a 2D noise value based on the input value x. 
+
+vec3 noise3 (genType x) 
+Returns a 3D noise value based on the input value x. 
+
+vec4 noise4 (genType x) 
+Returns a 4D noise value based on the input value x. 
+
+void EmitStreamVertex (int stream)
+Emits the current values of output variables to the current
+output primitive on stream stream. The argument to stream
+must be a constant integral expression. On return from this
+call, the values of all output variables are undefined.
+Can only be used if multiple output streams are supported.
+
+void EndStreamPrimitive (int stream)
+Completes the current output primitive on stream stream and
+starts a new one. The argument to stream must be a constant
+integral expression. No vertex is emitted.
+Can only be used if multiple output streams are supported.
+
+void EmitVertex () 
+Emits the current values of output variables to the current
+output primitive. On return from this call, the values of
+output variables are undefined.
+When multiple output streams are supported, this is
+equivalent to calling EmitStreamVertex(0).
+
+void EndPrimitive ()
+Completes the current output primitive and starts a new one.
+No vertex is emitted.
+When multiple output streams are supported, this is
+equivalent to calling EndStreamPrimitive(0).
+
+void barrier ()
+For any given static instance of barrier(), all tessellation control shader
+invocations for a single input patch must enter it before any will be
+allowed to continue beyond it, or all invocations for a single work group
+must enter it before any will continue beyond it.
+
+void memoryBarrier ()
+Control the ordering of memory transactions issued by a
+single shader invocation.
+
+void memoryBarrierAtomicCounter () 
+Control the ordering of accesses to atomic-counter variables
+issued by a single shader invocation.
+
+void memoryBarrierBuffer () 
+Control the ordering of memory transactions to buffer
+variables issued within a single shader invocation.
+
+void memoryBarrierShared ()
+Control the ordering of memory transactions to shared
+variables issued within a single shader invocation.
+Only available in compute shaders.
+
+void memoryBarrierImage () 
+Control the ordering of memory transactions to images
+issued within a single shader invocation.
+
+void groupMemoryBarrier () 
+Control the ordering of all memory transactions issued within
+a single shader invocation, as viewed by other invocations in
+the same work group.
+Only available in compute shaders.
